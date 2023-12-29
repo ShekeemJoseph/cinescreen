@@ -7,9 +7,14 @@ import GlobalStyles from "../styles/GlobalStyles";
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
+  overflow: scroll;
+  overflow-x: hidden;
   height: 100vh;
 `;
-const Container = styled.div``;
+const Container = styled.div`
+  max-width: 128rem;
+  margin: 0 auto;
+`;
 function AppLayout() {
   return (
     <>

@@ -10,7 +10,7 @@ const StyledHeader = styled.header`
   align-items: center;
 `;
 const HeaderContainer = styled.div`
-  max-width: 120rem;
+  max-width: 128rem;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -34,17 +34,14 @@ const StyledForm = styled.form`
     }
   }
 `;
-// const ButtonContainer = styled.div`
-//   display: flex;
-//   gap: 8rem;
-// `;
+
 function Header() {
   return (
     <StyledHeader>
       <HeaderContainer>
         <Logo />
-        <NavButton to="/browse/movies">Movies</NavButton>
-        <NavButton to="/browse/tvshows">TV Shows</NavButton>
+        <NavButton to="/titles/movies">Movies</NavButton>
+        <NavButton to="/titles/series">TV Shows</NavButton>
         <StyledForm>
           <input type="text" placeholder="Search movies / tvshows" />
         </StyledForm>
