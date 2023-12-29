@@ -1,17 +1,12 @@
-import styled from "styled-components";
-import GlobalStyles from "./styles/GlobalStyles";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AppLayout from "./ui/AppLayout";
+import Home from "./pages/Home";
 
-const StyledApp = styled.main`
-  background-color: var(--color-grey-0);
-  padding: 20px;
-`;
+const router = createBrowserRouter([
+  { element: <AppLayout />, children: [{ path: "/", element: <Home /> }] },
+]);
 function App() {
-  return (
-    <>
-      <GlobalStyles />
-      <StyledApp>Cinescreen</StyledApp>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
