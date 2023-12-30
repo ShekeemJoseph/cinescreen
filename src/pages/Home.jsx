@@ -1,38 +1,20 @@
-import styled from "styled-components";
 import { getHomePageMovies, getHomePageSeries } from "../services/apiTitleData";
 import { useLoaderData } from "react-router-dom";
+import TitlesLayout from "../ui/TitlesLayout";
+import Heading from "../ui/Heading";
+import styled from "styled-components";
 
 const StyledHome = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-`;
-const Heading = styled.div`
-  & h1 {
-    font-size: 6.4rem;
-    text-transform: uppercase;
-    display: inline-block;
-    font-weight: 700;
-    background-image: linear-gradient(to right, #be4bdb, #ffd43b);
-    background-clip: text;
-    color: transparent;
-  }
-  & span {
-    font-size: 1.8rem;
-  }
+  padding: 4.8rem 2.4rem;
 `;
 function Home() {
   const { homePageMovies, homePageSeries } = useLoaderData();
   console.log(homePageMovies, homePageSeries);
   return (
     <StyledHome>
-      <Heading>
-        <div>
-          <h1>Movies / TV Shows</h1>
-        </div>
-        <span>Find your next captivating moment</span>
-      </Heading>
+      <Heading />
+      <TitlesLayout label="Movies" titles={homePageMovies.results} />
+      <TitlesLayout label="TV Shows" titles={homePageSeries.results} />
     </StyledHome>
   );
 }

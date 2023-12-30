@@ -6,7 +6,6 @@ const ButtonText = styled.button`
   text-align: center;
   transition: all 0.3s;
   padding: 0.5rem 1rem;
-
   background: none;
   border: none;
 
@@ -15,6 +14,9 @@ const ButtonText = styled.button`
     color: var(--color-grey-800);
     border-radius: var(--border-radius-sm);
     background-color: var(--color-grey-50);
+  }
+  &:focus {
+    outline: none;
   }
 `;
 

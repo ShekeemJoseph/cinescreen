@@ -5,6 +5,7 @@ import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import Titles from "./pages/Titles";
 import WatchList from "./pages/WatchList";
+import Title from "./pages/Titles";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home />, loader: homeLoader },
       { path: "/titles", element: <Titles /> },
+      { path: "/titles/:titleId", element: <Title /> },
       { path: "/titles/movies", element: <Movies /> },
       { path: "/titles/series", element: <Series /> },
       { path: "/watchlist", element: <WatchList /> },

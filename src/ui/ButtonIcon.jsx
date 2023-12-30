@@ -7,6 +7,9 @@ const ButtonIcon = styled.button`
   transition: all 0.2s;
   padding: 0.5rem 1rem;
 
+  &:focus {
+    outline: none;
+  }
   &:hover {
     border-radius: var(--border-radius-sm);
     background-color: var(--color-grey-50);
@@ -18,8 +21,8 @@ const ButtonIcon = styled.button`
   }
 
   & svg {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.4rem;
+    height: 2.4rem;
     color: var(--color-grey-0);
   }
   & svg:hover {
