@@ -7,6 +7,7 @@ import { useLoaderData } from "react-router-dom";
 import TitlesLayout from "../ui/TitlesLayout";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
+import Promotion from "../ui/Promotion";
 
 const StyledHome = styled.div`
   display: grid;
@@ -21,7 +22,7 @@ function Home() {
     <StyledHome>
       <Heading />
       <TitlesLayout label="New Releases" titles={newReleases} />
-
+      <Promotion />
       <TitlesLayout label="Movies" titles={homePageMovies.results} />
       <TitlesLayout label="TV Shows" titles={homePageSeries.results} />
     </StyledHome>

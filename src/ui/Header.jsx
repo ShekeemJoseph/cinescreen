@@ -39,7 +39,7 @@ function Header() {
   return (
     <StyledHeader>
       <HeaderContainer>
-        <Logo />
+        <Logo imgSrc="/png/logo-no-background.png" />
         <NavButton to="/titles/movies">Movies</NavButton>
         <NavButton to="/titles/series">TV Shows</NavButton>
         <StyledForm>

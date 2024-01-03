@@ -5,10 +5,10 @@ const StlyedImg = styled.img`
   height: 3.8rem;
   width: auto;
 `;
-function Logo() {
+function Logo({ imgSrc }) {
   return (
     <Link to="/">
-      <StlyedImg src="/png/logo-no-background.png" alt="logo" />
+      <StlyedImg src={imgSrc} alt="logo" />
     </Link>
   );
 }

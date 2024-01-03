@@ -38,8 +38,7 @@ const TitlesContainer = styled.div`
   overflow: hidden;
 `;
 const TitleCard = styled.div`
-  background: linear-gradient(to bottom right, #be4bdb, #ffd43b);
-  /* box-shadow: var(--shadow-ml); */
+  background: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
   border-radius: var(--border-radius-md);
   color: var(--color-grey-0);
   display: grid;

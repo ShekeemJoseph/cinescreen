@@ -7,6 +7,7 @@ const ButtonWatchList = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+  height: 4.2rem;
   transition: all 0.3s;
   padding: 0.5rem 1rem;
   background: none;
