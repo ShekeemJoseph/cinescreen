@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight, HiStar } from "react-icons/hi2";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, NavLink } from "react-router-dom";
 import CarouselButton from "./CarouselButton";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef } from "react";
+import "swiper/css";
+
 const TitlesBoxHeading = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
@@ -27,31 +29,41 @@ const TitlesBoxHeading = styled.div`
 `;
 const TitlesContainer = styled.div`
   overflow: hidden;
-  margin-bottom: 6.4rem;
-
-  & .title-content-box {
-    display: flex;
-    gap: 4.8rem;
-  }
 `;
-const TitleItem = styled.li`
+const TitleCard = styled.div`
+  /* background: linear-gradient(to bottom right, #be4bdb, #ffd43b); */
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-md);
+  display: grid;
+  align-items: center;
+  height: 40rem;
+  margin: 5rem 0;
+`;
+const TitleBox = styled.div`
   display: flex;
+  text-align: center;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.4rem;
+  & img {
+    max-height: 25rem;
+  }
 `;
-const TitleImage = styled.img`
-  max-height: 25rem;
-  max-width: 21rem;
+const TitleText = styled.div`
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    max-width: 1.8rem;
+    height: 1.8rem;
+    color: var(--color-brand-900);
+  }
 `;
-function TitlesLayout({ label, titles }) {
-  let [index, setIndex] = useState(0);
 
-  function handleIncrement() {
-    setIndex((index) => index + 1);
-  }
-  function handleDecrement() {
-    setIndex((index) => index - 1);
-  }
+function TitlesLayout({ label, titles }) {
+  const swiperRef = useRef();
   return (
     <TitlesContainer>
       <TitlesBoxHeading>
@@ -62,34 +74,42 @@ function TitlesLayout({ label, titles }) {
           </NavLink>
         </div>
         <div className="carousel-btn-container">
-          <CarouselButton onClick={handleDecrement}>
+          <CarouselButton onClick={() => swiperRef.current.slidePrev()}>
             <HiChevronLeft />
           </CarouselButton>
-          <CarouselButton>
-            <HiChevronRight onClick={handleIncrement} />
+          <CarouselButton onClick={() => swiperRef.current.slideNext()}>
+            <HiChevronRight />
           </CarouselButton>
         </div>
       </TitlesBoxHeading>
 
-      <motion.div
-        animate={{ x: `-${index * 30}%` }}
-        className="title-content-box"
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={5}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {titles.map((title) => (
-          <TitleItem key={title.id}>
-            <Link to={`/titles/:${title.id}`}>
-              <TitleImage
-                src={title.primaryImage?.url}
-                alt={title.originalTitleText?.text}
-              />
-              <div>
-                <span>{title.ratingsSummary.aggregateRating}</span>
-                <span>{title.originalTitleText?.text}</span>
-              </div>
-            </Link>
-          </TitleItem>
+          <SwiperSlide key={title.id}>
+            <TitleCard>
+              <Link to={`/titles/:${title.id}`}>
+                <TitleBox>
+                  <img
+                    src={title.primaryImage?.url}
+                    alt={title.originalTitleText?.text}
+                  />
+                  {title.ratingsSummary.aggregateRating && (
+                    <TitleText>
+                      <HiStar />
+                      <span>{title.ratingsSummary.aggregateRating} Rating</span>
+                    </TitleText>
+                  )}
+                  <span>{title.originalTitleText?.text}</span>
+                </TitleBox>
+              </Link>
+            </TitleCard>
+          </SwiperSlide>
         ))}
-      </motion.div>
+      </Swiper>
     </TitlesContainer>
   );
 }

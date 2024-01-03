@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledHeading = styled.div`
-  margin-bottom: 4.8rem;
   & h1 {
     font-size: 6.4rem;
     text-transform: uppercase;
