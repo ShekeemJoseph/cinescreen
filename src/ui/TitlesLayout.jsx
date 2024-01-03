@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { HiChevronLeft, HiChevronRight, HiStar } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight, HiPlus, HiStar } from "react-icons/hi2";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, NavLink } from "react-router-dom";
 import CarouselButton from "./CarouselButton";
 import { useRef } from "react";
 import "swiper/css";
+import ButtonWatchList from "./ButtonWatchList";
+import { reduceLongTitle } from "../utils/helper";
 
 const TitlesBoxHeading = styled.div`
   display: grid;
@@ -15,6 +17,11 @@ const TitlesBoxHeading = styled.div`
     display: flex;
     align-items: center;
     gap: 2.4rem;
+
+    & span:hover,
+    span:active {
+      text-decoration: underline;
+    }
 
     & h2 {
       font-weight: 700;
@@ -31,30 +38,39 @@ const TitlesContainer = styled.div`
   overflow: hidden;
 `;
 const TitleCard = styled.div`
-  /* background: linear-gradient(to bottom right, #be4bdb, #ffd43b); */
-  box-shadow: var(--shadow-md);
+  background: linear-gradient(to bottom right, #be4bdb, #ffd43b);
+  /* box-shadow: var(--shadow-ml); */
   border-radius: var(--border-radius-md);
+  color: var(--color-grey-0);
   display: grid;
-  align-items: center;
+  grid-template-rows: 1fr auto;
+  align-items: start;
   height: 40rem;
-  margin: 5rem 0;
 `;
 const TitleBox = styled.div`
   display: flex;
   text-align: center;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 2.4rem;
+  font-size: 1.6rem;
+  gap: 0.6rem;
+  padding: 2.4rem 2.4rem 0;
+
+  & p:hover,
+  & p:active {
+    text-decoration: underline;
+  }
+
   & img {
     max-height: 25rem;
   }
 `;
-const TitleText = styled.div`
+const RatingsText = styled.div`
   display: flex;
-  gap: 0.8rem;
+  gap: 1.2rem;
   align-items: center;
   justify-content: center;
+
   & svg {
     max-width: 1.8rem;
     height: 1.8rem;
@@ -91,21 +107,25 @@ function TitlesLayout({ label, titles }) {
         {titles.map((title) => (
           <SwiperSlide key={title.id}>
             <TitleCard>
-              <Link to={`/titles/:${title.id}`}>
-                <TitleBox>
+              <TitleBox>
+                <Link to={`/titles/:${title.id}`}>
                   <img
                     src={title.primaryImage?.url}
-                    alt={title.originalTitleText?.text}
+                    alt={`${title.originalTitleText?.text} Poster`}
                   />
                   {title.ratingsSummary.aggregateRating && (
-                    <TitleText>
+                    <RatingsText>
+                      <span>{title.ratingsSummary.aggregateRating}</span>
                       <HiStar />
-                      <span>{title.ratingsSummary.aggregateRating} Rating</span>
-                    </TitleText>
+                      <span>Rating</span>
+                    </RatingsText>
                   )}
-                  <span>{title.originalTitleText?.text}</span>
-                </TitleBox>
-              </Link>
+                  <p>{reduceLongTitle(title.originalTitleText?.text)}</p>
+                </Link>
+              </TitleBox>
+              <ButtonWatchList>
+                <HiPlus /> WatchList
+              </ButtonWatchList>
             </TitleCard>
           </SwiperSlide>
         ))}

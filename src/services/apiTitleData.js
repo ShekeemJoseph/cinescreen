@@ -1,6 +1,4 @@
 const API_Titles_URL = "https://moviesdatabase.p.rapidapi.com/titles?";
-const API_Upcoming_URL =
-  "https://moviesdatabase.p.rapidapi.com/titles/x/upcoming?";
 const options = {
   method: "GET",
   headers: {

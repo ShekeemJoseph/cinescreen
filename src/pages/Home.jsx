@@ -21,6 +21,7 @@ function Home() {
     <StyledHome>
       <Heading />
       <TitlesLayout label="New Releases" titles={newReleases} />
+
       <TitlesLayout label="Movies" titles={homePageMovies.results} />
       <TitlesLayout label="TV Shows" titles={homePageSeries.results} />
     </StyledHome>
