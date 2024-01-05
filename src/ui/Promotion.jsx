@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import PromotionCard from "./PromotionCard";
+import ButtonText from "./ButtonText";
 
 const StyledPromotion = styled.div`
   background-image: linear-gradient(
@@ -16,8 +17,8 @@ const PromotionContent = styled.div`
   display: grid;
   justify-items: center;
   height: 100%;
-  grid-template-columns: 1fr 1fr;
   position: relative;
+  grid-template-columns: 1fr 1fr;
 `;
 const PromotionHeading = styled.div`
   display: flex;
@@ -32,6 +33,17 @@ const PromotionHeading = styled.div`
   }
 `;
 const PromotionCardContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  align-content: center;
+  top: 15%;
+  right: 6%;
+  perspective: 150rem;
+  width: 34rem;
+  height: 34rem;
+  padding: 1.5rem 2rem;
   &:hover div:nth-child(1) {
     transform: rotateY(-180deg);
   }
@@ -45,6 +57,7 @@ const PromotionDecoration = styled.div`
   gap: 0.4rem;
   margin-top: 1rem;
   justify-content: center;
+
   & div {
     width: calc(33.33333333333333% - 0.3em);
     border-radius: 0.25rem;
@@ -86,9 +99,8 @@ function Promotion() {
             </ul>
           </PromotionCard>
           <PromotionCard variation="back">
-            <h3>
-              Sign up to Cinescreen in order to bookmark shows you want to watch
-            </h3>
+            <h3>Sign up to bookmark shows that interest you today!</h3>
+            <ButtonText>Register Now</ButtonText>
           </PromotionCard>
         </PromotionCardContainer>
       </PromotionContent>
