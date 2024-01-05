@@ -8,7 +8,7 @@ const StyledPromotion = styled.div`
       rgba(96, 34, 195, 0.9) 0%,
       rgba(253, 187, 45, 0.698) 100%
     ),
-    url("src/assets/png/movie-collage-min.jpg");
+    url("assets/png/movie-collage-min.jpg");
   background-size: cover;
   border-radius: var(--border-radius-lg);
 `;
