@@ -7,7 +7,6 @@ import GlobalStyles from "../styles/GlobalStyles";
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
-  overflow: scroll;
   overflow-x: hidden;
   height: 100vh;
 `;

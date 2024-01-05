@@ -77,16 +77,18 @@ const RatingsText = styled.div`
   }
 `;
 
-function TitlesLayout({ label, titles }) {
+function TitlesLayout({ label, browseContent, titles }) {
   const swiperRef = useRef();
   return (
     <TitlesContainer>
       <TitlesBoxHeading>
         <div className="carousel-heading">
           <h2>{label}</h2>
-          <NavLink>
-            <span>See all</span>
-          </NavLink>
+          {browseContent && (
+            <NavLink>
+              <span>See all</span>
+            </NavLink>
+          )}
         </div>
         <div className="carousel-btn-container">
           <CarouselButton onClick={() => swiperRef.current.slidePrev()}>

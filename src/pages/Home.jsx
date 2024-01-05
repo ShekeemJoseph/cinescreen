@@ -21,10 +21,22 @@ function Home() {
   return (
     <StyledHome>
       <Heading />
-      <TitlesLayout label="New Releases" titles={newReleases} />
+      <TitlesLayout
+        label="New Releases"
+        browseContent={false}
+        titles={newReleases}
+      />
       <Promotion />
-      <TitlesLayout label="Movies" titles={homePageMovies.results} />
-      <TitlesLayout label="TV Shows" titles={homePageSeries.results} />
+      <TitlesLayout
+        label="Movies"
+        browseContent={true}
+        titles={homePageMovies.results}
+      />
+      <TitlesLayout
+        label="TV Shows"
+        browseContent={true}
+        titles={homePageSeries.results}
+      />
     </StyledHome>
   );
 }
