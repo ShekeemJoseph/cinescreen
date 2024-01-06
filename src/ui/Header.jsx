@@ -4,6 +4,7 @@ import ButtonIcon from "./ButtonIcon";
 import { HiBookmark, HiMoon } from "react-icons/hi2";
 import ButtonText from "./ButtonText";
 import NavButton from "./NavButton";
+import { Link } from "react-router-dom";
 const StyledHeader = styled.header`
   padding: 1.5rem 6rem;
   background-color: var(--color-brand-900);
@@ -15,7 +16,22 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &:link svg,
+  &:visited svg {
+    height: 3.4rem;
+    width: auto;
+  }
 `;
+
+const StyledLinkLogo = styled(Link)`
+  &:link svg,
+  &:visited svg {
+    height: 3.4rem;
+    width: auto;
+  }
+`;
+
 const StyledForm = styled.form`
   & input {
     border: none;
@@ -39,7 +55,9 @@ function Header() {
   return (
     <StyledHeader>
       <HeaderContainer>
-        <Logo imgSrc="/png/logo-no-background.png" />
+        <StyledLinkLogo to="/">
+          <Logo />
+        </StyledLinkLogo>
         <NavButton to="/titles/movies">Movies</NavButton>
         <NavButton to="/titles/series">TV Shows</NavButton>
         <StyledForm>

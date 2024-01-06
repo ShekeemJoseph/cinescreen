@@ -53,7 +53,7 @@ export async function getNewReleases() {
           return null;
         }
       })
-      .sort((a, b) => a.releaseDate.month - b.releaseDate.month);
+      .sort((a, b) => b.releaseDate.month - a.releaseDate.month);
     return data;
   } catch (error) {
     console.error(error.message);

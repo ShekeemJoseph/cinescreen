@@ -20,7 +20,7 @@ const ButtonWatchList = styled.button`
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
+    background-color: var(--color-grey-100);
 
     & svg {
       color: var(--color-brand-600);

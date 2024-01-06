@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
+import Loader from "./Loader";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -15,14 +16,20 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 function AppLayout() {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   return (
     <>
       <GlobalStyles />
       <StyledAppLayout>
         <Header />
-        <Container>
-          <Outlet />
-        </Container>
+        {!isLoading ? (
+          <Container>
+            <Outlet />
+          </Container>
+        ) : (
+          <Loader />
+        )}
         <Footer />
       </StyledAppLayout>
     </>

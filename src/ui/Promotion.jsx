@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import PromotionCard from "./PromotionCard";
 import ButtonText from "./ButtonText";
+import { Link } from "react-router-dom";
 
 const StyledPromotion = styled.div`
   background-image: linear-gradient(
@@ -52,6 +53,14 @@ const PromotionCardContainer = styled.div`
   }
 `;
 
+const StyledLinkLogo = styled(Link)`
+  &:link svg,
+  &:visited svg {
+    height: 4.8rem;
+    width: auto;
+  }
+`;
+
 const PromotionDecoration = styled.div`
   display: flex;
   gap: 0.4rem;
@@ -79,7 +88,9 @@ function Promotion() {
     <StyledPromotion>
       <PromotionContent>
         <PromotionHeading>
-          <Logo imgSrc="/png/logo-no-background.png" />
+          <StyledLinkLogo>
+            <Logo />
+          </StyledLinkLogo>
           <h2>Guiding you to your next experience</h2>
         </PromotionHeading>
         <PromotionCardContainer>
