@@ -102,14 +102,8 @@ function Footer() {
         </FooterColumn>
         <FooterColumn>
           <h3>Get Our App</h3>
-          <img
-            src="../public/svg/apple-store-logo.svg"
-            alt="apple store logo"
-          />
-          <img
-            src="../public/svg/google-play-badge.svg"
-            alt="google play badge"
-          />
+          <img src="../svg/apple-store-logo.svg" alt="apple store logo" />
+          <img src="../svg/google-play-badge.svg" alt="google play badge" />
         </FooterColumn>
       </FooterContent>
     </StyledFooter>
