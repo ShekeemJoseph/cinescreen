@@ -44,7 +44,7 @@ const TitleCard = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   align-items: start;
-  height: 40rem;
+  height: 42rem;
 `;
 const TitleBox = styled.div`
   display: flex;
@@ -125,7 +125,7 @@ function TitlesLayout({ label, browseContent, titles }) {
                 </Link>
               </TitleBox>
               <ButtonWatchList>
-                <HiPlus /> WatchList
+                <HiPlus /> Watchlist
               </ButtonWatchList>
             </TitleCard>
           </SwiperSlide>

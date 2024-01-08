@@ -15,12 +15,12 @@ const ButtonWatchList = styled.button`
 
   &:hover,
   &:active {
-    border-top-right-radius: none;
-    border-top-left-radius: none;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     color: var(--color-grey-800);
-    background-color: var(--color-grey-100);
+    background-color: var(--color-grey-50);
 
     & svg {
       color: var(--color-brand-600);
