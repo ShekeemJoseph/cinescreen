@@ -5,7 +5,7 @@ import { Outlet, useNavigation } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
 import Loader from "./Loader";
 
-const StyledAppLayout = styled.div`
+const StyledAppLayout = styled.main`
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow-x: hidden;

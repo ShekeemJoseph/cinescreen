@@ -111,7 +111,7 @@ function Promotion() {
           </PromotionCard>
           <PromotionCard variation="back">
             <h3>Sign up to bookmark shows that interest you today!</h3>
-            <ButtonText>Register Now</ButtonText>
+            <ButtonText variation="standard">Register Now</ButtonText>
           </PromotionCard>
         </PromotionCardContainer>
       </PromotionContent>

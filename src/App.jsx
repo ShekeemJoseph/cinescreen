@@ -6,10 +6,12 @@ import Series from "./pages/Series";
 import Titles from "./pages/Titles";
 import WatchList from "./pages/WatchList";
 import Title from "./pages/Titles";
+import Error from "./ui/Error";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
+    errorElement: <Error />,
     children: [
       { path: "/", element: <Home />, loader: homeLoader },
       { path: "/titles", element: <Titles /> },
