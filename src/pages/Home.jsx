@@ -2,7 +2,7 @@ import {
   getHomePageMovies,
   getHomePageSeries,
   getNewReleases,
-} from "../services/apiTitleData";
+} from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
 import TitlesLayout from "../ui/TitlesLayout";
 import Heading from "../ui/Heading";
@@ -17,7 +17,6 @@ const StyledHome = styled.div`
 `;
 function Home() {
   const { homePageMovies, homePageSeries, newReleases } = useLoaderData();
-  console.log(homePageMovies, homePageSeries, newReleases);
   return (
     <StyledHome>
       <Heading />

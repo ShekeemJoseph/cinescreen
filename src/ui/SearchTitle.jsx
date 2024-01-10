@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -20,13 +19,14 @@ const StyledForm = styled.form`
     }
   }
 `;
-function SearchTitle() {
-  const [query, setQuery] = useState();
+
+function SearchTitle({ query, setQuery }) {
   const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
     if (!query) return;
-    navigate(`/titles/`);
+    navigate(`/titles/${query}`);
+    setQuery("");
   }
   return (
     <StyledForm onSubmit={handleSubmit}>

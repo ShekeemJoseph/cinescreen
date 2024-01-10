@@ -14,8 +14,8 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: "/", element: <Home />, loader: homeLoader },
+      { path: "/titles/:titleStr", element: <Title /> },
       { path: "/titles", element: <Titles /> },
-      { path: "/titles/:titleId", element: <Title /> },
       { path: "/titles/movies", element: <Movies /> },
       { path: "/titles/series", element: <Series /> },
       { path: "/watchlist", element: <WatchList /> },
