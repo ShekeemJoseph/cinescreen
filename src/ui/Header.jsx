@@ -48,7 +48,7 @@ function Header() {
         try {
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+            `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
           );
           const resData = await res.json();
           if (resData.Response === "False") throw new Error("Movie not found");
