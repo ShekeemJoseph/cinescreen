@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import SearchModal from "./SearchModal";
+import { useGetSearchResults } from "../../hooks/useGetSearchResults";
+const FormContainer = styled.div`
+  position: relative;
+`;
 const StyledForm = styled.form`
   & input {
     border: none;
@@ -20,8 +25,28 @@ const StyledForm = styled.form`
   }
 `;
 
-function SearchTitle({ query, setQuery }) {
+function SearchTitle() {
+  const [query, setQuery] = useState("");
+  const [error, setError] = useState("");
+  const [titles, setTitles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  useGetSearchResults(setError, setTitles, query);
+
+  function handleClose() {
+    setIsModalOpen(false);
+  }
+
+  function handleOpen() {
+    setIsModalOpen(true);
+    if (titles.length !== 0 && query.length > 3) {
+      return (
+        <SearchModal titles={titles} error={error} handler={handleClose} />
+      );
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!query) return;
@@ -29,14 +54,24 @@ function SearchTitle({ query, setQuery }) {
     setQuery("");
   }
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        type="text"
-        placeholder="Search movies / tvshows"
-      />
-    </StyledForm>
+    <FormContainer onClick={handleOpen}>
+      <StyledForm onSubmit={handleSubmit}>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          type="text"
+          placeholder="Search movies / tvshows"
+        />
+      </StyledForm>
+      {titles.length !== 0 && query.length > 3 && (
+        <SearchModal
+          titles={titles}
+          error={error}
+          handler={handleClose}
+          open={isModalOpen}
+        />
+      )}
+    </FormContainer>
   );
 }
 

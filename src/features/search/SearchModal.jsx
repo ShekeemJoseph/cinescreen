@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 const Modal = styled.ul`
   position: absolute;
@@ -11,8 +12,8 @@ const Modal = styled.ul`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-lg);
   transition: all 0.3s;
-  top: 95%;
-  left: 36.5%;
+  top: 120%;
+  left: -10%;
   z-index: 100;
   & li:hover,
   & li:active {
@@ -43,9 +44,11 @@ const TitleBox = styled.li`
     gap: 1.2rem;
   }
 `;
-export function SearchModal({ titles, error }) {
+function SearchModal({ titles, error, handler, open }) {
+  const ref = useOutsideClick(handler);
+  if (!open) return null;
   return (
-    <Modal>
+    <Modal ref={ref}>
       {!error &&
         titles.map((title) => (
           <Link to="/" key={title.imdbID}>
