@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import PromotionCard from "./PromotionCard";
-import ButtonText from "./ButtonText";
 import { Link } from "react-router-dom";
+import Register from "../features/authentication/Register";
 
 const StyledPromotion = styled.div`
   background-image: linear-gradient(
@@ -111,7 +111,7 @@ function Promotion() {
           </PromotionCard>
           <PromotionCard variation="back">
             <h3>Sign up to bookmark shows that interest you today!</h3>
-            <ButtonText variation="standard">Register Now</ButtonText>
+            <Register btnLabel="Register Now" />
           </PromotionCard>
         </PromotionCardContainer>
       </PromotionContent>

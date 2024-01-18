@@ -47,6 +47,9 @@ const variations = {
       rgba(96, 34, 195) 0%,
       rgba(253, 187, 45) 100%
     );
+    & div {
+      backface-visibility: hidden;
+    }
   `,
 };
 

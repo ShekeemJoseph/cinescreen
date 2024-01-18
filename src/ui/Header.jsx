@@ -2,13 +2,13 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import ButtonIcon from "./ButtonIcon";
 import { HiBookmark, HiMoon } from "react-icons/hi2";
-import ButtonText from "./ButtonText";
 import NavButton from "./NavButton";
 import { Link } from "react-router-dom";
-import SearchTitle from "./SearchTitle";
+import SearchTitle from "../features/search/SearchTitle";
 import { useEffect, useState } from "react";
 import { API_KEY } from "../services/apiSearchTitleData";
-import SearchModal from "./SearchModal";
+import SearchModal from "../features/search/SearchModal";
+import Register from "../features/authentication/Register";
 const StyledHeader = styled.header`
   padding: 1.5rem 6rem;
   position: relative;
@@ -40,7 +40,6 @@ function Header() {
   const [titles, setTitles] = useState([]);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
-
   useEffect(
     function () {
       let titlesData;
@@ -85,7 +84,7 @@ function Header() {
         <NavButton to="/watchlist">
           <HiBookmark /> WatchList
         </NavButton>
-        <ButtonText variation="standard">Register</ButtonText>
+        <Register btnLabel="Register" />
         <ButtonIcon>
           <HiMoon />
         </ButtonIcon>
