@@ -109,7 +109,15 @@ function TitlesLayout({ label, browseContent, titles }) {
           <SwiperSlide key={title.id}>
             <TitleCard>
               <TitleBox>
-                <Link to={`/titles/:${title.id}`}>
+                <Link
+                  to={
+                    title.titleType?.id === "movie"
+                      ? `/movie/${title.id}`
+                      : title.titleType?.id === "tvSeries"
+                      ? `/tv/${title.id}`
+                      : "/"
+                  }
+                >
                   <img
                     src={title.primaryImage?.url}
                     alt={`${title.originalTitleText?.text} Poster`}

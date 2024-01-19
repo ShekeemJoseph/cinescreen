@@ -12,7 +12,7 @@ export function useGetSearchResults(setError, setTitles, query) {
             `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
           );
           const resData = await res.json();
-          if (resData.Response === "False") throw new Error("Movie not found");
+          if (resData.Response === "False") throw new Error("Title not found");
           titlesData = resData.Search.filter((data) => {
             if (data.Poster !== "N/A") {
               return data;

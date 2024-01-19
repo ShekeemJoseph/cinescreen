@@ -19,6 +19,7 @@ function SignupForm() {
           id="fullName"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
       </FormRowVertical>
       <FormRowVertical label="Email address">
@@ -27,6 +28,7 @@ function SignupForm() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </FormRowVertical>
       <FormRowVertical label="Password">
@@ -35,6 +37,7 @@ function SignupForm() {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </FormRowVertical>
       <FormRowVertical>

@@ -51,7 +51,16 @@ function SearchModal({ titles, error, handler, open }) {
     <Modal ref={ref}>
       {!error &&
         titles.map((title) => (
-          <Link to="/" key={title.imdbID}>
+          <Link
+            to={
+              title.Type === "movie"
+                ? `/movie/${title.imdbID}`
+                : title.Type === "series"
+                ? `/tv/${title.imdbID}`
+                : "/"
+            }
+            key={title.imdbID}
+          >
             <TitleBox>
               <img src={title.Poster} alt={`${title.Title} poster`} />
               <div>

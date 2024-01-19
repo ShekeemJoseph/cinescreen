@@ -4,6 +4,7 @@ import RegisterModal from "./RegisterModal";
 import Logo from "../../ui/Logo";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import { useState } from "react";
 
 const RegisterContainer = styled.div`
   width: 50rem;
@@ -11,7 +12,10 @@ const RegisterContainer = styled.div`
   display: grid;
   padding: 2.4rem;
   row-gap: 2.4rem;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  & span {
+    justify-self: center;
+  }
 `;
 const RegisterHeader = styled.div`
   display: grid;
@@ -60,7 +64,9 @@ const TabButton = styled.button`
     outline: none;
   }
 `;
+
 function Register({ btnLabel }) {
+  const [openTab, setOpenTab] = useState("Sign in");
   return (
     <RegisterModal>
       <RegisterModal.Open opens="register-forms">
@@ -71,12 +77,27 @@ function Register({ btnLabel }) {
           <RegisterHeader>
             <Logo secondaryColor="#fbc117" primaryColor="#fff" />
             <TabContainer>
-              <TabButton>Register</TabButton>
-              <TabButton>Sign in</TabButton>
+              <TabButton
+                className={openTab === "Register" && "activeTab"}
+                onClick={() => setOpenTab("Register")}
+              >
+                Register
+              </TabButton>
+              <TabButton
+                className={openTab === "Sign in" && "activeTab"}
+                onClick={() => setOpenTab("Sign in")}
+              >
+                Sign in
+              </TabButton>
             </TabContainer>
           </RegisterHeader>
-          {/* <LoginForm /> */}
-          <SignupForm />
+          <span>
+            {openTab === "Sign in"
+              ? "Welcome back"
+              : "Get started with a free Cinescreen account to rate and bookmark your favourite movies, TV shows and more!"}
+          </span>
+          {openTab === "Sign in" && <LoginForm />}
+          {openTab === "Register" && <SignupForm />}
         </RegisterContainer>
       </RegisterModal.Window>
     </RegisterModal>

@@ -14,7 +14,7 @@ export async function getHomePageMovies() {
     );
     if (!res.ok) throw Error("Could not get movies");
     const data = await res.json();
-    return data;
+    return data.results;
   } catch (error) {
     console.error(error.message);
   }
@@ -27,7 +27,7 @@ export async function getHomePageSeries() {
     );
     if (!res.ok) throw Error("Could not get series");
     const data = await res.json();
-    return data;
+    return data.results;
   } catch (error) {
     console.error(error.message);
   }

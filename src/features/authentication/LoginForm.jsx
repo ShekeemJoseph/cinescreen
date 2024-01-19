@@ -20,6 +20,7 @@ function LoginForm() {
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </FormRowVertical>
       <FormRowVertical label="Password">
@@ -29,6 +30,7 @@ function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </FormRowVertical>
       <FormRowVertical>

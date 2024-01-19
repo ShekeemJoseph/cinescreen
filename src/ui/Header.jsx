@@ -40,8 +40,8 @@ function Header() {
         <StyledLinkLogo to="/">
           <Logo />
         </StyledLinkLogo>
-        <NavButton to="/titles/movies">Movies</NavButton>
-        <NavButton to="/titles/series">TV Shows</NavButton>
+        <NavButton to="/movie">Movies</NavButton>
+        <NavButton to="/tv">TV Shows</NavButton>
         <SearchTitle />
         <NavButton to="/watchlist">
           <HiBookmark /> WatchList

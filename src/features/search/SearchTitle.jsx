@@ -50,7 +50,7 @@ function SearchTitle() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!query) return;
-    navigate(`/titles/${query}`);
+    navigate(`/search/${query}`);
     setQuery("");
   }
   return (

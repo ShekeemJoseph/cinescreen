@@ -29,12 +29,12 @@ function Home() {
       <TitlesLayout
         label="Movies"
         browseContent={true}
-        titles={homePageMovies.results}
+        titles={homePageMovies}
       />
       <TitlesLayout
         label="TV Shows"
         browseContent={true}
-        titles={homePageSeries.results}
+        titles={homePageSeries}
       />
     </StyledHome>
   );

@@ -91,7 +91,12 @@ input:disabled {
   background-color: var(--color-grey-200);
   color: var(--color-grey-500);
 }
-
+.activeTab{
+  color: var(--color-grey-700);
+}
+.activeTab::after{
+  transform: scaleX(1);
+}
 input:focus,
 button:focus,
 textarea:focus,

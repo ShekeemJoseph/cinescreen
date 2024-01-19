@@ -1,8 +1,8 @@
-import { Link, NavLink, useNavigate, useRouteError } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import ButtonText from "./ButtonText";
 import Logo from "./Logo";
 import GlobalStyles from "../styles/GlobalStyles";
+import ErrorMessage from "./ErrorMessage";
 
 const StyledError = styled.div`
   max-width: 128rem;
@@ -42,30 +42,7 @@ const ErrorNavButton = styled(NavLink)`
     color: var(--color-grey-400);
   }
 `;
-const ErrorMessage = styled.div`
-  height: 80%;
-  width: 85%;
-  margin: 2.4rem auto 0;
-  padding: 2.4rem;
-  background-image: linear-gradient(
-      39deg,
-      rgba(96, 34, 195, 0.9) 0%,
-      rgba(253, 187, 45, 0.698) 100%
-    ),
-    url("../png/film-projector.jpg");
-  background-size: cover;
-  background-position: center;
-  border-radius: var(--border-radius-lg);
-  display: flex;
-  gap: 1.2rem;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  color: var(--color-grey-50);
-`;
 function Error() {
-  const navigate = useNavigate();
-  const error = useRouteError();
   return (
     <>
       <GlobalStyles />
@@ -74,16 +51,10 @@ function Error() {
           <StyledLinkLogo to="/">
             <Logo primaryColor="#fff" secondaryColor="#fbc117" />
           </StyledLinkLogo>
-          <ErrorNavButton to="/titles/movies">Movies</ErrorNavButton>
-          <ErrorNavButton to="/titles/series">TV Shows</ErrorNavButton>
+          <ErrorNavButton to="/movie">Movies</ErrorNavButton>
+          <ErrorNavButton to="/tv">TV Shows</ErrorNavButton>
         </ErrorHeader>
-        <ErrorMessage>
-          <h1>Something went wrong 😥</h1>
-          <p>{error.data || error.message}</p>
-          <ButtonText variation="standard" onClick={() => navigate(-1)}>
-            &larr; Go back
-          </ButtonText>
-        </ErrorMessage>
+        <ErrorMessage />
       </StyledError>
     </>
   );
