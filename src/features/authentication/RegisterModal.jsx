@@ -78,7 +78,7 @@ function Window({ children, name }) {
         <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        {children}
       </StyledModal>
     </Overlay>,
     document.body
