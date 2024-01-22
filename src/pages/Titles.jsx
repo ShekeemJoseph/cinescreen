@@ -1,7 +1,11 @@
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import { getTitles } from "../services/apiSearchTitleData";
 import styled from "styled-components";
-const StyledContainer = styled.div`
+const TitlesSection = styled.section`
+  max-width: 128rem;
+  margin: 0 auto;
+`;
+const StyledTitles = styled.div`
   width: 100rem;
   display: grid;
   margin-top: 3.6rem;
@@ -52,41 +56,42 @@ const TitleDetails = styled.div`
     gap: 1.2rem;
   }
 `;
-const StyledTitles = styled.ul``;
 function Titles() {
   const { titleStr } = useParams();
   const titles = useLoaderData();
   return (
-    <StyledContainer>
-      <UserSearchTitle>
-        Searched "<strong>{titleStr}</strong>"
-      </UserSearchTitle>
+    <TitlesSection>
       <StyledTitles>
-        {titles.map((title) => (
-          <Link
-            to={
-              title.Type === "movie"
-                ? `/movie/${title.imdbID}`
-                : title.Type === "series"
-                ? `/tv/${title.imdbID}`
-                : "/"
-            }
-            key={title.imdbID}
-          >
-            <Title>
-              <img src={title.Poster} alt={`${title.Title} poster`} />
-              <TitleDetails>
-                <TitleHeading>{title.Title}</TitleHeading>
-                <div>
-                  <TitleType>{title.Type}</TitleType>
-                  <TitleYear>{title.Year}</TitleYear>
-                </div>
-              </TitleDetails>
-            </Title>
-          </Link>
-        ))}
+        <UserSearchTitle>
+          Searched "<strong>{titleStr}</strong>"
+        </UserSearchTitle>
+        <ul>
+          {titles.map((title) => (
+            <Link
+              to={
+                title.Type === "movie"
+                  ? `/movie/${title.imdbID}`
+                  : title.Type === "series"
+                  ? `/tv/${title.imdbID}`
+                  : "/"
+              }
+              key={title.imdbID}
+            >
+              <Title>
+                <img src={title.Poster} alt={`${title.Title} poster`} />
+                <TitleDetails>
+                  <TitleHeading>{title.Title}</TitleHeading>
+                  <div>
+                    <TitleType>{title.Type}</TitleType>
+                    <TitleYear>{title.Year}</TitleYear>
+                  </div>
+                </TitleDetails>
+              </Title>
+            </Link>
+          ))}
+        </ul>
       </StyledTitles>
-    </StyledContainer>
+    </TitlesSection>
   );
 }
 export async function loader({ params }) {

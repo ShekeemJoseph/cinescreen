@@ -1,7 +1,10 @@
 import { useNavigate, useRouteError } from "react-router-dom";
 import styled from "styled-components";
 import ButtonText from "./ButtonText";
-
+const ErrorMessageContainer = styled.div`
+  max-width: 128rem;
+  margin: 0 auto;
+`;
 export const StyledErrorMessage = styled.div`
   height: 80vh;
   width: 90vh;
@@ -28,13 +31,15 @@ function ErrorMessage() {
   const error = useRouteError();
 
   return (
-    <StyledErrorMessage>
-      <h1>Something went wrong 😥</h1>
-      <p>{error.data || error.message}</p>
-      <ButtonText variation="standard" onClick={() => navigate(-1)}>
-        &larr; Go back
-      </ButtonText>
-    </StyledErrorMessage>
+    <ErrorMessageContainer>
+      <StyledErrorMessage>
+        <h1>Something went wrong 😥</h1>
+        <p>{error.data || error.message}</p>
+        <ButtonText variation="standard" onClick={() => navigate(-1)}>
+          &larr; Go back
+        </ButtonText>
+      </StyledErrorMessage>
+    </ErrorMessageContainer>
   );
 }
 

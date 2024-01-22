@@ -4,8 +4,8 @@ import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { getCurrentYear } from "../utils/helper";
 
-const StyledFooter = styled.div`
-  margin: 6.4rem 0;
+const StyledFooter = styled.footer`
+  margin: 0 0 6.4rem;
   padding: 0 1.2rem;
   border-width: 16px 0 0;
   border-style: solid;

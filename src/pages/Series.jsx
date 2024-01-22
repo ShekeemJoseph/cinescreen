@@ -1,5 +1,11 @@
+import styled from "styled-components";
+
+const SeriesSection = styled.section`
+  max-width: 128rem;
+  margin: 0 auto;
+`;
 function Series() {
-  return <div>TV Shows</div>;
+  return <SeriesSection>TV Shows</SeriesSection>;
 }
 
 export default Series;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { useState } from "react";
 
 const Modal = styled.ul`
   position: absolute;
@@ -20,12 +21,6 @@ const Modal = styled.ul`
     background-color: var(--color-grey-725);
   }
 `;
-
-const ErrorMessage = styled.span`
-  display: flex;
-  justify-content: center;
-`;
-
 const TitleBox = styled.li`
   width: 100%;
   height: 10rem;
@@ -44,12 +39,22 @@ const TitleBox = styled.li`
     gap: 1.2rem;
   }
 `;
-function SearchModal({ titles, error, handler, open }) {
+const ErrorMessage = styled.span`
+  display: flex;
+  justify-content: center;
+`;
+
+function SearchModal({ error, handler, open, titles, setQuery }) {
+  const [isClosed, setIsClosed] = useState(false);
+  function handleClick() {
+    setIsClosed(true);
+    setQuery("");
+  }
   const ref = useOutsideClick(handler);
-  if (!open) return null;
+  if (!open || isClosed) return null;
   return (
     <Modal ref={ref}>
-      {!error &&
+      {!error ? (
         titles.map((title) => (
           <Link
             to={
@@ -60,6 +65,7 @@ function SearchModal({ titles, error, handler, open }) {
                 : "/"
             }
             key={title.imdbID}
+            onClick={handleClick}
           >
             <TitleBox>
               <img src={title.Poster} alt={`${title.Title} poster`} />
@@ -69,8 +75,10 @@ function SearchModal({ titles, error, handler, open }) {
               </div>
             </TitleBox>
           </Link>
-        ))}
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+        ))
+      ) : (
+        <ErrorMessage>{error}</ErrorMessage>
+      )}
     </Modal>
   );
 }

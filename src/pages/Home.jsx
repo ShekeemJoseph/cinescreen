@@ -8,7 +8,10 @@ import TitlesLayout from "../ui/TitlesLayout";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
 import Promotion from "../ui/Promotion";
-
+const HomeSection = styled.section`
+  max-width: 128rem;
+  margin: 2.4rem auto;
+`;
 const StyledHome = styled.div`
   display: grid;
   grid-template-rows: auto 1fr 1fr 1fr 1fr;
@@ -18,25 +21,27 @@ const StyledHome = styled.div`
 function Home() {
   const { homePageMovies, homePageSeries, newReleases } = useLoaderData();
   return (
-    <StyledHome>
-      <Heading />
-      <TitlesLayout
-        label="New Releases"
-        browseContent={false}
-        titles={newReleases}
-      />
-      <Promotion />
-      <TitlesLayout
-        label="Movies"
-        browseContent={true}
-        titles={homePageMovies}
-      />
-      <TitlesLayout
-        label="TV Shows"
-        browseContent={true}
-        titles={homePageSeries}
-      />
-    </StyledHome>
+    <HomeSection>
+      <StyledHome>
+        <Heading />
+        <TitlesLayout
+          label="New Releases"
+          browseContent={false}
+          titles={newReleases}
+        />
+        <Promotion />
+        <TitlesLayout
+          label="Movies"
+          browseContent={true}
+          titles={homePageMovies}
+        />
+        <TitlesLayout
+          label="TV Shows"
+          browseContent={true}
+          titles={homePageSeries}
+        />
+      </StyledHome>
+    </HomeSection>
   );
 }
 export async function loader() {

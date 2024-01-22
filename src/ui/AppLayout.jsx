@@ -11,10 +11,7 @@ const StyledAppLayout = styled.main`
   overflow-x: hidden;
   height: 100vh;
 `;
-const Container = styled.div`
-  max-width: 128rem;
-  margin: 0 auto;
-`;
+
 function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
@@ -23,13 +20,7 @@ function AppLayout() {
       <GlobalStyles />
       <StyledAppLayout>
         <Header />
-        {!isLoading ? (
-          <Container>
-            <Outlet />
-          </Container>
-        ) : (
-          <Loader />
-        )}
+        {!isLoading ? <Outlet /> : <Loader />}
         <Footer />
       </StyledAppLayout>
     </>

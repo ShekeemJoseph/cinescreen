@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import styled from "styled-components";
 import SearchModal from "./SearchModal";
 import { useGetSearchResults } from "../../hooks/useGetSearchResults";
@@ -31,7 +31,6 @@ function SearchTitle() {
   const [titles, setTitles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
   useGetSearchResults(setError, setTitles, query);
 
   function handleClose() {
@@ -40,11 +39,6 @@ function SearchTitle() {
 
   function handleOpen() {
     setIsModalOpen(true);
-    if (titles.length !== 0 && query.length > 3) {
-      return (
-        <SearchModal titles={titles} error={error} handler={handleClose} />
-      );
-    }
   }
 
   function handleSubmit(e) {
@@ -63,12 +57,13 @@ function SearchTitle() {
           placeholder="Search movies / tvshows"
         />
       </StyledForm>
-      {titles.length !== 0 && query.length > 3 && (
+      {isModalOpen && titles.length !== 0 && query.length > 3 && (
         <SearchModal
-          titles={titles}
           error={error}
           handler={handleClose}
           open={isModalOpen}
+          titles={titles}
+          setQuery={setQuery}
         />
       )}
     </FormContainer>
