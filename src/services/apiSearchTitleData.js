@@ -23,7 +23,7 @@ export async function getTitles(query) {
 export async function getTitle(query) {
   try {
     const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&i=${query}`
+      `https://www.omdbapi.com/?apikey=${API_KEY}&i=${query}&plot=full`
     );
     const resData = await res.json();
     if (resData.Response === "False") throw new Error("Title not found");

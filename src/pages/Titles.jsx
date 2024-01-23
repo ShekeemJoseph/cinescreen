@@ -3,7 +3,7 @@ import { getTitles } from "../services/apiSearchTitleData";
 import styled from "styled-components";
 const TitlesSection = styled.section`
   max-width: 128rem;
-  margin: 0 auto;
+  margin: 2.4rem auto;
 `;
 const StyledTitles = styled.div`
   width: 100rem;

@@ -113,7 +113,8 @@ function TitlesLayout({ label, browseContent, titles }) {
                   to={
                     title.titleType?.id === "movie"
                       ? `/movie/${title.id}`
-                      : title.titleType?.id === "tvSeries"
+                      : title.titleType?.id === "tvSeries" ||
+                        title.titleType?.id === "tvMiniSeries"
                       ? `/tv/${title.id}`
                       : "/"
                   }
@@ -132,7 +133,7 @@ function TitlesLayout({ label, browseContent, titles }) {
                   <p>{reduceLongTitle(title.originalTitleText?.text)}</p>
                 </Link>
               </TitleBox>
-              <ButtonWatchList>
+              <ButtonWatchList variation="standard">
                 <HiPlus /> Watchlist
               </ButtonWatchList>
             </TitleCard>

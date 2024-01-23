@@ -11,3 +11,16 @@ export function getCurrentYear() {
   const year = new Date().getFullYear();
   return year;
 }
+export function splitGenre(titleGenre) {
+  const genreArr = titleGenre.split(",");
+  return genreArr;
+}
+export function checkMetascore(score) {
+  if (score >= 65 && score <= 100) {
+    return "green";
+  } else if (score <= 64 && score >= 32) {
+    return "yellow";
+  } else if (score <= 31 && score >= 0) {
+    return "red";
+  }
+}

@@ -1,6 +1,36 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+const variations = {
+  standard: css`
+    background: none;
+    &:hover,
+    &:active {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      color: var(--color-grey-800);
+      background-color: var(--color-grey-50);
+
+      & svg {
+        color: var(--color-brand-600);
+      }
+      & svg:hover {
+        color: var(--color-brand-600);
+      }
+    }
+  `,
+  titleStyle: css`
+    background: var(--color-brand-700);
+    border-radius: var(--border-radius-sm);
+    &:hover,
+    &:active {
+      background-color: var(--color-brand-900);
+    }
+  `,
+};
 const ButtonWatchList = styled.button`
+  ${(props) => variations[props.variation]}
   color: var(--color-grey-50);
   font-weight: 500;
   display: flex;
@@ -10,30 +40,12 @@ const ButtonWatchList = styled.button`
   height: 4.2rem;
   transition: all 0.3s;
   padding: 0.5rem 1rem;
-  background: none;
   border: none;
-
-  &:hover,
-  &:active {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
-
-    & svg {
-      color: var(--color-brand-600);
-    }
-  }
 
   & svg {
     width: 2.4rem;
     height: 2.4rem;
     color: var(--color-grey-0);
-  }
-  & svg:hover {
-    color: var(--color-brand-600);
   }
 
   &:focus {

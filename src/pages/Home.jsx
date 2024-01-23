@@ -4,7 +4,7 @@ import {
   getNewReleases,
 } from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
-import TitlesLayout from "../ui/TitlesLayout";
+import TitlesCarousel from "../ui/TitlesCarousel";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
 import Promotion from "../ui/Promotion";
@@ -24,18 +24,18 @@ function Home() {
     <HomeSection>
       <StyledHome>
         <Heading />
-        <TitlesLayout
+        <TitlesCarousel
           label="New Releases"
           browseContent={false}
           titles={newReleases}
         />
         <Promotion />
-        <TitlesLayout
+        <TitlesCarousel
           label="Movies"
           browseContent={true}
           titles={homePageMovies}
         />
-        <TitlesLayout
+        <TitlesCarousel
           label="TV Shows"
           browseContent={true}
           titles={homePageSeries}

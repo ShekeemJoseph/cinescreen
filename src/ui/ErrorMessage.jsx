@@ -3,12 +3,11 @@ import styled from "styled-components";
 import ButtonText from "./ButtonText";
 const ErrorMessageContainer = styled.div`
   max-width: 128rem;
-  margin: 0 auto;
+  margin: 2.4rem auto;
 `;
 export const StyledErrorMessage = styled.div`
   height: 80vh;
-  width: 90vh;
-  margin: 2.4rem auto 0;
+  width: 100%;
   padding: 2.4rem;
   background-image: linear-gradient(
       39deg,

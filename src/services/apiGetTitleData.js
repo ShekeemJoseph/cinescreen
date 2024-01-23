@@ -59,3 +59,30 @@ export async function getNewReleases() {
     console.error(error.message);
   }
 }
+export async function getRelatedGenre(genre, year) {
+  let data;
+  try {
+    const res = await fetch(
+      `${API_Titles_URL}genre=${genre}&startYear=1980&info=base_info&endYear=${year}&limit=50`,
+      options
+    );
+
+    if (!res.ok) throw Error("Something went wrong with fetching movies");
+    const resData = await res.json();
+    data = resData.results
+      .filter((result) => {
+        if (
+          result.primaryImage?.url != null &&
+          result.meterRanking?.currentRank != null
+        ) {
+          return result;
+        } else {
+          return null;
+        }
+      })
+      .sort((a, b) => b.releaseDate.month - a.releaseDate.month);
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
