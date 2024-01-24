@@ -90,14 +90,16 @@ function TitlesLayout({ label, browseContent, titles }) {
             </NavLink>
           )}
         </div>
-        <div className="carousel-btn-container">
-          <CarouselButton onClick={() => swiperRef.current.slidePrev()}>
-            <HiChevronLeft />
-          </CarouselButton>
-          <CarouselButton onClick={() => swiperRef.current.slideNext()}>
-            <HiChevronRight />
-          </CarouselButton>
-        </div>
+        {titles.length > 5 && (
+          <div className="carousel-btn-container">
+            <CarouselButton onClick={() => swiperRef.current.slidePrev()}>
+              <HiChevronLeft />
+            </CarouselButton>
+            <CarouselButton onClick={() => swiperRef.current.slideNext()}>
+              <HiChevronRight />
+            </CarouselButton>
+          </div>
+        )}
       </TitlesBoxHeading>
 
       <Swiper

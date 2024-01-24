@@ -7,7 +7,7 @@ const ErrorMessageContainer = styled.div`
 `;
 export const StyledErrorMessage = styled.div`
   height: 80vh;
-  width: 100%;
+  width: 128rem;
   padding: 2.4rem;
   background-image: linear-gradient(
       39deg,

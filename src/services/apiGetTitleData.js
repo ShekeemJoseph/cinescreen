@@ -1,3 +1,5 @@
+import { getCurrentYear } from "../utils/helper";
+
 const API_Titles_URL = "https://moviesdatabase.p.rapidapi.com/titles?";
 const options = {
   method: "GET",
@@ -9,7 +11,9 @@ const options = {
 export async function getHomePageMovies() {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&sort=year.decr&info=base_info&endYear=2023&limit=15`,
+      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&sort=year.decr&info=base_info&endYear=${
+        getCurrentYear() - 1
+      }&limit=15`,
       options
     );
     if (!res.ok) throw Error("Could not get movies");
@@ -22,7 +26,9 @@ export async function getHomePageMovies() {
 export async function getHomePageSeries() {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&sort=year.decr&info=base_info&endYear=2023&limit=15`,
+      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&sort=year.decr&info=base_info&endYear=${
+        getCurrentYear() - 1
+      }&limit=15`,
       options
     );
     if (!res.ok) throw Error("Could not get series");
@@ -36,7 +42,9 @@ export async function getNewReleases() {
   let data;
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=2023&info=base_info&endYear=2023&limit=50`,
+      `${API_Titles_URL}startYear=2023&info=base_info&endYear=${
+        getCurrentYear() - 1
+      }&limit=50`,
       options
     );
 
@@ -61,9 +69,12 @@ export async function getNewReleases() {
 }
 export async function getRelatedGenre(genre, year) {
   let data;
+  console.log(year);
   try {
     const res = await fetch(
-      `${API_Titles_URL}genre=${genre}&startYear=1980&info=base_info&endYear=${year}&limit=50`,
+      `${API_Titles_URL}genre=${genre}&startYear=1980&info=base_info&endYear=${
+        year ? year : getCurrentYear() - 1
+      }&limit=50`,
       options
     );
 

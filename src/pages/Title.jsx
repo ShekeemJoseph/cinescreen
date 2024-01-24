@@ -127,7 +127,6 @@ const Metascore = styled.span`
 `;
 function Title() {
   const { title, relatedGenre } = useLoaderData();
-  console.log(relatedGenre);
   return (
     <>
       <Container>
@@ -210,13 +209,15 @@ function Title() {
           </TitleBackdrop>
         </TitleSection>
       </Container>
-      <TitlesCarouselContainer>
-        <TitlesCarousel
-          label={`Related Genre: ${splitGenre(title.Genre)[0]}`}
-          browseContent={false}
-          titles={relatedGenre}
-        />
-      </TitlesCarouselContainer>
+      {relatedGenre.length >= 5 && (
+        <TitlesCarouselContainer>
+          <TitlesCarousel
+            label={`Related Genre: ${splitGenre(title.Genre)[0]}`}
+            browseContent={false}
+            titles={relatedGenre}
+          />
+        </TitlesCarouselContainer>
+      )}
     </>
   );
 }
@@ -224,7 +225,7 @@ export async function loader({ params }) {
   const title = await getTitle(params.titleId);
   const relatedGenre = await getRelatedGenre(
     splitGenre(title.Genre)[0],
-    title.Year
+    +title.Year.slice(0, 4)
   );
   const titleObj = { title, relatedGenre };
   return titleObj;
