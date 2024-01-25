@@ -69,7 +69,6 @@ export async function getNewReleases() {
 }
 export async function getRelatedGenre(genre, year) {
   let data;
-  console.log(year);
   try {
     const res = await fetch(
       `${API_Titles_URL}genre=${genre}&startYear=1980&info=base_info&endYear=${

@@ -6,6 +6,7 @@ const ButtonIcon = styled.button`
   padding: 0.6rem;
   transition: all 0.2s;
   padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
 
   &:focus {
     outline: none;

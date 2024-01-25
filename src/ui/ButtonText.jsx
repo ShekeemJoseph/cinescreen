@@ -21,6 +21,8 @@ const ButtonText = styled.button`
   padding: 0.5rem 1rem;
   background: none;
   border: none;
+  border-radius: var(--border-radius-sm);
+
   ${(props) => variations[props.variation]}
 `;
 
