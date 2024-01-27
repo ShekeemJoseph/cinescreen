@@ -52,7 +52,6 @@ const PromotionCardContainer = styled.div`
     transform: rotateY(0);
   }
 `;
-
 const StyledLinkLogo = styled(Link)`
   &:link svg,
   &:visited svg {
@@ -88,9 +87,11 @@ function Promotion() {
     <StyledPromotion>
       <PromotionContent>
         <PromotionHeading>
-          <StyledLinkLogo>
-            <Logo />
-          </StyledLinkLogo>
+          <div>
+            <StyledLinkLogo>
+              <Logo />
+            </StyledLinkLogo>
+          </div>
           <h2>Guiding you to your next experience</h2>
         </PromotionHeading>
         <PromotionCardContainer>

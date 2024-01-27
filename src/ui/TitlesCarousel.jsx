@@ -85,7 +85,15 @@ function TitlesLayout({ label, browseContent, titles }) {
         <div className="carousel-heading">
           <h2>{label}</h2>
           {browseContent && (
-            <NavLink>
+            <NavLink
+              to={
+                label === "Movies"
+                  ? "/movie"
+                  : label === "TV Shows"
+                  ? "/tv"
+                  : "/"
+              }
+            >
               <span>See all</span>
             </NavLink>
           )}

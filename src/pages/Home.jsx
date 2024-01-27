@@ -1,6 +1,6 @@
 import {
-  getHomePageMovies,
-  getHomePageSeries,
+  getPageMovies,
+  getPageSeries,
   getNewReleases,
 } from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
@@ -45,8 +45,8 @@ function Home() {
   );
 }
 export async function loader() {
-  const homePageMovies = await getHomePageMovies();
-  const homePageSeries = await getHomePageSeries();
+  const homePageMovies = await getPageMovies(15);
+  const homePageSeries = await getPageSeries(15);
   const newReleases = await getNewReleases();
   const homePageContent = { homePageMovies, homePageSeries, newReleases };
   return homePageContent;

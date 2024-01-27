@@ -18,11 +18,12 @@ const StyledFooter = styled.footer`
     )
     5;
 `;
-
-const StyledLinkLogo = styled(Link)`
+const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 4.8rem 0;
+`;
+const StyledLinkLogo = styled(Link)`
   &:link svg,
   &:visited svg {
     height: 4.8rem;
@@ -79,9 +80,11 @@ const FooterColumn = styled.div`
 function Footer() {
   return (
     <StyledFooter>
-      <StyledLinkLogo to="/">
-        <Logo primaryColor="#fff" secondaryColor="#fbc117" />
-      </StyledLinkLogo>
+      <LogoContainer>
+        <StyledLinkLogo to="/">
+          <Logo primaryColor="#fff" secondaryColor="#fbc117" />
+        </StyledLinkLogo>
+      </LogoContainer>
       <FooterContent>
         <FooterColumn>
           <h3>Overview</h3>

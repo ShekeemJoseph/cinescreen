@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Home, { loader as homeLoader } from "./pages/Home";
-import Movies from "./pages/Movies";
-import Series from "./pages/Series";
+import Movies, { loader as moviesLoader } from "./pages/Movies";
+import Series, { loader as seriesLoader } from "./pages/Series";
 import Titles, { loader as titlesLoader } from "./pages/Titles";
 import WatchList from "./pages/WatchList";
 import Title, { loader as titleLoader } from "./pages/Title";
@@ -20,14 +20,24 @@ const router = createBrowserRouter([
         loader: homeLoader,
         errorElement: <ErrorMessage />,
       },
-      { path: "/movie", element: <Movies /> },
+      {
+        path: "/movie",
+        element: <Movies />,
+        loader: moviesLoader,
+        errorElement: <ErrorMessage />,
+      },
       {
         path: "/movie/:titleId",
         element: <Title />,
         loader: titleLoader,
         errorElement: <ErrorMessage />,
       },
-      { path: "/tv", element: <Series /> },
+      {
+        path: "/tv",
+        element: <Series />,
+        loader: seriesLoader,
+        errorElement: <ErrorMessage />,
+      },
       {
         path: "/tv/:titleId",
         element: <Title />,

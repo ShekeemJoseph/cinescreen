@@ -8,12 +8,12 @@ const options = {
     "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
   },
 };
-export async function getHomePageMovies() {
+export async function getPageMovies(limit) {
   try {
     const res = await fetch(
       `${API_Titles_URL}startYear=1980&list=top_rated_english_250&sort=year.decr&info=base_info&endYear=${
         getCurrentYear() - 1
-      }&limit=15`,
+      }&limit=${limit}`,
       options
     );
     if (!res.ok) throw Error("Could not get movies");
@@ -23,12 +23,12 @@ export async function getHomePageMovies() {
     console.error(error.message);
   }
 }
-export async function getHomePageSeries() {
+export async function getPageSeries(limit) {
   try {
     const res = await fetch(
       `${API_Titles_URL}startYear=1980&list=top_rated_series_250&sort=year.decr&info=base_info&endYear=${
         getCurrentYear() - 1
-      }&limit=15`,
+      }&limit=${limit}`,
       options
     );
     if (!res.ok) throw Error("Could not get series");
