@@ -16,7 +16,7 @@ function Movies() {
   );
 }
 export async function loader() {
-  const pageMovies = await getPageMovies(25);
+  const pageMovies = await getPageMovies(24);
   return pageMovies;
 }
 export default Movies;

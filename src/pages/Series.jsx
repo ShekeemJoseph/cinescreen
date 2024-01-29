@@ -16,7 +16,7 @@ function Series() {
   );
 }
 export async function loader() {
-  const pageSeries = await getPageSeries(25);
+  const pageSeries = await getPageSeries(24);
   return pageSeries;
 }
 export default Series;
