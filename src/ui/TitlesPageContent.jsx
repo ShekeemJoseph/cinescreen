@@ -154,10 +154,36 @@ const ListingDetails = styled.div`
 const ListingYear = styled.div`
   font-size: 1.4rem;
 `;
-const StyledYearRange = styled.div`
+const RangeSlider = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+`;
+const RangeInput = styled.input.attrs({ type: "range" })`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  height: 1.2rem;
+  border-radius: 4rem;
+  background: ${(props) =>
+    `linear-gradient(to right,#e64980 0%,#e64980 ${props.value}%,#fff ${props.value}%,#fff 100%);`};
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    width: 2.4rem;
+    height: 2.4rem;
+    background-image: radial-gradient(circle, #f7f7fc 40%, #e64980 45%);
+    border-radius: 50%;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+`;
+const RangeLabel = styled.label`
+  width: 4.8rem;
+  text-align: center;
 `;
 const GenreListings = styled.div`
   display: flex;
@@ -171,7 +197,6 @@ const Genre = styled.div`
 `;
 function TitlesContent({ titles, titleType }) {
   const [year, setYear] = useState(getCurrentYear() - 1);
-  console.log(titles);
   return (
     <>
       <StyledHeading>
@@ -189,9 +214,9 @@ function TitlesContent({ titles, titleType }) {
           <h4>Filters</h4>
           <div>
             <h5>Release Year</h5>
-            <StyledYearRange>
+            <RangeSlider>
               <label for="titleReleaseYear">1980</label>
-              <input
+              <RangeInput
                 type="range"
                 id="titleReleaseYear"
                 name="titleReleaseYear"
@@ -203,8 +228,8 @@ function TitlesContent({ titles, titleType }) {
                   setYear(e.target.value);
                 }}
               />
-              <label for="titleReleaseYear">{year}</label>
-            </StyledYearRange>
+              <RangeLabel for="titleReleaseYear">{year}</RangeLabel>
+            </RangeSlider>
             <h5>Genres</h5>
             <GenreListings>
               {titleGenres.map((genre) => (
