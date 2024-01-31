@@ -11,7 +11,7 @@ const options = {
 export async function getPageMovies(limit) {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&sort=year.decr&info=base_info&endYear=${
+      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&info=base_info&endYear=${
         getCurrentYear() - 1
       }&limit=${limit}`,
       options
@@ -26,7 +26,7 @@ export async function getPageMovies(limit) {
 export async function getPageSeries(limit) {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&sort=year.decr&info=base_info&endYear=${
+      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&info=base_info&endYear=${
         getCurrentYear() - 1
       }&limit=${limit}`,
       options

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { getCurrentYear, reduceLongTitle } from "../utils/helper";
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
+import ReactSlider from "react-slider";
 
 const titleGenres = [
   "Action",
@@ -83,7 +83,7 @@ const Listings = styled.ul`
 const Listing = styled(Link)`
   width: 100%;
   height: 100%;
-  padding: 2.4rem;
+  padding: 1.8rem;
   box-shadow: var(--shadow-ml);
   border-radius: var(--border-radius-sm);
   transition: all 0.3s;
@@ -157,33 +157,26 @@ const ListingYear = styled.div`
 const RangeSlider = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
-const RangeInput = styled.input.attrs({ type: "range" })`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: none;
-  height: 1.2rem;
+const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
+  width: 65%;
+  height: 0.8rem;
   border-radius: 4rem;
   background: ${(props) =>
     `linear-gradient(to right,#e64980 0%,#e64980 ${props.value}%,#fff ${props.value}%,#fff 100%);`};
-  &:focus {
-    outline: none;
-  }
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    position: relative;
+  & .thumb-0 {
+    cursor: pointer;
+    top: -95%;
     width: 2.4rem;
     height: 2.4rem;
     background-image: radial-gradient(circle, #f7f7fc 40%, #e64980 45%);
     border-radius: 50%;
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
-    position: relative;
+    &:focus {
+      outline: none;
+    }
   }
-`;
-const RangeLabel = styled.label`
-  width: 4.8rem;
-  text-align: center;
 `;
 const GenreListings = styled.div`
   display: flex;
@@ -193,10 +186,28 @@ const GenreListings = styled.div`
 const Genre = styled.div`
   display: flex;
   align-items: center;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
   gap: 1.2rem;
+
+  &:hover,
+  &:active {
+    background-color: var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+  }
+  &:focus {
+    background-color: var(--color-grey-300);
+  }
+  & input[type="checkbox"] {
+    accent-color: black;
+    &:focus {
+      outline: none;
+    }
+  }
 `;
+const defaultYear = getCurrentYear() - 1;
 function TitlesContent({ titles, titleType }) {
-  const [year, setYear] = useState(getCurrentYear() - 1);
+  const [searchParams, setSearchParams] = useSearchParams(defaultYear);
   return (
     <>
       <StyledHeading>
@@ -220,15 +231,16 @@ function TitlesContent({ titles, titleType }) {
                 type="range"
                 id="titleReleaseYear"
                 name="titleReleaseYear"
-                min="1980"
-                max={getCurrentYear() - 1}
-                step="1"
-                value={year}
-                onChange={(e) => {
-                  setYear(e.target.value);
+                min={1980}
+                max={defaultYear}
+                step={1}
+                value={+searchParams.get("year") || defaultYear}
+                onAfterChange={(value) => {
+                  searchParams.set("year", value);
+                  setSearchParams(searchParams);
                 }}
               />
-              <RangeLabel for="titleReleaseYear">{year}</RangeLabel>
+              <label for="titleReleaseYear">{defaultYear}</label>
             </RangeSlider>
             <h5>Genres</h5>
             <GenreListings>

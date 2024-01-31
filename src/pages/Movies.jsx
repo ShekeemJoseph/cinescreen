@@ -9,6 +9,7 @@ const MoviesSection = styled.section`
 `;
 function Movies() {
   const pageMovies = useLoaderData();
+
   return (
     <MoviesSection>
       <TitlesPageContent titles={pageMovies} titleType="Movies" />

@@ -34,7 +34,6 @@ const TitleBackdrop = styled.div`
 
 function Title() {
   const { title, relatedGenre } = useLoaderData();
-  console.log(relatedGenre);
   return (
     <>
       <Container>
@@ -48,7 +47,7 @@ function Title() {
       {relatedGenre.length >= 5 && (
         <TitlesCarouselContainer>
           <TitlesCarousel
-            label="More like this"
+            label="Related Genres"
             browseContent={false}
             titles={relatedGenre}
           />
