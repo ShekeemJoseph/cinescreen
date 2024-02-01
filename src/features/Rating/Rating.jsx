@@ -1,8 +1,16 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import RatingModal from "./RatingModal";
-import { IoIosStarOutline } from "react-icons/io";
-
+import { IoIosStar, IoIosStarOutline } from "react-icons/io";
+import { useState } from "react";
+const variations = {
+  rated: css`
+    span {
+      color: var(--color-grey-0);
+    }
+  `,
+};
 const RateButton = styled.button`
+  ${(props) => variations[props.variation]}
   position: relative;
   display: flex;
   align-items: center;
@@ -39,15 +47,28 @@ const RateButton = styled.button`
 `;
 
 function Rating({ titleName }) {
+  const [rating, setRating] = useState(0);
   return (
     <RatingModal>
       <RatingModal.Open opens="ratings-form">
-        <RateButton>
-          <IoIosStarOutline />
-          <span>Rate</span>
-        </RateButton>
+        {!rating ? (
+          <RateButton>
+            <IoIosStarOutline />
+            <span>Rate</span>
+          </RateButton>
+        ) : (
+          <RateButton variation="rated">
+            <IoIosStar />
+            <span>{rating}/10</span>
+          </RateButton>
+        )}
       </RatingModal.Open>
-      <RatingModal.Window name="ratings-form" titleName={titleName} />
+      <RatingModal.Window
+        name="ratings-form"
+        titleName={titleName}
+        rating={rating}
+        setRating={setRating}
+      />
     </RatingModal>
   );
 }

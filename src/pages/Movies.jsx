@@ -1,18 +1,44 @@
 import styled from "styled-components";
-import TitlesPageContent from "../ui/TitlesPageContent";
 import { getPageMovies } from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
+import TitleSorting from "../ui/TitleSorting";
+import TitleListings from "../ui/TitleListings";
 
 const MoviesSection = styled.section`
   max-width: 128rem;
   margin: 0 auto;
+`;
+const StyledHeading = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.8rem;
+  width: 128rem;
+  margin: 2.4rem 0;
+
+  & p:first-child {
+    font-weight: 600;
+    font-size: 3.6rem;
+  }
+`;
+const TitlesPageLayout = styled.div`
+  display: grid;
+  width: 128rem;
+  margin-bottom: 3.6rem;
+  grid-template-columns: 0.25fr 1fr;
 `;
 function Movies() {
   const pageMovies = useLoaderData();
 
   return (
     <MoviesSection>
-      <TitlesPageContent initialTitles={pageMovies} titleType="Movies" />
+      <StyledHeading>
+        <p>Top Movies to Watch Right Now</p>
+        <p>Find your next Movies to watch. Filter by genre or release year.</p>
+      </StyledHeading>
+      <TitlesPageLayout>
+        <TitleSorting />
+        <TitleListings initialTitles={pageMovies} titleType="Movies" />
+      </TitlesPageLayout>
     </MoviesSection>
   );
 }

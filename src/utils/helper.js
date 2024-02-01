@@ -15,6 +15,7 @@ export function splitGenre(titleGenre) {
   const genreArr = titleGenre.split(",");
   return genreArr;
 }
+export const defaultYear = getCurrentYear() - 1;
 export function checkMetascore(score) {
   if (score >= 65 && score <= 100) {
     return "green";

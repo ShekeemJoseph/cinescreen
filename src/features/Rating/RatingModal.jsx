@@ -139,8 +139,7 @@ function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(RatingModalContext);
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
-function Window({ name, titleName }) {
-  const [rating, setRating] = useState(0);
+function Window({ name, titleName, rating, setRating }) {
   const [hasClickRate, setHasClickRate] = useState(false);
   const { openName, close } = useContext(RatingModalContext);
 
