@@ -15,9 +15,6 @@ const StyledNavLink = styled(NavLink)`
     transition: all 0.3s;
     border-radius: var(--border-radius-sm);
   }
-  &.active {
-    pointer-events: none;
-  }
   /* This works because react-router places the active class on the active NavLink */
   &:hover,
   &:active,
