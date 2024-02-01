@@ -170,7 +170,16 @@ function TitleContent({ title }) {
           <div>
             {title.Genre &&
               splitGenre(title.Genre).map((genre, index) => (
-                <TitleLinks to="/" key={index}>
+                <TitleLinks
+                  to={
+                    title.Type === "movie"
+                      ? `/movie?genre=${genre.trim()}`
+                      : title.Type === "series"
+                      ? `/tv?genre=${genre.trim()}`
+                      : "/"
+                  }
+                  key={index}
+                >
                   {genre}
                 </TitleLinks>
               ))}

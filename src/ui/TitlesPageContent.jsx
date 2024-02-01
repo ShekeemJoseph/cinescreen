@@ -6,7 +6,6 @@ import ReactSlider from "react-slider";
 import { useEffect, useState } from "react";
 import { getPageMovies, getPageSeries } from "../services/apiGetTitleData";
 import SpinnerMini from "./SpinnerMini";
-import { IconBase } from "react-icons";
 
 const titleGenres = [
   "Action",

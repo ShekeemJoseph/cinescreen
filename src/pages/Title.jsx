@@ -47,7 +47,7 @@ function Title() {
       {relatedGenre.length >= 5 && (
         <TitlesCarouselContainer>
           <TitlesCarousel
-            label="Related Genres"
+            label="Of Related Genres"
             browseContent={false}
             titles={relatedGenre}
           />
