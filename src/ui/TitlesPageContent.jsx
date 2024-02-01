@@ -1,8 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { getCurrentYear, reduceLongTitle } from "../utils/helper";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
 import ReactSlider from "react-slider";
+import { useEffect, useState } from "react";
+import { getPageMovies, getPageSeries } from "../services/apiGetTitleData";
+import SpinnerMini from "./SpinnerMini";
+import { IconBase } from "react-icons";
 
 const titleGenres = [
   "Action",
@@ -45,6 +49,7 @@ const StyledHeading = styled.div`
 const TitlesPageLayout = styled.div`
   display: grid;
   width: 128rem;
+  margin-bottom: 3.6rem;
   grid-template-columns: 0.25fr 1fr;
 `;
 const TitleSorting = styled.aside`
@@ -84,6 +89,8 @@ const Listing = styled(Link)`
   width: 100%;
   height: 100%;
   padding: 1.8rem;
+  display: flex;
+  justify-content: center;
   box-shadow: var(--shadow-ml);
   border-radius: var(--border-radius-sm);
   transition: all 0.3s;
@@ -133,7 +140,7 @@ const StyledNavLink = styled(NavLink)`
       transform: scaleX(0);
       content: "";
     }
-    &.active::after,
+
     &.active::after {
       transform: scaleX(1);
     }
@@ -157,15 +164,16 @@ const ListingYear = styled.div`
 const RangeSlider = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1.2rem;
 `;
 const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
-  width: 65%;
+  width: 50%;
   height: 0.8rem;
   border-radius: 4rem;
   background: ${(props) =>
     `linear-gradient(to right,#e64980 0%,#e64980 ${props.value}%,#fff ${props.value}%,#fff 100%);`};
   & .thumb-0 {
+    position: relative;
     cursor: pointer;
     top: -95%;
     width: 2.4rem;
@@ -178,12 +186,20 @@ const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
     }
   }
 `;
+
 const GenreListings = styled.div`
+  ${(props) => variations[props.variation]}
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
 `;
+const variations = {
+  active: css`
+    background-color: var(--color-grey-300);
+  `,
+};
 const Genre = styled.div`
+  ${(props) => variations[props.variation]}
   display: flex;
   align-items: center;
   padding: 0.5rem;
@@ -195,10 +211,7 @@ const Genre = styled.div`
     background-color: var(--color-grey-300);
     border-radius: var(--border-radius-sm);
   }
-  &:focus {
-    background-color: var(--color-grey-300);
-  }
-  & input[type="checkbox"] {
+  input[type="checkbox"] {
     accent-color: black;
     &:focus {
       outline: none;
@@ -206,8 +219,41 @@ const Genre = styled.div`
   }
 `;
 const defaultYear = getCurrentYear() - 1;
-function TitlesContent({ titles, titleType }) {
+function TitlesContent({ initialTitles, titleType }) {
   const [searchParams, setSearchParams] = useSearchParams(defaultYear);
+  const [isLoading, setIsLoading] = useState(false);
+  const [checkedGenre, setCheckedGenre] = useState(
+    searchParams.get("genre") || ""
+  );
+  const [titlesByYear, setTitlesByYear] = useState();
+  const [releaseYear, setReleaseYear] = useState(
+    +searchParams.get("year") || defaultYear
+  );
+  useEffect(() => {
+    async function getByReleaseYear() {
+      setIsLoading(true);
+      const getMovieTitlesByYear = await getPageMovies(
+        24,
+        +searchParams.get("year"),
+        searchParams.get("genre")
+      );
+      const getSeriesTitlesByYear = await getPageSeries(
+        24,
+        +searchParams.get("year"),
+        searchParams.get("genre")
+      );
+      setTitlesByYear(
+        titleType === "Movies"
+          ? getMovieTitlesByYear
+          : titleType === "Series"
+          ? getSeriesTitlesByYear
+          : null
+      );
+      setIsLoading(false);
+    }
+    getByReleaseYear();
+  }, [titleType, searchParams]);
+  const titles = titlesByYear || initialTitles;
   return (
     <>
       <StyledHeading>
@@ -235,18 +281,41 @@ function TitlesContent({ titles, titleType }) {
                 max={defaultYear}
                 step={1}
                 value={+searchParams.get("year") || defaultYear}
+                onChange={setReleaseYear}
                 onAfterChange={(value) => {
                   searchParams.set("year", value);
                   setSearchParams(searchParams);
                 }}
               />
-              <label for="titleReleaseYear">{defaultYear}</label>
+              <label for="titleReleaseYear">{releaseYear}</label>
             </RangeSlider>
             <h5>Genres</h5>
             <GenreListings>
               {titleGenres.map((genre) => (
-                <Genre key={genre}>
-                  <input type="checkbox" id={genre} name={genre} />
+                <Genre
+                  key={genre}
+                  variation={genre === checkedGenre ? "active" : ""}
+                >
+                  <input
+                    type="checkbox"
+                    value={genre}
+                    checked={genre === checkedGenre ? true : false}
+                    onChange={(e) => {
+                      if (genre !== checkedGenre) {
+                        setCheckedGenre(e.target.value);
+                        setSearchParams({
+                          genre: e.target.value,
+                          year: releaseYear,
+                        });
+                      } else if (genre === checkedGenre) {
+                        setCheckedGenre("");
+                        searchParams.delete("genre");
+                        setSearchParams(searchParams);
+                      }
+                    }}
+                    id={genre}
+                    name={genre}
+                  />
                   <label for={genre}>{genre}</label>
                 </Genre>
               ))}
@@ -271,28 +340,32 @@ function TitlesContent({ titles, titleType }) {
                     : "/"
                 }
               >
-                <ListingContent>
-                  <img
-                    src={title.primaryImage?.url}
-                    alt={`${title.originalTitleText?.text} Poster`}
-                  />
-                  <ListingDetails>
-                    <h4>{reduceLongTitle(title.originalTitleText?.text)}</h4>
-                    <ListingYear>
-                      {title.releaseDate.year} &bull;{" "}
-                      {title.releaseDate.month || "N/A"} &bull;{" "}
-                      {title.releaseDate.day || "N/A"}
-                    </ListingYear>
-                    <p>{reduceLongTitle(title.plot.plotText.plainText)}</p>
-                    {title.ratingsSummary.aggregateRating && (
-                      <RatingsText>
-                        <span>{title.ratingsSummary.aggregateRating}</span>
-                        <HiStar />
-                        <span>Rating</span>
-                      </RatingsText>
-                    )}
-                  </ListingDetails>
-                </ListingContent>
+                {isLoading ? (
+                  <SpinnerMini />
+                ) : (
+                  <ListingContent>
+                    <img
+                      src={title.primaryImage?.url}
+                      alt={`${title.originalTitleText?.text} Poster`}
+                    />
+                    <ListingDetails>
+                      <h4>{reduceLongTitle(title.originalTitleText?.text)}</h4>
+                      <ListingYear>
+                        {title.releaseDate.year} &bull;{" "}
+                        {title.releaseDate.month || "N/A"} &bull;{" "}
+                        {title.releaseDate.day || "N/A"}
+                      </ListingYear>
+                      <p>{reduceLongTitle(title.plot.plotText.plainText)}</p>
+                      {title.ratingsSummary.aggregateRating && (
+                        <RatingsText>
+                          <span>{title.ratingsSummary.aggregateRating}</span>
+                          <HiStar />
+                          <span>Rating</span>
+                        </RatingsText>
+                      )}
+                    </ListingDetails>
+                  </ListingContent>
+                )}
               </Listing>
             ))}
           </Listings>

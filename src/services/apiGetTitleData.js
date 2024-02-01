@@ -8,12 +8,12 @@ const options = {
     "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
   },
 };
-export async function getPageMovies(limit) {
+export async function getPageMovies(limit, year, genre) {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&info=base_info&endYear=${
-        getCurrentYear() - 1
-      }&limit=${limit}`,
+      `${API_Titles_URL}startYear=1980&list=top_rated_english_250&info=base_info${
+        genre ? `&genre=${genre}` : ""
+      }&endYear=${year ? year : getCurrentYear() - 1}&limit=${limit}`,
       options
     );
     if (!res.ok) throw Error("Could not get movies");
@@ -23,12 +23,12 @@ export async function getPageMovies(limit) {
     console.error(error.message);
   }
 }
-export async function getPageSeries(limit) {
+export async function getPageSeries(limit, year, genre) {
   try {
     const res = await fetch(
-      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&info=base_info&endYear=${
-        getCurrentYear() - 1
-      }&limit=${limit}`,
+      `${API_Titles_URL}startYear=1980&list=top_rated_series_250&info=base_info${
+        genre ? `&genre=${genre}` : ""
+      }&endYear=${year ? year : getCurrentYear() - 1}&limit=${limit}`,
       options
     );
     if (!res.ok) throw Error("Could not get series");

@@ -11,7 +11,7 @@ function Series() {
   const pageSeries = useLoaderData();
   return (
     <SeriesSection>
-      <TitlesPageContent titles={pageSeries} titleType={"Series"} />
+      <TitlesPageContent initialTitles={pageSeries} titleType="Series" />
     </SeriesSection>
   );
 }

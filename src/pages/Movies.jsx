@@ -12,7 +12,7 @@ function Movies() {
 
   return (
     <MoviesSection>
-      <TitlesPageContent titles={pageMovies} titleType="Movies" />
+      <TitlesPageContent initialTitles={pageMovies} titleType="Movies" />
     </MoviesSection>
   );
 }
