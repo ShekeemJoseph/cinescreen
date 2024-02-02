@@ -1,6 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+const variations = {
+  inActive: css`
+    background: var(--color-grey-300) !important;
+    border-radius: var(--border-radius-sm) !important;
+    pointer-events: none;
+    & svg {
+      color: var(--color-grey-0) !important;
+    }
+  `,
+};
 const CarouselButton = styled.button`
+  ${(props) => variations[props.variation]}
   background: none;
   border: none;
   padding: 0.6rem;

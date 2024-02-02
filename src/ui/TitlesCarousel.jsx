@@ -3,7 +3,7 @@ import { HiChevronLeft, HiChevronRight, HiPlus, HiStar } from "react-icons/hi2";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, NavLink } from "react-router-dom";
 import CarouselButton from "./CarouselButton";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "swiper/css";
 import ButtonWatchList from "./ButtonWatchList";
 import { reduceLongTitle } from "../utils/helper";
@@ -30,6 +30,8 @@ const TitlesBoxHeading = styled.div`
     border-bottom: 1.8px solid var(--color-grey-700);
   }
   & .carousel-btn-container {
+    display: flex;
+    gap: 0.4rem;
     margin-left: 1.8rem;
     align-self: center;
   }
@@ -79,6 +81,18 @@ const RatingsText = styled.div`
 
 function TitlesLayout({ label, browseContent, titles }) {
   const swiperRef = useRef();
+  const [isBegin, setIsBegin] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  function handlePrevClick() {
+    setIsEnd(false);
+    setIsBegin(swiperRef.current.isBeginning);
+    swiperRef.current.slidePrev();
+  }
+  function handleNextClick() {
+    setIsBegin(false);
+    setIsEnd(swiperRef.current.isEnd);
+    swiperRef.current.slideNext();
+  }
   return (
     <TitlesContainer>
       <TitlesBoxHeading>
@@ -100,10 +114,16 @@ function TitlesLayout({ label, browseContent, titles }) {
         </div>
         {titles.length > 5 && (
           <div className="carousel-btn-container">
-            <CarouselButton onClick={() => swiperRef.current.slidePrev()}>
+            <CarouselButton
+              variation={isBegin && "inActive"}
+              onClick={handlePrevClick}
+            >
               <HiChevronLeft />
             </CarouselButton>
-            <CarouselButton onClick={() => swiperRef.current.slideNext()}>
+            <CarouselButton
+              variation={isEnd && "inActive"}
+              onClick={handleNextClick}
+            >
               <HiChevronRight />
             </CarouselButton>
           </div>

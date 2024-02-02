@@ -140,24 +140,14 @@ function TitleContent({ title }) {
               </span>
             </CenterRatingText>
           </TitleRating>
-          <TitleRating>
-            <span>
-              {title.Ratings[2]
-                ? title.Ratings[2].Source
-                : title.Ratings[1]
-                ? title.Ratings[1].Source
-                : title.Ratings[0].Source}
-            </span>
-            <span style={{ fontSize: "1.8rem" }}>
-              <strong>
-                {title.Ratings[2]
-                  ? title.Ratings[2]?.Value
-                  : title.Ratings[1]
-                  ? title.Ratings[1]?.Value
-                  : title.Ratings[0]?.Value}
-              </strong>
-            </span>
-          </TitleRating>
+          {title.Ratings[1] && (
+            <TitleRating>
+              <span>{title.Ratings[1] && title.Ratings[1].Source}</span>
+              <span style={{ fontSize: "1.8rem" }}>
+                <strong>{title.Ratings[1] && title.Ratings[1].Value}</strong>
+              </span>
+            </TitleRating>
+          )}
           <TitleRating>
             <span>Your Rating</span>
             <Rating titleName={title.Title} />
@@ -207,7 +197,7 @@ function TitleContent({ title }) {
           <ButtonWatchList variation="titleStyle">
             <HiPlus /> Watchlist
           </ButtonWatchList>
-          {title.Metascore && (
+          {title.Metascore !== "N/A" && (
             <div>
               <Metascore variation={checkMetascore(title.Metascore)}>
                 {title.Metascore}

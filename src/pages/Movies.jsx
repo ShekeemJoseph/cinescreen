@@ -33,7 +33,7 @@ function Movies() {
     <MoviesSection>
       <StyledHeading>
         <p>Top Movies to Watch Right Now</p>
-        <p>Find your next Movies to watch. Filter by genre or release year.</p>
+        <p>Find your next Movie to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
         <TitleSorting />
