@@ -99,7 +99,18 @@ const ListingDetails = styled.div`
 const ListingYear = styled.div`
   font-size: 1.4rem;
 `;
-
+const EmptyListings = styled.div`
+  height: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const EmptyListingsMessage = styled.div`
+  text-align: center;
+  & h3 {
+    margin-bottom: 0.8rem;
+  }
+`;
 function TitleListings({ initialTitles, titleType }) {
   const [searchParams] = useSearchParams(defaultYear);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,48 +148,58 @@ function TitleListings({ initialTitles, titleType }) {
         <StyledNavLink to="/movie">Movies</StyledNavLink>
         <StyledNavLink to="/tv">TV Shows</StyledNavLink>
       </TitleContentLinks>
-      <Listings>
-        {titles.map((title) => (
-          <Listing
-            key={title.id}
-            to={
-              title.titleType?.id === "movie"
-                ? `/movie/${title.id}`
-                : title.titleType?.id === "tvSeries" ||
-                  title.titleType?.id === "tvMiniSeries"
-                ? `/tv/${title.id}`
-                : "/"
-            }
-          >
-            {isLoading ? (
-              <SpinnerMini />
-            ) : (
-              <ListingContent>
-                <img
-                  src={title.primaryImage?.url}
-                  alt={`${title.originalTitleText?.text} Poster`}
-                />
-                <ListingDetails>
-                  <h4>{reduceLongTitle(title.originalTitleText?.text)}</h4>
-                  <ListingYear>
-                    {title.releaseDate.year} &bull;{" "}
-                    {title.releaseDate.month || "N/A"} &bull;{" "}
-                    {title.releaseDate.day || "N/A"}
-                  </ListingYear>
-                  <p>{reduceLongTitle(title.plot.plotText.plainText)}</p>
-                  {title.ratingsSummary.aggregateRating && (
-                    <RatingsText>
-                      <span>{title.ratingsSummary.aggregateRating}</span>
-                      <HiStar />
-                      <span>Rating</span>
-                    </RatingsText>
-                  )}
-                </ListingDetails>
-              </ListingContent>
-            )}
-          </Listing>
-        ))}
-      </Listings>
+      {titles.length >= 1 ? (
+        <Listings>
+          {titles.map((title) => (
+            <Listing
+              key={title.id}
+              to={
+                title.titleType?.id === "movie"
+                  ? `/movie/${title.id}`
+                  : title.titleType?.id === "tvSeries" ||
+                    title.titleType?.id === "tvMiniSeries"
+                  ? `/tv/${title.id}`
+                  : "/"
+              }
+            >
+              {isLoading ? (
+                <SpinnerMini />
+              ) : (
+                <ListingContent>
+                  <img
+                    src={title.primaryImage?.url}
+                    alt={`${title.originalTitleText?.text} Poster`}
+                  />
+                  <ListingDetails>
+                    <h4>{reduceLongTitle(title.originalTitleText?.text)}</h4>
+                    <ListingYear>
+                      {title.releaseDate.year || "N/A"} &bull;{" "}
+                      {title.releaseDate.month || "N/A"} &bull;{" "}
+                      {title.releaseDate.day || "N/A"}
+                    </ListingYear>
+                    <p>{reduceLongTitle(title.plot.plotText.plainText)}</p>
+                    {title.ratingsSummary.aggregateRating && (
+                      <RatingsText>
+                        <span>{title.ratingsSummary.aggregateRating}</span>
+                        <HiStar />
+                        <span>Rating</span>
+                      </RatingsText>
+                    )}
+                  </ListingDetails>
+                </ListingContent>
+              )}
+            </Listing>
+          ))}
+        </Listings>
+      ) : (
+        <EmptyListings>
+          <EmptyListingsMessage>
+            <h3>No Results Found</h3>
+            <p>Seems like we dont have results for that.</p>
+            <p>Try adding or removing different filter</p>
+          </EmptyListingsMessage>
+        </EmptyListings>
+      )}
     </StyledTitleListings>
   );
 }

@@ -56,7 +56,11 @@ const FooterColumn = styled.div`
     &:hover {
       text-decoration: underline;
     }
+    &:focus {
+      outline: none;
+    }
   }
+
   & img {
     width: auto;
     height: 3.6rem;

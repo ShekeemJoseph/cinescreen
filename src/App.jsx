@@ -8,6 +8,7 @@ import WatchList from "./pages/WatchList";
 import Title, { loader as titleLoader } from "./pages/Title";
 import Error from "./ui/Error";
 import ErrorMessage from "./ui/ErrorMessage";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,15 @@ const router = createBrowserRouter([
         loader: titlesLoader,
         errorElement: <ErrorMessage />,
       },
-      { path: "/watchlist", element: <WatchList /> },
+      {
+        path: "/watchlist",
+        element: (
+          <ProtectedRoute>
+            <WatchList />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorMessage />,
+      },
     ],
   },
 ]);

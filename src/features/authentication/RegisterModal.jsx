@@ -52,7 +52,7 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
-const RegisterModalContext = createContext();
+export const RegisterModalContext = createContext();
 
 function RegisterModal({ children }) {
   const [openName, setOpenName] = useState("");
