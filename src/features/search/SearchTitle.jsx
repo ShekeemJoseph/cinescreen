@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SearchModal from "./SearchModal";
 import { useGetSearchResults } from "../../hooks/useGetSearchResults";

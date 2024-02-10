@@ -25,7 +25,7 @@ const variations = {
       align-self: center;
     }
     & ul {
-      list-style: disc;
+      list-style-type: disc;
       & li {
         margin-left: 3.5rem;
         margin-bottom: 1.2rem;

@@ -20,7 +20,9 @@ const ButtonIcon = styled.button`
       color: var(--color-brand-600);
     }
   }
-
+  & span {
+    text-align: center;
+  }
   & svg {
     width: 2.4rem;
     height: 2.4rem;

@@ -9,6 +9,7 @@ import Title, { loader as titleLoader } from "./pages/Title";
 import Error from "./ui/Error";
 import ErrorMessage from "./ui/ErrorMessage";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import Account from "./pages/Account";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorMessage />,
       },
       {
-        path: "/watchlist",
+        path: "/user/:userId",
+        element: (
+          <ProtectedRoute>
+            <Account />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorMessage />,
+      },
+      {
+        path: "/user/:userId/watchlist",
         element: (
           <ProtectedRoute>
             <WatchList />

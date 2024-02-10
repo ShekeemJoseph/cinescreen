@@ -10,7 +10,7 @@ function ProtectedRoute({ children }) {
   // 2) If there is No authenticated user, display login modal
   useEffect(
     function () {
-      if (!isAuthenticated && !isLoading) navigate("/");
+      if (!isAuthenticated && !isLoading) navigate("/", { replace: true });
     },
     [isAuthenticated, isLoading, navigate]
   );

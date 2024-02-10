@@ -5,10 +5,12 @@ import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useQueryClient } from "@tanstack/react-query";
 
-function LoginForm() {
+function LoginForm({ onCheckLogin, closeModal }) {
   const [email, setEmail] = useState("shekeem@example.com");
   const [password, setPassword] = useState("Pass1234");
+  const queryClient = useQueryClient();
   const { login, isLoading } = useLogin();
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,6 +21,11 @@ function LoginForm() {
         onSettled: () => {
           setEmail("");
           setPassword("");
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["user"] });
+          onCheckLogin();
+          closeModal();
         },
       }
     );

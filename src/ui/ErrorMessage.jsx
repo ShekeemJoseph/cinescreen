@@ -1,13 +1,14 @@
-import { useNavigate, useRouteError } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ButtonText from "./ButtonText";
 const ErrorMessageContainer = styled.div`
-  max-width: 128rem;
+  width: 128rem;
+  height: 50rem;
   margin: 2.4rem auto;
 `;
 export const StyledErrorMessage = styled.div`
-  height: 80vh;
-  width: 128rem;
+  height: 100%;
+  width: 100%;
   padding: 2.4rem;
   background-image: linear-gradient(
       39deg,
@@ -27,13 +28,11 @@ export const StyledErrorMessage = styled.div`
 `;
 function ErrorMessage() {
   const navigate = useNavigate();
-  const error = useRouteError();
-
   return (
     <ErrorMessageContainer>
       <StyledErrorMessage>
         <h1>Something went wrong 😥</h1>
-        <p>{error.data || error.message}</p>
+        <p>This is probably not the page you're look for. Sorry about that.</p>
         <ButtonText variation="standard" onClick={() => navigate(-1)}>
           &larr; Go back
         </ButtonText>

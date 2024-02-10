@@ -5,7 +5,7 @@ const AccountSection = styled.section`
   margin: 0 auto;
 `;
 function Account() {
-  return <AccountSection></AccountSection>;
+  return <AccountSection>Account</AccountSection>;
 }
 
 export default Account;

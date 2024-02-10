@@ -115,13 +115,13 @@ function TitlesLayout({ label, browseContent, titles }) {
         {titles.length > 5 && (
           <div className="carousel-btn-container">
             <CarouselButton
-              variation={isBegin && "inActive"}
+              variation={isBegin ? "inActive" : ""}
               onClick={handlePrevClick}
             >
               <HiChevronLeft />
             </CarouselButton>
             <CarouselButton
-              variation={isEnd && "inActive"}
+              variation={isEnd ? "inActive" : ""}
               onClick={handleNextClick}
             >
               <HiChevronRight />

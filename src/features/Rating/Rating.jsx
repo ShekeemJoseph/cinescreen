@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import RatingModal from "./RatingModal";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { useState } from "react";
+import { useUser } from "../authentication/useUser";
 const variations = {
   rated: css`
     span {
@@ -48,10 +49,13 @@ const RateButton = styled.button`
 
 function Rating({ titleName }) {
   const [rating, setRating] = useState(0);
+  const { isAuthenticated } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   return (
     <RatingModal>
-      <RatingModal.Open opens="ratings-form">
-        {!rating ? (
+      <RatingModal.Open opens="ratings-form" setIsModalOpen={setIsModalOpen}>
+        {!rating || !isAuthenticated ? (
           <RateButton>
             <IoIosStarOutline />
             <span>Rate</span>
@@ -68,6 +72,8 @@ function Rating({ titleName }) {
         titleName={titleName}
         rating={rating}
         setRating={setRating}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
     </RatingModal>
   );
