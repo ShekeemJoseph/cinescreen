@@ -1,12 +1,16 @@
 import ButtonText from "../../ui/ButtonText";
 import RegisterModal from "./RegisterModal";
-function Register({ onCheckLogin, btnLabel }) {
+function Register({ children }) {
   return (
     <RegisterModal>
       <RegisterModal.Open opens="register-forms">
-        <ButtonText variation="standard">{btnLabel}</ButtonText>
+        {children ? (
+          children
+        ) : (
+          <ButtonText variation="standard">Register</ButtonText>
+        )}
       </RegisterModal.Open>
-      <RegisterModal.Window onCheckLogin={onCheckLogin} name="register-forms" />
+      <RegisterModal.Window name="register-forms" />
     </RegisterModal>
   );
 }

@@ -1,12 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { HiUserCircle } from "react-icons/hi2";
 import styled from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { useUser } from "../features/authentication/useUser";
 
 const StyledToggle = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.8rem;
   background: none;
   border: none;
   padding: 0.6rem 0.4rem;
@@ -37,42 +37,59 @@ const StyledList = styled.ul`
   width: 15rem;
   z-index: 100;
   top: 114%;
-  right: 44%;
+  right: 48.5%;
   transform: translateX(50%);
+`;
+const Avatar = styled.img`
+  display: block;
+  width: 4rem;
+  width: 3.6rem;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  /* outline: 2px solid var(--color-grey-100); */
 `;
 
 const MenusContext = createContext();
 
 function Menus({ children }) {
-  const [openName, setOpenName] = useState("");
-  const close = () => setOpenName("");
-  const open = setOpenName;
+  const { user } = useUser();
+  const [openMenu, setOpenMenu] = useState(false);
+  function toggleMenu() {
+    setOpenMenu(!openMenu);
+  }
   return (
-    <MenusContext.Provider value={{ openName, close, open }}>
+    <MenusContext.Provider value={{ openMenu, setOpenMenu, toggleMenu, user }}>
       {children}
     </MenusContext.Provider>
   );
 }
-function Toggle({ name }) {
-  const { openName, close, open } = useContext(MenusContext);
-  function handleClick() {
-    openName === "" || openName !== name ? open(name) : close();
-  }
+function Toggle() {
+  const { toggleMenu, user } = useContext(MenusContext);
+  const { fullName, avatar } = user?.user_metadata;
   return (
-    <StyledToggle onClick={handleClick}>
-      <HiUserCircle />
-      <span>Shekeem</span>
-    </StyledToggle>
+    <div>
+      <StyledToggle onClick={toggleMenu}>
+        <Avatar
+          src={avatar || "/png/default-user.jpg"}
+          alt={`Avatar of ${fullName}`}
+        />
+        <span>{fullName}</span>
+      </StyledToggle>
+    </div>
   );
 }
-function List({ name, children }) {
-  const { openName, close } = useContext(MenusContext);
+function List({ children }) {
+  const { openMenu, setOpenMenu } = useContext(MenusContext);
+  const close = () => setOpenMenu(false);
   const ref = useOutsideClick(close);
-  if (openName !== name) return null;
+  if (!openMenu) return null;
   return <StyledList ref={ref}>{children}</StyledList>;
 }
 function Button({ children }) {
-  const { close } = useContext(MenusContext);
+  const { setOpenMenu } = useContext(MenusContext);
+  const close = () => setOpenMenu(false);
   return <li onClick={close}>{children}</li>;
 }
 

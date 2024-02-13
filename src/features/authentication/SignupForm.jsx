@@ -1,47 +1,86 @@
-import { useState } from "react";
 import Button from "../../ui/Button";
-import Form from "../../ui/Form";
+import Form from "../../ui/ModalForm";
 import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
+import { useForm } from "react-hook-form";
+import { useSignup } from "./useSignup";
+import SpinnerMini from "../../ui/SpinnerMini";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Email regex: /\S+@\S+\.\S+/
-function SignupForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  function handleSubmit() {}
-
+function SignupForm({ closeModal }) {
+  const { signup, isLoading } = useSignup();
+  const queryClient = useQueryClient();
+  const { register, formState, getValues, handleSubmit, reset } = useForm();
+  const { errors } = formState;
+  function onSubmit({ fullName, email, password }) {
+    signup(
+      { fullName, email, password },
+      {
+        onSettled: reset,
+        onSuccess: () => {
+          closeModal();
+          queryClient.invalidateQueries({ queryKey: ["user"] });
+        },
+      }
+    );
+  }
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Username">
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormRowVertical label="Username" error={errors?.fullName?.message}>
         <Input
           type="text"
           id="fullName"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
+          {...register("fullName", { required: "This field is required" })}
         />
       </FormRowVertical>
-      <FormRowVertical label="Email address">
+      <FormRowVertical label="Email address" error={errors?.email?.message}>
         <Input
           type="email"
           id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          {...register("email", {
+            required: "This field is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Please provide a valid email address",
+            },
+          })}
         />
       </FormRowVertical>
-      <FormRowVertical label="Password">
+      <FormRowVertical
+        label="Password (min 8 characters)"
+        error={errors?.password?.message}
+      >
         <Input
           type="password"
           id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          {...register("password", {
+            required: "This field is required",
+            minLength: {
+              value: 8,
+              message: "Password needs a minimum of 8 characters",
+            },
+          })}
+        />
+      </FormRowVertical>
+      <FormRowVertical
+        label="Repeat password"
+        error={errors?.passwordConfirm?.message}
+      >
+        <Input
+          type="password"
+          id="passwordConfirm"
+          {...register("passwordConfirm", {
+            required: "This field is required",
+            validate: (value) =>
+              value === getValues().password || "Passwords need to match",
+          })}
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large">Register</Button>
+        <Button size="large" disabled={isLoading}>
+          {!isLoading ? "Register" : <SpinnerMini />}
+        </Button>
       </FormRowVertical>
     </Form>
   );

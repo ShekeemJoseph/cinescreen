@@ -109,13 +109,13 @@ const TitleExtra = styled.div`
 `;
 const variations = {
   green: css`
-    background-color: #40c057;
+    background-color: var(--color-green-0);
   `,
   yellow: css`
-    background-color: #fcc419;
+    background-color: var(--color-yellow-0);
   `,
   red: css`
-    background-color: #f03e3e;
+    background-color: var(--color-red-0);
   `,
 };
 const Metascore = styled.span`

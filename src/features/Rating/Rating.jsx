@@ -50,11 +50,9 @@ const RateButton = styled.button`
 function Rating({ titleName }) {
   const [rating, setRating] = useState(0);
   const { isAuthenticated } = useUser();
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
   return (
     <RatingModal>
-      <RatingModal.Open opens="ratings-form" setIsModalOpen={setIsModalOpen}>
+      <RatingModal.Open opens="ratings-form">
         {!rating || !isAuthenticated ? (
           <RateButton>
             <IoIosStarOutline />
@@ -72,8 +70,6 @@ function Rating({ titleName }) {
         titleName={titleName}
         rating={rating}
         setRating={setRating}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
       />
     </RatingModal>
   );

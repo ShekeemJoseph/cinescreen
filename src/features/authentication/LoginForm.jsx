@@ -1,17 +1,17 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
-import Form from "../../ui/Form";
+import Form from "../../ui/ModalForm";
 import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useQueryClient } from "@tanstack/react-query";
 
-function LoginForm({ onCheckLogin, closeModal }) {
-  const [email, setEmail] = useState("shekeem@example.com");
-  const [password, setPassword] = useState("Pass1234");
+function LoginForm({ closeModal }) {
   const queryClient = useQueryClient();
   const { login, isLoading } = useLogin();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
@@ -23,9 +23,8 @@ function LoginForm({ onCheckLogin, closeModal }) {
           setPassword("");
         },
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["user"] });
-          onCheckLogin();
           closeModal();
+          queryClient.invalidateQueries({ queryKey: ["user"] });
         },
       }
     );

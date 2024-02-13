@@ -7,6 +7,7 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
+      window.location.reload();
       queryClient.setQueryData(["user"], user.user);
     },
     onError: (err) => {

@@ -5,7 +5,8 @@ import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { cloneElement, createContext, useContext, useState } from "react";
 import StarRating from "./StarRating";
 import { IoIosStar } from "react-icons/io";
-import ProtectedComponent from "../../ui/ProtectedComponent";
+import { useUser } from "../authentication/useUser";
+import Register from "../authentication/Register";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -136,23 +137,15 @@ function RatingModal({ children }) {
 }
 
 export const RatingModalContext = createContext();
-function Open({ children, opens: opensWindowName, setIsModalOpen }) {
+function Open({ children, opens: opensWindowName }) {
+  const { isAuthenticated } = useUser();
   const { open } = useContext(RatingModalContext);
+  if (!isAuthenticated) return <Register>{children}</Register>;
   return cloneElement(children, {
-    onClick: () => {
-      setIsModalOpen(true);
-      open(opensWindowName);
-    },
+    onClick: () => open(opensWindowName),
   });
 }
-function Window({
-  name,
-  titleName,
-  rating,
-  setRating,
-  isModalOpen,
-  setIsModalOpen,
-}) {
+function Window({ name, titleName, rating, setRating }) {
   const [hasClickRate, setHasClickRate] = useState(false);
   const { openName, close } = useContext(RatingModalContext);
 
@@ -179,50 +172,40 @@ function Window({
   const ref = useOutsideClick(handleClose);
   if (name !== openName) return null;
   return createPortal(
-    <ProtectedComponent
-      isModalOpen={isModalOpen}
-      setIsModalOpen={setIsModalOpen}
-    >
-      <Overlay>
-        <StyledModal ref={ref}>
-          <Button onClick={handleClose}>
-            <HiXMark />
-          </Button>
-          <RatingContainer>
-            <StarSvgContainer
-              style={{ transform: `scale(${updateStarSize()})` }}
+    <Overlay>
+      <StyledModal ref={ref}>
+        <Button onClick={handleClose}>
+          <HiXMark />
+        </Button>
+        <RatingContainer>
+          <StarSvgContainer style={{ transform: `scale(${updateStarSize()})` }}>
+            <IoIosStar />
+            <div>{rating ? rating : "?"}</div>
+          </StarSvgContainer>
+          <RatingsContent>
+            <span>Rate This</span>
+            <span>{titleName}</span>
+            <StarRating
+              maxRating={10}
+              rating={rating}
+              onSetRating={handleSetRate}
+            />
+            <RatingButton
+              onClick={handleRateSuccess}
+              disabled={!rating}
+              variation={rating ? "active" : "inactive"}
             >
-              <IoIosStar />
-              <div>{rating ? rating : "?"}</div>
-            </StarSvgContainer>
-            <RatingsContent>
-              <span>Rate This</span>
-              <span>{titleName}</span>
-              <StarRating
-                maxRating={10}
-                rating={rating}
-                onSetRating={handleSetRate}
-              />
-              <RatingButton
-                onClick={handleRateSuccess}
-                disabled={!rating}
-                variation={rating ? "active" : "inactive"}
-              >
-                Rate
+              Rate
+            </RatingButton>
+            {hasClickRate && (
+              <RatingButton onClick={handleRateRemove} variation="removeRating">
+                Remove Rating
               </RatingButton>
-              {hasClickRate && (
-                <RatingButton
-                  onClick={handleRateRemove}
-                  variation="removeRating"
-                >
-                  Remove Rating
-                </RatingButton>
-              )}
-            </RatingsContent>
-          </RatingContainer>
-        </StyledModal>
-      </Overlay>
-    </ProtectedComponent>,
+            )}
+          </RatingsContent>
+        </RatingContainer>
+      </StyledModal>
+    </Overlay>,
     document.body
   );
 }
