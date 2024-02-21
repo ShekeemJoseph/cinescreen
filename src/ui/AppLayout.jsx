@@ -1,22 +1,18 @@
 import styled from "styled-components";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
-import Loader from "./Loader";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 
 const StyledAppLayout = styled.main`
   display: grid;
   grid-template-rows: auto 1fr auto;
-  overflow-x: hidden;
   height: 100vh;
 `;
 
 function AppLayout() {
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -28,9 +24,10 @@ function AppLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyles />
+      <ScrollRestoration />
       <StyledAppLayout>
         <Header />
-        {!isLoading ? <Outlet /> : <Loader />}
+        <Outlet />
         <Footer />
       </StyledAppLayout>
       <Toaster

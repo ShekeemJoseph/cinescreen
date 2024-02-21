@@ -56,40 +56,37 @@ const MenusContext = createContext();
 function Menus({ children }) {
   const { user } = useUser();
   const [openMenu, setOpenMenu] = useState(false);
-  function toggleMenu() {
-    setOpenMenu(!openMenu);
-  }
+  const close = () => setOpenMenu(false);
+  const open = setOpenMenu;
   return (
-    <MenusContext.Provider value={{ openMenu, setOpenMenu, toggleMenu, user }}>
+    <MenusContext.Provider value={{ openMenu, open, close, user }}>
       {children}
     </MenusContext.Provider>
   );
 }
 function Toggle() {
-  const { toggleMenu, user } = useContext(MenusContext);
+  const { close, open, openMenu, user } = useContext(MenusContext);
   const { fullName, avatar } = user?.user_metadata;
   return (
-    <div>
-      <StyledToggle onClick={toggleMenu}>
+    <StyledToggle onClick={!openMenu ? open : openMenu ? close : null}>
+      {avatar ? (
         <Avatar
           src={avatar || "/png/default-user.jpg"}
           alt={`Avatar of ${fullName}`}
         />
-        <span>{fullName}</span>
-      </StyledToggle>
-    </div>
+      ) : null}
+      <span>{fullName ? fullName : "User"}</span>
+    </StyledToggle>
   );
 }
 function List({ children }) {
-  const { openMenu, setOpenMenu } = useContext(MenusContext);
-  const close = () => setOpenMenu(false);
+  const { openMenu, close } = useContext(MenusContext);
   const ref = useOutsideClick(close);
   if (!openMenu) return null;
   return <StyledList ref={ref}>{children}</StyledList>;
 }
 function Button({ children }) {
-  const { setOpenMenu } = useContext(MenusContext);
-  const close = () => setOpenMenu(false);
+  const { close } = useContext(MenusContext);
   return <li onClick={close}>{children}</li>;
 }
 

@@ -3,6 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import { getPageSeries } from "../services/apiGetTitleData";
 import TitleSorting from "../ui/TitleSorting";
 import TitleListings from "../ui/TitleListings";
+import { useState } from "react";
+import { titleGenres } from "../utils/helper";
 
 const SeriesSection = styled.section`
   max-width: 128rem;
@@ -28,6 +30,8 @@ const TitlesPageLayout = styled.div`
 `;
 function Series() {
   const pageSeries = useLoaderData();
+  const [genreList, setGenreList] = useState(titleGenres);
+
   return (
     <SeriesSection>
       <StyledHeading>
@@ -35,8 +39,12 @@ function Series() {
         <p>Find your next TV show to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting />
-        <TitleListings initialTitles={pageSeries} titleType="Series" />
+        <TitleSorting genreList={genreList} setGenreList={setGenreList} />
+        <TitleListings
+          initialTitles={pageSeries}
+          titleType="Series"
+          setGenreList={setGenreList}
+        />
       </TitlesPageLayout>
     </SeriesSection>
   );

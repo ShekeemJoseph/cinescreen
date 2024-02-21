@@ -1,34 +1,10 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { defaultYear } from "../utils/helper";
+import { defaultYear, titleGenres } from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
+import "array.prototype.move";
 
-const titleGenres = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Biography",
-  "Comedy",
-  "Crime",
-  "Documentary",
-  "Drama",
-  "Family",
-  "Fantasy",
-  "History",
-  "Horror",
-  "Music",
-  "Musical",
-  "Mystery",
-  "News",
-  "Romance",
-  "Sci-Fi",
-  "Sport",
-  "Talk-Show",
-  "Thriller",
-  "War",
-  "Western",
-];
 const StyledTitleSorting = styled.aside`
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -71,7 +47,7 @@ const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
   }
 `;
 
-const GenreListings = styled.div`
+const GenreListings = styled.ul`
   ${(props) => variations[props.variation]}
   display: flex;
   flex-direction: column;
@@ -82,7 +58,7 @@ const variations = {
     background-color: var(--color-grey-300);
   `,
 };
-const Genre = styled.div`
+const Genre = styled.li`
   ${(props) => variations[props.variation]}
   display: flex;
   align-items: center;
@@ -102,7 +78,7 @@ const Genre = styled.div`
     }
   }
 `;
-function TitleSorting() {
+function TitleSorting({ genreList, setGenreList }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState(
     searchParams.get("genre") || ""
@@ -110,6 +86,11 @@ function TitleSorting() {
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
+  function shiftSelectedGenre() {
+    genreList.move(genreList.indexOf(checkedGenre), 0);
+    return true;
+  }
+
   return (
     <StyledTitleSorting>
       <h4>Filters</h4>
@@ -135,7 +116,7 @@ function TitleSorting() {
         </RangeSlider>
         <h5>Genres</h5>
         <GenreListings>
-          {titleGenres.map((genre) => (
+          {genreList.map((genre) => (
             <Genre
               key={genre}
               variation={genre === checkedGenre ? "active" : ""}
@@ -143,16 +124,18 @@ function TitleSorting() {
               <input
                 type="checkbox"
                 value={genre}
-                checked={genre === checkedGenre ? true : false}
+                checked={genre === checkedGenre ? shiftSelectedGenre() : false}
                 onChange={(e) => {
                   if (genre !== checkedGenre) {
                     setCheckedGenre(e.target.value);
+                    setGenreList(titleGenres.sort());
                     setSearchParams({
                       genre: e.target.value,
                       year: releaseYear,
                     });
                   } else if (genre === checkedGenre) {
                     setCheckedGenre("");
+                    setGenreList(titleGenres.sort());
                     searchParams.delete("genre");
                     setSearchParams(searchParams);
                   }

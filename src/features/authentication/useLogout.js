@@ -6,7 +6,6 @@ export function useLogout() {
   const { mutate: logout, isLoading } = useMutation({
     mutationFn: logoutApi,
     onSuccess: () => {
-      window.location.reload();
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });

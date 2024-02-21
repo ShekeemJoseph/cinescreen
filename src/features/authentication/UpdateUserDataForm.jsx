@@ -5,20 +5,16 @@ import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import { useUpdateUser } from "./useUpdateUser";
 import FileInput from "../../ui/FileInput";
-import { useUser } from "./useUser";
 
-function UpdateUserDataForm() {
-  // We don't need the loading state
-  const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
+function UpdateUserDataForm({
+  user: {
+    email,
+    user_metadata: { fullName: currentFullName },
+  },
+}) {
   const { updateUser, isUpdating } = useUpdateUser();
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
-
   function handleSubmit(e) {
     e.preventDefault();
     if (!fullName) return;
@@ -35,7 +31,7 @@ function UpdateUserDataForm() {
     );
   }
 
-  function handleCancel(e) {
+  function handleCancel() {
     // We don't even need preventDefault because this button was designed to reset the form (remember, it has the HTML attribute 'reset')
     setFullName(currentFullName);
     setAvatar(null);

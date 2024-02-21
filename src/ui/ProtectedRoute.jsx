@@ -17,7 +17,11 @@ function ProtectedRoute({ children }) {
   // 3) While loading, show a spinner
   if (isLoading) return <Loader />;
   // 4) If there Is a user, render the page
-  if (isAuthenticated) return children;
+  if (isAuthenticated) {
+    return children;
+  } else if (!isAuthenticated) {
+    return <Loader />;
+  }
 }
 
 export default ProtectedRoute;

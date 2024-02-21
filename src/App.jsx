@@ -4,12 +4,12 @@ import Home, { loader as homeLoader } from "./pages/Home";
 import Movies, { loader as moviesLoader } from "./pages/Movies";
 import Series, { loader as seriesLoader } from "./pages/Series";
 import Titles, { loader as titlesLoader } from "./pages/Titles";
+import Account, { loader as accountLoader } from "./pages/Account";
 import WatchList from "./pages/WatchList";
 import Title, { loader as titleLoader } from "./pages/Title";
 import Error from "./ui/Error";
 import ErrorMessage from "./ui/ErrorMessage";
 import ProtectedRoute from "./ui/ProtectedRoute";
-import Account from "./pages/Account";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +59,7 @@ const router = createBrowserRouter([
             <Account />
           </ProtectedRoute>
         ),
+        loader: accountLoader,
         errorElement: <ErrorMessage />,
       },
       {
