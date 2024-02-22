@@ -1,9 +1,35 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { defaultYear, titleGenres } from "../utils/helper";
+import { defaultYear } from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
 import "array.prototype.move";
+
+const titleGenres = [
+  "Action",
+  "Adventure",
+  "Animation",
+  "Biography",
+  "Comedy",
+  "Crime",
+  "Documentary",
+  "Drama",
+  "Family",
+  "Fantasy",
+  "History",
+  "Horror",
+  "Music",
+  "Musical",
+  "Mystery",
+  "News",
+  "Romance",
+  "Sci-Fi",
+  "Sport",
+  "Talk-Show",
+  "Thriller",
+  "War",
+  "Western",
+];
 
 const StyledTitleSorting = styled.aside`
   display: grid;
@@ -21,6 +47,7 @@ const StyledTitleSorting = styled.aside`
     margin: 1.8rem 0;
   }
 `;
+
 const RangeSlider = styled.div`
   display: flex;
   align-items: center;
