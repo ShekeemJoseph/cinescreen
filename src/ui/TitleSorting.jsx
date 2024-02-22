@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { defaultYear } from "../utils/helper";
 import styled, { css } from "styled-components";
@@ -106,6 +106,7 @@ const Genre = styled.li`
   }
 `;
 function TitleSorting() {
+  const mounted = useRef(false);
   const [genreList, setGenreList] = useState(titleGenres);
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState(
@@ -114,8 +115,16 @@ function TitleSorting() {
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      setGenreList(titleGenres.sort());
+      mounted.current = false;
+    };
+  }, []);
+
   function shiftSelectedGenre() {
-    genreList.sort();
     genreList.move(genreList.indexOf(checkedGenre), 0);
     return true;
   }
@@ -157,6 +166,7 @@ function TitleSorting() {
                 onChange={(e) => {
                   if (genre !== checkedGenre) {
                     setCheckedGenre(e.target.value);
+                    setGenreList(titleGenres.sort());
                     setSearchParams({
                       genre: e.target.value,
                       year: releaseYear,
