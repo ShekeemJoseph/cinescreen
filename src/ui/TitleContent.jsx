@@ -1,9 +1,10 @@
 import { HiPlus, HiStar } from "react-icons/hi2";
 import styled, { css } from "styled-components";
-import { checkMetascore, splitGenre } from "../utils/helper";
+import { TITLE_GENRES, checkMetascore, splitGenre } from "../utils/helper";
 import ButtonWatchList from "./ButtonWatchList";
 import { Link } from "react-router-dom";
 import Rating from "../features/Rating/Rating";
+import "array.prototype.move";
 
 const StyledTitle = styled.div`
   display: grid;
@@ -161,6 +162,10 @@ function TitleContent({ title }) {
             {title.Genre &&
               splitGenre(title.Genre).map((genre, index) => (
                 <TitleLinks
+                  onClick={() => {
+                    TITLE_GENRES.sort();
+                    TITLE_GENRES.move(TITLE_GENRES.indexOf(genre.trim()), 0);
+                  }}
                   to={
                     title.Type === "movie"
                       ? `/movie?genre=${genre.trim()}`

@@ -1,35 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { defaultYear } from "../utils/helper";
+import { TITLE_GENRES, defaultYear } from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
 import "array.prototype.move";
-
-const titleGenres = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Biography",
-  "Comedy",
-  "Crime",
-  "Documentary",
-  "Drama",
-  "Family",
-  "Fantasy",
-  "History",
-  "Horror",
-  "Music",
-  "Musical",
-  "Mystery",
-  "News",
-  "Romance",
-  "Sci-Fi",
-  "Sport",
-  "Talk-Show",
-  "Thriller",
-  "War",
-  "Western",
-];
 
 const StyledTitleSorting = styled.aside`
   display: grid;
@@ -106,8 +80,7 @@ const Genre = styled.li`
   }
 `;
 function TitleSorting() {
-  const mounted = useRef(false);
-  const [genreList, setGenreList] = useState(titleGenres);
+  const [genreList, setGenreList] = useState(TITLE_GENRES);
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState(
     searchParams.get("genre") || ""
@@ -115,19 +88,6 @@ function TitleSorting() {
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
-
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      setGenreList(titleGenres.sort());
-      mounted.current = false;
-    };
-  }, []);
-
-  function shiftSelectedGenre() {
-    genreList.move(genreList.indexOf(checkedGenre), 0);
-    return true;
-  }
 
   return (
     <StyledTitleSorting>
@@ -162,18 +122,25 @@ function TitleSorting() {
               <input
                 type="checkbox"
                 value={genre}
-                checked={genre === checkedGenre ? shiftSelectedGenre() : false}
+                checked={genre === checkedGenre ? true : false}
                 onChange={(e) => {
-                  if (genre !== checkedGenre) {
+                  if (
+                    e.target.value === genre ||
+                    e.target.value !== checkedGenre
+                  ) {
                     setCheckedGenre(e.target.value);
-                    setGenreList(titleGenres.sort());
+                    setGenreList(TITLE_GENRES.sort());
+                    setGenreList(
+                      TITLE_GENRES.move(TITLE_GENRES.indexOf(e.target.value), 0)
+                    );
                     setSearchParams({
                       genre: e.target.value,
                       year: releaseYear,
                     });
-                  } else if (genre === checkedGenre) {
+                  }
+                  if (e.target.value === checkedGenre) {
                     setCheckedGenre("");
-                    setGenreList(titleGenres.sort());
+                    setGenreList(TITLE_GENRES.sort());
                     searchParams.delete("genre");
                     setSearchParams(searchParams);
                   }
