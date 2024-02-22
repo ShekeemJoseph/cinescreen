@@ -78,7 +78,8 @@ const Genre = styled.li`
     }
   }
 `;
-function TitleSorting({ genreList, setGenreList }) {
+function TitleSorting() {
+  const [genreList, setGenreList] = useState(titleGenres);
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState(
     searchParams.get("genre") || ""
@@ -87,6 +88,7 @@ function TitleSorting({ genreList, setGenreList }) {
     +searchParams.get("year") || defaultYear
   );
   function shiftSelectedGenre() {
+    titleGenres.sort();
     genreList.move(genreList.indexOf(checkedGenre), 0);
     return true;
   }

@@ -3,8 +3,6 @@ import { getPageMovies } from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
 import TitleSorting from "../ui/TitleSorting";
 import TitleListings from "../ui/TitleListings";
-import { useState } from "react";
-import { titleGenres } from "../utils/helper";
 
 const MoviesSection = styled.section`
   max-width: 128rem;
@@ -30,8 +28,6 @@ const TitlesPageLayout = styled.div`
 `;
 function Movies() {
   const pageMovies = useLoaderData();
-  const [genreList, setGenreList] = useState(titleGenres);
-
   return (
     <MoviesSection>
       <StyledHeading>
@@ -39,12 +35,8 @@ function Movies() {
         <p>Find your next Movie to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting genreList={genreList} setGenreList={setGenreList} />
-        <TitleListings
-          initialTitles={pageMovies}
-          titleType="Movies"
-          setGenreList={setGenreList}
-        />
+        <TitleSorting />
+        <TitleListings initialTitles={pageMovies} titleType="Movies" />
       </TitlesPageLayout>
     </MoviesSection>
   );

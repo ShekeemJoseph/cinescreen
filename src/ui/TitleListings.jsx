@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { defaultYear, reduceLongTitle, titleGenres } from "../utils/helper";
+import { defaultYear, reduceLongTitle } from "../utils/helper";
 import SpinnerMini from "./SpinnerMini";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
@@ -111,7 +111,7 @@ const EmptyListingsMessage = styled.div`
     margin-bottom: 0.8rem;
   }
 `;
-function TitleListings({ initialTitles, titleType, setGenreList }) {
+function TitleListings({ initialTitles, titleType }) {
   const [searchParams] = useSearchParams(defaultYear);
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
@@ -153,7 +153,6 @@ function TitleListings({ initialTitles, titleType, setGenreList }) {
           {titles.map((title) => (
             <Listing
               key={title.id}
-              onClick={setGenreList(titleGenres.sort())}
               to={
                 title.titleType?.id === "movie"
                   ? `/movie/${title.id}`
