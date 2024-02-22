@@ -115,7 +115,7 @@ function TitleSorting() {
     +searchParams.get("year") || defaultYear
   );
   function shiftSelectedGenre() {
-    titleGenres.sort();
+    genreList.sort();
     genreList.move(genreList.indexOf(checkedGenre), 0);
     return true;
   }
@@ -157,7 +157,6 @@ function TitleSorting() {
                 onChange={(e) => {
                   if (genre !== checkedGenre) {
                     setCheckedGenre(e.target.value);
-                    setGenreList(titleGenres.sort());
                     setSearchParams({
                       genre: e.target.value,
                       year: releaseYear,
