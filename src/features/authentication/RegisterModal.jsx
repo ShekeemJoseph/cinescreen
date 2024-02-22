@@ -6,6 +6,7 @@ import Logo from "../../ui/Logo";
 import { HiXMark } from "react-icons/hi2";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import Overlay from "../../ui/Overlay";
 
 export const RegisterModalContext = createContext();
 const StyledModal = styled.div`
@@ -17,18 +18,6 @@ const StyledModal = styled.div`
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   /* padding: 3.2rem 4rem; */
-  transition: all 0.5s;
-`;
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--backdrop-color);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
   transition: all 0.5s;
 `;
 
@@ -118,7 +107,10 @@ const TabButton = styled.button`
 
 function RegisterModal({ children }) {
   const [openName, setOpenName] = useState("");
-  const close = () => setOpenName("");
+  const close = () => {
+    setOpenName("");
+    document.body.style.overflow = "auto";
+  };
   const open = setOpenName;
   return (
     <RegisterModalContext.Provider value={{ openName, close, open }}>
@@ -128,7 +120,12 @@ function RegisterModal({ children }) {
 }
 function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(RegisterModalContext);
-  return cloneElement(children, { onClick: () => open(opensWindowName) });
+  return cloneElement(children, {
+    onClick: () => {
+      open(opensWindowName);
+      document.body.style.overflow = "hidden";
+    },
+  });
 }
 function Window({ name }) {
   const [openTab, setOpenTab] = useState("Sign in");

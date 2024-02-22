@@ -7,6 +7,7 @@ import StarRating from "./StarRating";
 import { IoIosStar } from "react-icons/io";
 import { useUser } from "../authentication/useUser";
 import Register from "../authentication/Register";
+import Overlay from "../../ui/Overlay";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -43,17 +44,7 @@ const Button = styled.button`
     color: var(--color-grey-0);
   }
 `;
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--backdrop-color);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  transition: all 0.5s;
-`;
+
 const RatingContainer = styled.div`
   padding: 3.2rem;
   width: 52rem;
@@ -127,7 +118,10 @@ const StarSvgContainer = styled.div`
 `;
 function RatingModal({ children }) {
   const [openName, setOpenName] = useState("");
-  const close = () => setOpenName("");
+  const close = () => {
+    setOpenName("");
+    document.body.style.overflow = "auto";
+  };
   const open = setOpenName;
   return (
     <RatingModalContext.Provider value={{ openName, close, open }}>
@@ -142,7 +136,10 @@ function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(RatingModalContext);
   if (!isAuthenticated) return <Register>{children}</Register>;
   return cloneElement(children, {
-    onClick: () => open(opensWindowName),
+    onClick: () => {
+      open(opensWindowName);
+      document.body.style.overflow = "hidden";
+    },
   });
 }
 function Window({ name, titleName, rating, setRating }) {
