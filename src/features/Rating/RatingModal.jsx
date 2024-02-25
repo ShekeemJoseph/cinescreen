@@ -116,6 +116,8 @@ const StarSvgContainer = styled.div`
     transform: translateY(-186%);
   }
 `;
+const RatingModalContext = createContext();
+
 function RatingModal({ children }) {
   const [openName, setOpenName] = useState("");
   const close = () => {
@@ -130,7 +132,6 @@ function RatingModal({ children }) {
   );
 }
 
-export const RatingModalContext = createContext();
 function Open({ children, opens: opensWindowName }) {
   const { isAuthenticated } = useUser();
   const { open } = useContext(RatingModalContext);

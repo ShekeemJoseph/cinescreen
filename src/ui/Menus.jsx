@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
-import { useOutsideClick } from "../hooks/useOutsideClick";
 import { useUser } from "../features/authentication/useUser";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledToggle = styled.button`
   display: flex;
@@ -57,33 +57,35 @@ function Menus({ children }) {
   const { user } = useUser();
   const [openMenu, setOpenMenu] = useState(false);
   const close = () => setOpenMenu(false);
-  const open = setOpenMenu;
+  const ref = useOutsideClick(close);
+
+  function handleMenuToggle() {
+    setOpenMenu((openMenu) => !openMenu);
+  }
+
   return (
-    <MenusContext.Provider value={{ openMenu, open, close, user }}>
-      {children}
+    <MenusContext.Provider value={{ close, openMenu, handleMenuToggle, user }}>
+      <div ref={ref}>{children}</div>
     </MenusContext.Provider>
   );
 }
 function Toggle() {
-  const { close, open, openMenu, user } = useContext(MenusContext);
+  const { handleMenuToggle, user } = useContext(MenusContext);
   const { fullName, avatar } = user?.user_metadata;
   return (
-    <StyledToggle onClick={!openMenu ? open : openMenu ? close : null}>
-      {avatar ? (
-        <Avatar
-          src={avatar || "/png/default-user.jpg"}
-          alt={`Avatar of ${fullName}`}
-        />
-      ) : null}
+    <StyledToggle onClick={handleMenuToggle}>
+      <Avatar
+        src={avatar || "/png/default-user.jpg"}
+        alt={`Avatar of ${fullName}`}
+      />
       <span>{fullName ? fullName : "User"}</span>
     </StyledToggle>
   );
 }
 function List({ children }) {
-  const { openMenu, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close);
+  const { openMenu } = useContext(MenusContext);
   if (!openMenu) return null;
-  return <StyledList ref={ref}>{children}</StyledList>;
+  return <StyledList>{children}</StyledList>;
 }
 function Button({ children }) {
   const { close } = useContext(MenusContext);

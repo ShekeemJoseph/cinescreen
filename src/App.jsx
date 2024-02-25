@@ -10,6 +10,7 @@ import Title, { loader as titleLoader } from "./pages/Title";
 import Error from "./ui/Error";
 import ErrorMessage from "./ui/ErrorMessage";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import PasswordReset from "./pages/PasswordReset";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,15 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         loader: accountLoader,
+        errorElement: <ErrorMessage />,
+      },
+      {
+        path: "/user/passwordreset",
+        element: (
+          <ProtectedRoute>
+            <PasswordReset />
+          </ProtectedRoute>
+        ),
         errorElement: <ErrorMessage />,
       },
       {

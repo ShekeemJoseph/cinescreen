@@ -7,8 +7,8 @@ import { HiXMark } from "react-icons/hi2";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import Overlay from "../../ui/Overlay";
+import ForgetPasswordModal from "./ForgetPasswordModal";
 
-export const RegisterModalContext = createContext();
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -104,6 +104,23 @@ const TabButton = styled.button`
     outline: none;
   }
 `;
+const RecoverPassBtn = styled.button`
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-decoration: underline;
+  margin: 0 auto;
+  &:hover,
+  &:active {
+    color: var(--color-grey-400);
+    text-decoration: none;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const RegisterModalContext = createContext();
 
 function RegisterModal({ children }) {
   const [openName, setOpenName] = useState("");
@@ -129,41 +146,55 @@ function Open({ children, opens: opensWindowName }) {
 }
 function Window({ name }) {
   const [openTab, setOpenTab] = useState("Sign in");
+  const [isPassRecover, setIsPassRecover] = useState(false);
   const { openName, close } = useContext(RegisterModalContext);
-  const ref = useOutsideClick(close);
+  function handleClose() {
+    close();
+    setIsPassRecover(false);
+  }
+  const ref = useOutsideClick(handleClose);
   if (name !== openName) return null;
   return createPortal(
     <Overlay>
       <StyledModal ref={ref}>
-        <Button onClick={close}>
+        <Button onClick={handleClose}>
           <HiXMark />
         </Button>
-        <RegisterContainer>
-          <RegisterHeader>
-            <Logo secondaryColor="#fbc117" primaryColor="#fff" />
-            <TabContainer>
-              <TabButton
-                className={openTab === "Register" && "activeTab"}
-                onClick={() => setOpenTab("Register")}
-              >
-                Register
-              </TabButton>
-              <TabButton
-                className={openTab === "Sign in" && "activeTab"}
-                onClick={() => setOpenTab("Sign in")}
-              >
-                Sign in
-              </TabButton>
-            </TabContainer>
-          </RegisterHeader>
-          <span>
-            {openTab === "Sign in"
-              ? "Welcome back"
-              : "Get started with a free Cinescreen account to rate and bookmark your favourite movies, TV shows and more!"}
-          </span>
-          {openTab === "Sign in" && <LoginForm closeModal={close} />}
-          {openTab === "Register" && <SignupForm closeModal={close} />}
-        </RegisterContainer>
+        {!isPassRecover ? (
+          <RegisterContainer>
+            <RegisterHeader>
+              <Logo secondaryColor="#fbc117" primaryColor="#fff" />
+              <TabContainer>
+                <TabButton
+                  className={openTab === "Register" && "activeTab"}
+                  onClick={() => setOpenTab("Register")}
+                >
+                  Register
+                </TabButton>
+                <TabButton
+                  className={openTab === "Sign in" && "activeTab"}
+                  onClick={() => setOpenTab("Sign in")}
+                >
+                  Sign in
+                </TabButton>
+              </TabContainer>
+            </RegisterHeader>
+            <span>
+              {openTab === "Sign in"
+                ? "Welcome back"
+                : "Get started with a free Cinescreen account to rate and bookmark your favourite movies, TV shows and more!"}
+            </span>
+            {openTab === "Sign in" && <LoginForm closeModal={close} />}
+            {openTab === "Register" && <SignupForm closeModal={close} />}
+            {openTab === "Sign in" && (
+              <RecoverPassBtn onClick={() => setIsPassRecover(true)}>
+                Forgot Password?
+              </RecoverPassBtn>
+            )}
+          </RegisterContainer>
+        ) : (
+          <ForgetPasswordModal ref={ref} onClose={handleClose} />
+        )}
       </StyledModal>
     </Overlay>,
     document.body

@@ -4,17 +4,28 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import { useUpdateUser } from "./useUpdateUser";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
   const { updateUser, isUpdating } = useUpdateUser();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: () => reset() });
+    updateUser(
+      { password },
+      {
+        onSuccess: () => reset(),
+      }
+    );
   }
-
+  function handlePasswordReset(e) {
+    e.preventDefault();
+    navigate("/", { replace: true });
+  }
   function handleReset(e) {
     // e.preventDefault();
     reset();
@@ -62,7 +73,16 @@ function UpdatePasswordForm() {
         <Button onClick={handleReset} type="reset" variation="secondary">
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button
+          disabled={isUpdating}
+          onClick={
+            location.pathname === "/user/passwordreset"
+              ? handlePasswordReset
+              : null
+          }
+        >
+          Update password
+        </Button>
       </FormRow>
     </Form>
   );

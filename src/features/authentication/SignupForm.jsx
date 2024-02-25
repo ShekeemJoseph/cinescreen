@@ -6,7 +6,13 @@ import { useForm } from "react-hook-form";
 import { useSignup } from "./useSignup";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useQueryClient } from "@tanstack/react-query";
+import styled from "styled-components";
 
+const TermsOfUseText = styled.span`
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 0.4rem;
+`;
 // Email regex: /\S+@\S+\.\S+/
 function SignupForm({ closeModal }) {
   const { signup, isLoading } = useSignup();
@@ -81,6 +87,10 @@ function SignupForm({ closeModal }) {
         <Button size="large" disabled={isLoading}>
           {!isLoading ? "Register" : <SpinnerMini />}
         </Button>
+        <TermsOfUseText>
+          By joining Cinescreen, you agree to Cinescreen's Terms of Use and
+          Privacy Policy.
+        </TermsOfUseText>
       </FormRowVertical>
     </Form>
   );

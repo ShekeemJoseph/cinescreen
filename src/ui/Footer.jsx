@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import { getCurrentYear } from "../utils/helper";
 
 const StyledFooter = styled.footer`
-  margin: 0 0 6.4rem;
-  padding: 0 1.2rem;
   border-width: 16px 0 0;
   border-style: solid;
   border-image: linear-gradient(
@@ -35,7 +33,7 @@ const FooterContent = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   max-width: 96rem;
-  margin: 0 auto;
+  margin: 0 auto 6.4rem;
   & div {
     justify-self: center;
   }

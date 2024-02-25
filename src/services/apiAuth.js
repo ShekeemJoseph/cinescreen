@@ -35,6 +35,12 @@ export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
 }
+export async function passwordReset(email) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: "http://localhost:5173/user/passwordreset",
+  });
+  if (error) throw new Error(error.message);
+}
 export async function updateCurrentUser({ password, fullName, avatar }) {
   // 1) Update password OR fullName
   let updateData;
