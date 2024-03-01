@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigation, useSearchParams } from "react-router-dom";
 import { TITLE_GENRES, defaultYear } from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
@@ -80,14 +80,31 @@ const Genre = styled.li`
   }
 `;
 function TitleSorting() {
+  const navigation = useNavigation();
+
+  const isLoading = navigation.state === "loading";
   const [genreList, setGenreList] = useState(TITLE_GENRES);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [checkedGenre, setCheckedGenre] = useState(
-    searchParams.get("genre") || ""
-  );
+  const [checkedGenre, setCheckedGenre] = useState("");
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
+
+  useEffect(() => {
+    function handleLoad() {
+      if (!isLoading && searchParams.get("genre") !== null) {
+        setCheckedGenre(searchParams.get("genre"));
+        setGenreList(TITLE_GENRES.sort());
+        setGenreList(
+          TITLE_GENRES.move(TITLE_GENRES.indexOf(searchParams.get("genre")), 0)
+        );
+      } else if (!isLoading && searchParams.get("genre") === null) {
+        setCheckedGenre("");
+        setGenreList(TITLE_GENRES.sort());
+      }
+    }
+    handleLoad();
+  }, [isLoading, searchParams]);
 
   return (
     <StyledTitleSorting>
@@ -128,19 +145,12 @@ function TitleSorting() {
                     e.target.value === genre ||
                     e.target.value !== checkedGenre
                   ) {
-                    setCheckedGenre(e.target.value);
-                    setGenreList(TITLE_GENRES.sort());
-                    setGenreList(
-                      TITLE_GENRES.move(TITLE_GENRES.indexOf(e.target.value), 0)
-                    );
                     setSearchParams({
                       genre: e.target.value,
                       year: releaseYear,
                     });
                   }
                   if (e.target.value === checkedGenre) {
-                    setCheckedGenre("");
-                    setGenreList(TITLE_GENRES.sort());
                     searchParams.delete("genre");
                     setSearchParams(searchParams);
                   }

@@ -55,6 +55,7 @@ const RegisterContainer = styled.div`
   grid-template-rows: auto auto 1fr;
   & span {
     justify-self: center;
+    text-align: center;
   }
 `;
 const RegisterHeader = styled.div`
