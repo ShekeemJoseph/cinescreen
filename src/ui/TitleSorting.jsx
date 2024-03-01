@@ -92,14 +92,12 @@ function TitleSorting() {
   useEffect(() => {
     function handleLoad() {
       if (!isLoading && searchParams.get("genre") !== null) {
-        console.log(isLoading, searchParams.get("genre"), "checked");
         setCheckedGenre(searchParams.get("genre"));
         setGenreList(TITLE_GENRES.sort());
         setGenreList(
           TITLE_GENRES.move(TITLE_GENRES.indexOf(searchParams.get("genre")), 0)
         );
       } else if (!isLoading && searchParams.get("genre") === null) {
-        console.log(isLoading, searchParams.get("genre"), "unchecked");
         setCheckedGenre("");
         setGenreList(TITLE_GENRES.sort());
       }
