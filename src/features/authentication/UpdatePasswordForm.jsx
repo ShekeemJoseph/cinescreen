@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
-
   const { updateUser, isUpdating } = useUpdateUser();
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,12 +21,10 @@ function UpdatePasswordForm() {
       }
     );
   }
-  function handlePasswordReset(e) {
-    e.preventDefault();
+  function handlePasswordReset() {
     navigate("/", { replace: true });
   }
-  function handleReset(e) {
-    // e.preventDefault();
+  function handleReset() {
     reset();
   }
 

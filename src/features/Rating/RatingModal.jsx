@@ -143,10 +143,9 @@ function Open({ children, opens: opensWindowName }) {
     },
   });
 }
-function Window({ name, titleName, rating, setRating }) {
+function Window({ name, titleName, rating, storedRatings, setRating }) {
   const [hasClickRate, setHasClickRate] = useState(false);
   const { openName, close } = useContext(RatingModalContext);
-
   function updateStarSize() {
     return 1 + rating / 20;
   }
@@ -155,7 +154,13 @@ function Window({ name, titleName, rating, setRating }) {
     setRating(starNum);
   }
   function handleClose() {
-    if (!hasClickRate) setRating(0);
+    if (!hasClickRate && rating === 0) {
+      setRating(0);
+    } else if (!hasClickRate && storedRatings) {
+      if (storedRatings !== rating) {
+        setRating(storedRatings);
+      }
+    }
     close();
   }
   function handleRateSuccess() {
@@ -195,11 +200,11 @@ function Window({ name, titleName, rating, setRating }) {
             >
               Rate
             </RatingButton>
-            {hasClickRate && (
+            {hasClickRate || storedRatings ? (
               <RatingButton onClick={handleRateRemove} variation="removeRating">
                 Remove Rating
               </RatingButton>
-            )}
+            ) : null}
           </RatingsContent>
         </RatingContainer>
       </StyledModal>

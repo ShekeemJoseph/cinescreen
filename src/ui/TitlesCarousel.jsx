@@ -6,7 +6,7 @@ import CarouselButton from "./CarouselButton";
 import { useRef, useState } from "react";
 import "swiper/css";
 import ButtonWatchList from "./ButtonWatchList";
-import { reduceLongTitle } from "../utils/helper";
+import { TITLE_GENRES, reduceLongTitle } from "../utils/helper";
 
 const TitlesBoxHeading = styled.div`
   display: grid;
@@ -100,6 +100,9 @@ function TitlesLayout({ label, browseContent, titles }) {
           <h2>{label}</h2>
           {browseContent && (
             <NavLink
+              onClick={() => {
+                TITLE_GENRES.sort();
+              }}
               to={
                 label === "Movies"
                   ? "/movie"

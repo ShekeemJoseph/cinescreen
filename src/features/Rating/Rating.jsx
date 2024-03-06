@@ -1,8 +1,12 @@
 import styled, { css } from "styled-components";
 import RatingModal from "./RatingModal";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUser } from "../authentication/useUser";
+import { useQuery } from "@tanstack/react-query";
+import { getRatings } from "../../services/apiRatings";
+import { useParams } from "react-router-dom";
+
 const variations = {
   rated: css`
     span {
@@ -48,8 +52,32 @@ const RateButton = styled.button`
 `;
 
 function Rating({ titleName }) {
+  const storedRatings = useRef();
   const [rating, setRating] = useState(0);
-  const { isAuthenticated } = useUser();
+  const { titleId: urlTitleId } = useParams();
+  const { isLoading: isAuthLoading, isAuthenticated, user } = useUser();
+  const { isLoading, data: ratings } = useQuery({
+    queryKey: ["ratings"],
+    queryFn: getRatings,
+  });
+  useEffect(() => {
+    if (!isLoading && !isAuthLoading) {
+      if (ratings) {
+        const result = ratings.find((ratedTitle) => {
+          if (
+            ratedTitle.userId === user?.id &&
+            ratedTitle.titleId === urlTitleId
+          ) {
+            return ratedTitle;
+          }
+          return 0;
+        });
+        storedRatings.current = result?.rating;
+        setRating(result?.rating);
+      }
+    }
+  }, [isLoading, isAuthLoading, ratings, urlTitleId, user?.id]);
+
   return (
     <RatingModal>
       <RatingModal.Open opens="ratings-form">
@@ -69,6 +97,7 @@ function Rating({ titleName }) {
         name="ratings-form"
         titleName={titleName}
         rating={rating}
+        storedRatings={storedRatings.current ? storedRatings.current : null}
         setRating={setRating}
       />
     </RatingModal>
