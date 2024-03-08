@@ -8,6 +8,13 @@ import { IoIosStar } from "react-icons/io";
 import { useUser } from "../authentication/useUser";
 import Register from "../authentication/Register";
 import Overlay from "../../ui/Overlay";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  createRating,
+  deleteRating,
+  updateRating,
+} from "../../services/apiRatings";
+import { useParams } from "react-router-dom";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -42,6 +49,9 @@ const Button = styled.button`
     /* fill: var(--color-grey-500);
     stroke: var(--color-grey-500); */
     color: var(--color-grey-0);
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -143,9 +153,35 @@ function Open({ children, opens: opensWindowName }) {
     },
   });
 }
-function Window({ name, titleName, rating, storedRatings, setRating }) {
-  const [hasClickRate, setHasClickRate] = useState(false);
+function Window({ name, titleName, rating, setRating, storedRatings, userId }) {
+  const queryClient = useQueryClient();
+  const { titleId: urlTitleId } = useParams();
   const { openName, close } = useContext(RatingModalContext);
+
+  const { mutate: removeRating } = useMutation({
+    mutationFn: deleteRating,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["ratings"],
+      });
+    },
+  });
+  const { mutate: addRating } = useMutation({
+    mutationFn: createRating,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["ratings"],
+      });
+    },
+  });
+  const { mutate: editRating } = useMutation({
+    mutationFn: updateRating,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["ratings"],
+      });
+    },
+  });
   function updateStarSize() {
     return 1 + rating / 20;
   }
@@ -153,25 +189,36 @@ function Window({ name, titleName, rating, storedRatings, setRating }) {
   function handleSetRate(starNum) {
     setRating(starNum);
   }
+
   function handleClose() {
-    if (!hasClickRate && rating === 0) {
+    if (storedRatings.current?.titleId !== urlTitleId && rating !== 0) {
       setRating(0);
-    } else if (!hasClickRate && storedRatings) {
-      if (storedRatings !== rating) {
-        setRating(storedRatings);
-      }
     }
     close();
   }
   function handleRateSuccess() {
-    setHasClickRate(true);
+    const ratedTitle = {
+      userId: userId,
+      titleId: urlTitleId,
+      rating: rating,
+    };
+    addRating(ratedTitle);
+    close();
+  }
+  function handleRateUpdate() {
+    const updatedRate = {
+      id: storedRatings.current?.id,
+      rating: rating,
+    };
+    editRating(updatedRate);
     close();
   }
   function handleRateRemove() {
-    setHasClickRate(false);
-    setRating(0);
+    removeRating(storedRatings.current?.id);
+    storedRatings.current = null;
     close();
   }
+
   const ref = useOutsideClick(handleClose);
   if (name !== openName) return null;
   return createPortal(
@@ -194,13 +241,17 @@ function Window({ name, titleName, rating, storedRatings, setRating }) {
               onSetRating={handleSetRate}
             />
             <RatingButton
-              onClick={handleRateSuccess}
+              onClick={
+                storedRatings.current?.titleId !== urlTitleId
+                  ? handleRateSuccess
+                  : handleRateUpdate
+              }
               disabled={!rating}
               variation={rating ? "active" : "inactive"}
             >
               Rate
             </RatingButton>
-            {hasClickRate || storedRatings ? (
+            {storedRatings.current?.titleId === urlTitleId ? (
               <RatingButton onClick={handleRateRemove} variation="removeRating">
                 Remove Rating
               </RatingButton>
