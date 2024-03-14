@@ -1,13 +1,14 @@
 import {
   getPageMovies,
   getPageSeries,
-  getNewReleases,
+  getTrending,
 } from "../services/apiGetTitleData";
 import { useLoaderData } from "react-router-dom";
 import TitlesCarousel from "../ui/TitlesCarousel";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
 import Promotion from "../ui/Promotion";
+
 const HomeSection = styled.section`
   max-width: 128rem;
   margin: 2.4rem auto;
@@ -19,15 +20,16 @@ const StyledHome = styled.div`
   padding: 4.8rem 2.4rem;
 `;
 function Home() {
-  const { homePageMovies, homePageSeries, newReleases } = useLoaderData();
+  const { homePageMovies, homePageSeries, trending } = useLoaderData();
+
   return (
     <HomeSection>
       <StyledHome>
         <Heading />
         <TitlesCarousel
-          label="New Releases"
+          label="Trending Releases"
           browseContent={false}
-          titles={newReleases}
+          titles={trending}
         />
         <Promotion />
         <TitlesCarousel
@@ -45,10 +47,14 @@ function Home() {
   );
 }
 export async function loader() {
-  const homePageMovies = await getPageMovies(15);
-  const homePageSeries = await getPageSeries(15);
-  const newReleases = await getNewReleases();
-  const homePageContent = { homePageMovies, homePageSeries, newReleases };
+  const homePageMovies = await getPageMovies();
+  const homePageSeries = await getPageSeries();
+  const trending = await getTrending();
+  const homePageContent = {
+    homePageMovies,
+    homePageSeries,
+    trending,
+  };
   return homePageContent;
 }
 export default Home;

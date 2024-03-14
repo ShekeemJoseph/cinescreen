@@ -3,12 +3,11 @@ import styled, { css } from "styled-components";
 const variations = {
   standard: css`
     background: none;
+    border-radius: var(--border-radius-sm);
+
     &:hover,
     &:active {
-      border-top-right-radius: 0;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
+      border-radius: var(--border-radius-sm);
       color: var(--color-grey-800);
       background-color: var(--color-grey-50);
 

@@ -58,7 +58,6 @@ function Rating({ titleName }) {
   const { isLoading, ratings } = useRatings(
     !isAuthLoading && user ? user.id : null
   );
-
   useEffect(() => {
     if (!isLoading && ratings) {
       const result = ratings.find((ratedTitle) => {

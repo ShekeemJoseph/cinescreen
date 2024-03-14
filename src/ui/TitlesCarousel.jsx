@@ -6,7 +6,12 @@ import CarouselButton from "./CarouselButton";
 import { useRef, useState } from "react";
 import "swiper/css";
 import ButtonWatchList from "./ButtonWatchList";
-import { TITLE_GENRES, reduceLongTitle } from "../utils/helper";
+import {
+  TITLE_MOVIE_GENRES,
+  TITLE_TV_GENRES,
+  reduceLongTitle,
+} from "../utils/helper";
+import { useGetImdbId } from "../hooks/useGetImdbId";
 
 const TitlesBoxHeading = styled.div`
   display: grid;
@@ -43,9 +48,8 @@ const TitleCard = styled.div`
   background: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
   border-radius: var(--border-radius-md);
   color: var(--color-grey-0);
-  display: grid;
-  grid-template-rows: 1fr auto;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
   height: 42rem;
 `;
 const TitleBox = styled.div`
@@ -64,6 +68,7 @@ const TitleBox = styled.div`
 
   & img {
     max-height: 25rem;
+    border-radius: var(--border-radius-sm);
   }
 `;
 const RatingsText = styled.div`
@@ -78,10 +83,17 @@ const RatingsText = styled.div`
     color: var(--color-brand-900);
   }
 `;
-
-function TitlesLayout({ label, browseContent, titles }) {
+const TitleBtn = styled.div`
+  height: 100%;
+  padding-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+`;
+function TitlesCarousel({ label, browseContent, titles, mediaType }) {
   const swiperRef = useRef();
   const [isBegin, setIsBegin] = useState(true);
+  const [titleImdbList, setTitleImdbList] = useState([]);
   const [isEnd, setIsEnd] = useState(false);
   function handlePrevClick() {
     setIsEnd(false);
@@ -93,6 +105,7 @@ function TitlesLayout({ label, browseContent, titles }) {
     setIsEnd(swiperRef.current.isEnd);
     swiperRef.current.slideNext();
   }
+  useGetImdbId(label, titles, setTitleImdbList, mediaType);
   return (
     <TitlesContainer>
       <TitlesBoxHeading>
@@ -101,7 +114,8 @@ function TitlesLayout({ label, browseContent, titles }) {
           {browseContent && (
             <NavLink
               onClick={() => {
-                TITLE_GENRES.sort();
+                if (label === "Movies") TITLE_MOVIE_GENRES.sort();
+                if (label === "TV Shows") TITLE_TV_GENRES.sort();
               }}
               to={
                 label === "Movies"
@@ -138,37 +152,44 @@ function TitlesLayout({ label, browseContent, titles }) {
         slidesPerView={5}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
-        {titles.map((title) => (
+        {titles.map((title, index) => (
           <SwiperSlide key={title.id}>
             <TitleCard>
               <TitleBox>
                 <Link
                   to={
-                    title.titleType?.id === "movie"
-                      ? `/movie/${title.id}`
-                      : title.titleType?.id === "tvSeries" ||
-                        title.titleType?.id === "tvMiniSeries"
-                      ? `/tv/${title.id}`
+                    label === "Movies" ||
+                    mediaType === "movie" ||
+                    title.media_type === "movie"
+                      ? `/movie/${titleImdbList[index]}`
+                      : label === "TV Shows" ||
+                        mediaType === "series" ||
+                        title.media_type === "tv"
+                      ? `/tv/${titleImdbList[index]}`
                       : "/"
                   }
                 >
                   <img
-                    src={title.primaryImage?.url}
-                    alt={`${title.originalTitleText?.text} Poster`}
+                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                    alt={`${title.title ? title.title : title.name} Poster`}
                   />
-                  {title.ratingsSummary.aggregateRating && (
+                  {title.vote_average && (
                     <RatingsText>
-                      <span>{title.ratingsSummary.aggregateRating}</span>
+                      <span>{Math.floor(title.vote_average)}</span>
                       <HiStar />
                       <span>Rating</span>
                     </RatingsText>
                   )}
-                  <p>{reduceLongTitle(title.originalTitleText?.text)}</p>
+                  <p>
+                    {reduceLongTitle(title.title ? title.title : title.name)}
+                  </p>
                 </Link>
               </TitleBox>
-              <ButtonWatchList variation="standard">
-                <HiPlus /> Watchlist
-              </ButtonWatchList>
+              <TitleBtn>
+                <ButtonWatchList variation="standard">
+                  <HiPlus /> Watchlist
+                </ButtonWatchList>
+              </TitleBtn>
             </TitleCard>
           </SwiperSlide>
         ))}
@@ -177,4 +198,4 @@ function TitlesLayout({ label, browseContent, titles }) {
   );
 }
 
-export default TitlesLayout;
+export default TitlesCarousel;

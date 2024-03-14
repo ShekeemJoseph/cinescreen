@@ -35,14 +35,14 @@ function Movies() {
         <p>Find your next Movie to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting />
+        <TitleSorting category="movies" />
         <TitleListings initialTitles={pageMovies} titleType="Movies" />
       </TitlesPageLayout>
     </MoviesSection>
   );
 }
 export async function loader() {
-  const pageMovies = await getPageMovies(24);
+  const pageMovies = await getPageMovies();
   return pageMovies;
 }
 export default Movies;

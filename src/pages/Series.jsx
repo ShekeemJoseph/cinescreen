@@ -36,14 +36,14 @@ function Series() {
         <p>Find your next TV show to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting />
+        <TitleSorting category="series" />
         <TitleListings initialTitles={pageSeries} titleType="Series" />
       </TitlesPageLayout>
     </SeriesSection>
   );
 }
 export async function loader() {
-  const pageSeries = await getPageSeries(24);
+  const pageSeries = await getPageSeries();
   return pageSeries;
 }
 export default Series;

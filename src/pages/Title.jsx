@@ -1,8 +1,12 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { getTitle } from "../services/apiSearchTitleData";
 import styled from "styled-components";
 import { getRelatedGenre } from "../services/apiGetTitleData";
-import { splitGenre } from "../utils/helper";
+import {
+  TITLE_MOVIE_GENRES,
+  TITLE_TV_GENRES,
+  splitGenre,
+} from "../utils/helper";
 import TitlesCarousel from "../ui/TitlesCarousel";
 import TitleContent from "../ui/TitleContent";
 
@@ -48,6 +52,7 @@ function Title() {
         <TitlesCarouselContainer>
           <TitlesCarousel
             label="Of Related Genres"
+            mediaType={title.Type}
             browseContent={false}
             titles={relatedGenre}
           />
@@ -57,10 +62,22 @@ function Title() {
   );
 }
 export async function loader({ params }) {
+  let genreMovieId;
+  let genreTvId;
   const title = await getTitle(params.titleId);
+  if (title.Type === "movie") {
+    genreMovieId = TITLE_MOVIE_GENRES.find(
+      (genre) => genre.name === splitGenre(title.Genre)[0]
+    ).id;
+  } else if (title.Type === "series") {
+    genreTvId = TITLE_TV_GENRES.find(
+      (genre) => genre.name === splitGenre(title.Genre)[0]
+    ).id;
+  }
   const relatedGenre = await getRelatedGenre(
-    splitGenre(title.Genre)[0],
-    +title.Year.slice(0, 4)
+    genreMovieId ? genreMovieId : genreTvId,
+    +title.Year.slice(0, 4),
+    title.Type
   );
   const titleObj = { title, relatedGenre };
   return titleObj;

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigation, useSearchParams } from "react-router-dom";
-import { TITLE_GENRES, defaultYear } from "../utils/helper";
+import {
+  TITLE_MOVIE_GENRES,
+  TITLE_TV_GENRES,
+  defaultYear,
+} from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
 import "array.prototype.move";
@@ -79,31 +83,32 @@ const Genre = styled.li`
     }
   }
 `;
-function TitleSorting() {
+function TitleSorting({ category }) {
+  const titleGenres =
+    category === "movies" ? TITLE_MOVIE_GENRES : TITLE_TV_GENRES;
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
-  const [genreList, setGenreList] = useState(TITLE_GENRES);
+  const [genreList, setGenreList] = useState(titleGenres);
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState("");
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
-
   useEffect(() => {
     function handleLoad() {
       if (!isLoading && searchParams.get("genre") !== null) {
         setCheckedGenre(searchParams.get("genre"));
-        setGenreList(TITLE_GENRES.sort());
+        setGenreList(titleGenres.sort());
         setGenreList(
-          TITLE_GENRES.move(TITLE_GENRES.indexOf(searchParams.get("genre")), 0)
+          titleGenres.move(titleGenres.indexOf(searchParams.get("genre")), 0)
         );
       } else if (!isLoading && searchParams.get("genre") === null) {
         setCheckedGenre("");
-        setGenreList(TITLE_GENRES.sort());
+        setGenreList(titleGenres.sort());
       }
     }
     handleLoad();
-  }, [isLoading, searchParams]);
+  }, [isLoading, searchParams, titleGenres]);
 
   return (
     <StyledTitleSorting>
