@@ -4,6 +4,7 @@ import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
   defaultYear,
+  sortGenres,
 } from "../utils/helper";
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
@@ -83,9 +84,9 @@ const Genre = styled.li`
     }
   }
 `;
-function TitleSorting({ category }) {
+function TitleSorting({ mediaType }) {
   const titleGenres =
-    category === "movies" ? TITLE_MOVIE_GENRES : TITLE_TV_GENRES;
+    mediaType === "movie" ? TITLE_MOVIE_GENRES : TITLE_TV_GENRES;
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
   const [genreList, setGenreList] = useState(titleGenres);
@@ -94,22 +95,27 @@ function TitleSorting({ category }) {
   const [releaseYear, setReleaseYear] = useState(
     +searchParams.get("year") || defaultYear
   );
+
   useEffect(() => {
     function handleLoad() {
       if (!isLoading && searchParams.get("genre") !== null) {
-        setCheckedGenre(searchParams.get("genre"));
-        setGenreList(titleGenres.sort());
+        setCheckedGenre(+searchParams.get("genre"));
+        setGenreList(sortGenres(titleGenres));
         setGenreList(
-          titleGenres.move(titleGenres.indexOf(searchParams.get("genre")), 0)
+          titleGenres.move(
+            titleGenres.findIndex(
+              (genre) => genre.id === +searchParams.get("genre")
+            ),
+            0
+          )
         );
       } else if (!isLoading && searchParams.get("genre") === null) {
         setCheckedGenre("");
-        setGenreList(titleGenres.sort());
+        setGenreList(sortGenres(titleGenres));
       }
     }
     handleLoad();
   }, [isLoading, searchParams, titleGenres]);
-
   return (
     <StyledTitleSorting>
       <h4>Filters</h4>
@@ -135,34 +141,34 @@ function TitleSorting({ category }) {
         </RangeSlider>
         <h5>Genres</h5>
         <GenreListings>
-          {genreList.map((genre) => (
+          {genreList.map((genre, index) => (
             <Genre
-              key={genre}
-              variation={genre === checkedGenre ? "active" : ""}
+              key={index}
+              variation={genre.id === checkedGenre ? "active" : ""}
             >
               <input
+                id={genre.name}
+                name={genre.name}
                 type="checkbox"
-                value={genre}
-                checked={genre === checkedGenre ? true : false}
+                value={genre.id}
+                checked={genre.id === checkedGenre ? true : false}
                 onChange={(e) => {
                   if (
-                    e.target.value === genre ||
-                    e.target.value !== checkedGenre
+                    +e.target.value === genre.id ||
+                    +e.target.value !== checkedGenre
                   ) {
                     setSearchParams({
-                      genre: e.target.value,
+                      genre: +e.target.value,
                       year: releaseYear,
                     });
                   }
-                  if (e.target.value === checkedGenre) {
+                  if (+e.target.value === checkedGenre) {
                     searchParams.delete("genre");
                     setSearchParams(searchParams);
                   }
                 }}
-                id={genre}
-                name={genre}
               />
-              <label for={genre}>{genre}</label>
+              <label for={genre.name}>{genre.name}</label>
             </Genre>
           ))}
         </GenreListings>

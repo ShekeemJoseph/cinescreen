@@ -36,8 +36,8 @@ function Series() {
         <p>Find your next TV show to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting category="series" />
-        <TitleListings initialTitles={pageSeries} titleType="Series" />
+        <TitleSorting mediaType="series" />
+        <TitleListings initialTitles={pageSeries} mediaType="series" />
       </TitlesPageLayout>
     </SeriesSection>
   );

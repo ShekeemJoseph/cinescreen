@@ -1,6 +1,12 @@
 import { HiPlus, HiStar } from "react-icons/hi2";
 import styled, { css } from "styled-components";
-import { checkMetascore, splitGenre } from "../utils/helper";
+import {
+  TITLE_MOVIE_GENRES,
+  TITLE_TV_GENRES,
+  checkMetascore,
+  sortGenres,
+  splitGenre,
+} from "../utils/helper";
 import ButtonWatchList from "./ButtonWatchList";
 import { Link } from "react-router-dom";
 import Rating from "../features/Rating/Rating";
@@ -159,25 +165,59 @@ function TitleContent({ title }) {
         <img src={title.Poster} alt={`${title.Title} Poster`} />
         <TitleDetails>
           <div>
-            {title.Genre &&
-              splitGenre(title.Genre).map((genre, index) => (
-                <TitleLinks
-                  onClick={() => {
-                    // TITLE_GENRES.sort();
-                    // TITLE_GENRES.move(TITLE_GENRES.indexOf(genre.trim()), 0);
-                  }}
-                  to={
-                    title.Type === "movie"
-                      ? `/movie?genre=${genre.trim()}`
-                      : title.Type === "series"
-                      ? `/tv?genre=${genre.trim()}`
-                      : "/"
+            {splitGenre(title.Genre).map((genre, index) => (
+              <TitleLinks
+                key={index}
+                onClick={() => {
+                  if (title.Type === "movie") {
+                    sortGenres(TITLE_MOVIE_GENRES);
+                    TITLE_MOVIE_GENRES.move(
+                      TITLE_MOVIE_GENRES.findIndex(
+                        (apiGenre) => apiGenre.name === genre.trim()
+                      ),
+                      0
+                    );
+                  } else if (title.Type === "series") {
+                    sortGenres(TITLE_TV_GENRES);
+                    TITLE_TV_GENRES.move(
+                      TITLE_TV_GENRES.findIndex(
+                        (apiGenre) => apiGenre.name === genre.trim()
+                      ),
+                      0
+                    );
                   }
-                  key={index}
-                >
-                  {genre}
-                </TitleLinks>
-              ))}
+                }}
+                to={
+                  title.Type === "movie"
+                    ? `/movie?genre=${
+                        TITLE_MOVIE_GENRES.find(
+                          ({ name }) => name === genre.trim()
+                        ).id
+                      }`
+                    : title.Type === "series"
+                    ? `/tv?genre=${
+                        TITLE_TV_GENRES.find((apiGenre) => {
+                          let validGenreName;
+                          if (apiGenre.name === genre.trim()) {
+                            validGenreName = true;
+                          } else if (apiGenre.firstAltName) {
+                            validGenreName =
+                              apiGenre.firstAltName === genre.trim();
+                          } else if (apiGenre.secAltName) {
+                            validGenreName =
+                              apiGenre.secAltName === genre.trim();
+                          } else {
+                            validGenreName = false;
+                          }
+                          return validGenreName;
+                        })?.id
+                      }`
+                    : "/"
+                }
+              >
+                {genre}
+              </TitleLinks>
+            ))}
           </div>
           <p>{title.Plot}</p>
           <p>

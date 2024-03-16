@@ -27,18 +27,20 @@ function Home() {
       <StyledHome>
         <Heading />
         <TitlesCarousel
-          label="Trending Releases"
+          label="Trending"
           browseContent={false}
           titles={trending}
         />
         <Promotion />
         <TitlesCarousel
           label="Movies"
+          mediaType="movie"
           browseContent={true}
           titles={homePageMovies}
         />
         <TitlesCarousel
           label="TV Shows"
+          mediaType="series"
           browseContent={true}
           titles={homePageSeries}
         />

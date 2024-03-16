@@ -32,7 +32,9 @@ const router = createBrowserRouter([
       {
         path: "/movie/:titleId",
         element: <Title />,
-        loader: titleLoader,
+        loader: ({ params }) => {
+          return titleLoader(params.titleId, "movie");
+        },
         errorElement: <ErrorMessage />,
       },
       {
@@ -44,7 +46,9 @@ const router = createBrowserRouter([
       {
         path: "/tv/:titleId",
         element: <Title />,
-        loader: titleLoader,
+        loader: ({ params }) => {
+          return titleLoader(params.titleId, "series");
+        },
         errorElement: <ErrorMessage />,
       },
       {

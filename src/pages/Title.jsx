@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { getTitle } from "../services/apiSearchTitleData";
 import styled from "styled-components";
 import { getRelatedGenre } from "../services/apiGetTitleData";
@@ -61,10 +61,12 @@ function Title() {
     </>
   );
 }
-export async function loader({ params }) {
+export async function loader(titleId, mediaType) {
   let genreMovieId;
   let genreTvId;
-  const title = await getTitle(params.titleId);
+
+  const title = await getTitle(titleId, mediaType);
+
   if (title.Type === "movie") {
     genreMovieId = TITLE_MOVIE_GENRES.find(
       (genre) => genre.name === splitGenre(title.Genre)[0]
@@ -74,6 +76,7 @@ export async function loader({ params }) {
       (genre) => genre.name === splitGenre(title.Genre)[0]
     ).id;
   }
+
   const relatedGenre = await getRelatedGenre(
     genreMovieId ? genreMovieId : genreTvId,
     +title.Year.slice(0, 4),

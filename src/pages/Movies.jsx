@@ -35,8 +35,8 @@ function Movies() {
         <p>Find your next Movie to watch. Filter by genre or release year.</p>
       </StyledHeading>
       <TitlesPageLayout>
-        <TitleSorting category="movies" />
-        <TitleListings initialTitles={pageMovies} titleType="Movies" />
+        <TitleSorting mediaType="movie" />
+        <TitleListings initialTitles={pageMovies} mediaType="movie" />
       </TitlesPageLayout>
     </MoviesSection>
   );

@@ -1,21 +1,20 @@
 import { getCurrentYear } from "../utils/helper";
-
+const tmdbKey =
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGEwZDIzNjAyMmQyMzI4NTQ3ZWEzZWMzYmY3MTI3OSIsInN1YiI6IjY1ZWY3N2RmYWUyNmJlMDE4NTMyYTVkZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3c0E7lQnnuRk5qaeMmVuV_aboBKLLaWjQ3_57zYeDFg";
 export const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGEwZDIzNjAyMmQyMzI4NTQ3ZWEzZWMzYmY3MTI3OSIsInN1YiI6IjY1ZWY3N2RmYWUyNmJlMDE4NTMyYTVkZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3c0E7lQnnuRk5qaeMmVuV_aboBKLLaWjQ3_57zYeDFg",
+    Authorization: tmdbKey,
   },
 };
-const API_Titles_URL = "https://moviesdatabase.p.rapidapi.com/titles?";
 
 export async function getPageMovies(year, genre) {
   try {
     const res = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&year=${
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&primary_release_year=${
         year ? year : getCurrentYear()
-      }&with_genres=${genre ? genre : ""}`,
+      }${genre ? `&with_genres=${genre}` : ""}`,
       options
     );
     if (!res.ok) throw Error("Could not get movies");
@@ -28,9 +27,9 @@ export async function getPageMovies(year, genre) {
 export async function getPageSeries(year, genre) {
   try {
     const res = await fetch(
-      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&year=${
+      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&first_air_date_year=${
         year ? year : getCurrentYear()
-      }&with_genres=${genre ? genre : ""}`,
+      }${genre ? `&with_genres=${genre}` : ""}`,
       options
     );
     if (!res.ok) throw Error("Could not get series");
@@ -65,9 +64,11 @@ export async function getRelatedGenre(genre, year, mediaType) {
     const res = await fetch(
       `https://api.themoviedb.org/3/discover/${
         mediaType === "movie" ? "movie" : "tv"
-      }?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&year=${
-        year ? year : getCurrentYear()
-      }&with_genres=${genre ? genre : ""}`,
+      }?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&${
+        mediaType === "movie" ? "primary_release_year" : "first_air_date_year"
+      }=${year ? year : getCurrentYear()}${
+        genre ? `&with_genres=${genre}` : ""
+      }`,
       options
     );
     if (!res.ok) throw Error("Could not get series");

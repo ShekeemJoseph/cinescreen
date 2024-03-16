@@ -111,7 +111,7 @@ const EmptyListingsMessage = styled.div`
     margin-bottom: 0.8rem;
   }
 `;
-function TitleListings({ initialTitles, titleType }) {
+function TitleListings({ initialTitles, mediaType }) {
   const [searchParams] = useSearchParams(defaultYear);
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
@@ -120,26 +120,24 @@ function TitleListings({ initialTitles, titleType }) {
     async function getByReleaseYear() {
       setIsLoading(true);
       const getMovieTitlesByYear = await getPageMovies(
-        24,
         +searchParams.get("year"),
-        searchParams.get("genre")
+        +searchParams.get("genre")
       );
       const getSeriesTitlesByYear = await getPageSeries(
-        24,
         +searchParams.get("year"),
-        searchParams.get("genre")
+        +searchParams.get("genre")
       );
       setTitlesByYear(
-        titleType === "Movies"
+        mediaType === "movie"
           ? getMovieTitlesByYear
-          : titleType === "Series"
+          : mediaType === "series"
           ? getSeriesTitlesByYear
           : null
       );
       setIsLoading(false);
     }
     getByReleaseYear();
-  }, [titleType, searchParams]);
+  }, [mediaType, searchParams]);
   const titles = titlesByYear || initialTitles;
 
   return (
@@ -154,10 +152,9 @@ function TitleListings({ initialTitles, titleType }) {
             <Listing
               key={title.id}
               to={
-                title.titleType?.id === "movie"
+                mediaType === "movie"
                   ? `/movie/${title.id}`
-                  : title.titleType?.id === "tvSeries" ||
-                    title.titleType?.id === "tvMiniSeries"
+                  : mediaType === "series"
                   ? `/tv/${title.id}`
                   : "/"
               }
@@ -167,20 +164,20 @@ function TitleListings({ initialTitles, titleType }) {
               ) : (
                 <ListingContent>
                   <img
-                    src={title.primaryImage?.url}
-                    alt={`${title.originalTitleText?.text} Poster`}
+                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                    alt={`${title.title ? title.title : title.name} Poster`}
                   />
                   <ListingDetails>
-                    <h4>{reduceLongTitle(title.originalTitleText?.text)}</h4>
+                    <h4>
+                      {reduceLongTitle(title.title ? title.title : title.name)}
+                    </h4>
                     <ListingYear>
-                      {title.releaseDate.year || "N/A"} &bull;{" "}
-                      {title.releaseDate.month || "N/A"} &bull;{" "}
-                      {title.releaseDate.day || "N/A"}
+                      {title.release_date || title.first_air_date || "N/A"}
                     </ListingYear>
-                    <p>{reduceLongTitle(title.plot.plotText.plainText)}</p>
-                    {title.ratingsSummary.aggregateRating && (
+                    <p>{reduceLongTitle(title.overview)}</p>
+                    {title.vote_average && (
                       <RatingsText>
-                        <span>{title.ratingsSummary.aggregateRating}</span>
+                        <span>{Math.floor(title.vote_average)}</span>
                         <HiStar />
                         <span>Rating</span>
                       </RatingsText>

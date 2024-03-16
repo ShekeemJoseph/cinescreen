@@ -11,7 +11,6 @@ import {
   TITLE_TV_GENRES,
   reduceLongTitle,
 } from "../utils/helper";
-import { useGetImdbId } from "../hooks/useGetImdbId";
 
 const TitlesBoxHeading = styled.div`
   display: grid;
@@ -93,7 +92,6 @@ const TitleBtn = styled.div`
 function TitlesCarousel({ label, browseContent, titles, mediaType }) {
   const swiperRef = useRef();
   const [isBegin, setIsBegin] = useState(true);
-  const [titleImdbList, setTitleImdbList] = useState([]);
   const [isEnd, setIsEnd] = useState(false);
   function handlePrevClick() {
     setIsEnd(false);
@@ -105,7 +103,7 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
     setIsEnd(swiperRef.current.isEnd);
     swiperRef.current.slideNext();
   }
-  useGetImdbId(label, titles, setTitleImdbList, mediaType);
+
   return (
     <TitlesContainer>
       <TitlesBoxHeading>
@@ -114,13 +112,13 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
           {browseContent && (
             <NavLink
               onClick={() => {
-                if (label === "Movies") TITLE_MOVIE_GENRES.sort();
-                if (label === "TV Shows") TITLE_TV_GENRES.sort();
+                if (mediaType === "movie") TITLE_MOVIE_GENRES.sort();
+                if (mediaType === "series") TITLE_TV_GENRES.sort();
               }}
               to={
-                label === "Movies"
+                mediaType === "movie"
                   ? "/movie"
-                  : label === "TV Shows"
+                  : mediaType === "series"
                   ? "/tv"
                   : "/"
               }
@@ -158,14 +156,10 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
               <TitleBox>
                 <Link
                   to={
-                    label === "Movies" ||
-                    mediaType === "movie" ||
-                    title.media_type === "movie"
-                      ? `/movie/${titleImdbList[index]}`
-                      : label === "TV Shows" ||
-                        mediaType === "series" ||
-                        title.media_type === "tv"
-                      ? `/tv/${titleImdbList[index]}`
+                    mediaType === "movie" || title.media_type === "movie"
+                      ? `/movie/${title.id}`
+                      : mediaType === "series" || title.media_type === "tv"
+                      ? `/tv/${title.id}`
                       : "/"
                   }
                 >

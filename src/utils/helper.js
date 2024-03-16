@@ -15,7 +15,7 @@ export function splitGenre(titleGenre) {
   const genreArr = titleGenre.split(",");
   return genreArr;
 }
-export const defaultYear = getCurrentYear() - 1;
+export const defaultYear = getCurrentYear();
 export function checkMetascore(score) {
   if (score >= 65 && score <= 100) {
     return "green";
@@ -24,6 +24,21 @@ export function checkMetascore(score) {
   } else if (score <= 31 && score >= 0) {
     return "red";
   }
+}
+export function sortGenres(genres) {
+  genres.sort((a, b) => {
+    let fa = a.name.toLowerCase(),
+      fb = b.name.toLowerCase();
+
+    if (fa < fb) {
+      return -1;
+    }
+    if (fa > fb) {
+      return 1;
+    }
+    return 0;
+  });
+  return genres;
 }
 export const TITLE_MOVIE_GENRES = [
   {
@@ -107,11 +122,9 @@ export const TITLE_MOVIE_GENRES = [
 export const TITLE_TV_GENRES = [
   {
     id: 10759,
-    name: "Action",
-  },
-  {
-    id: 10759,
-    name: "Adventure",
+    name: "Action & Adventure",
+    firstAltName: "Action",
+    secAltName: "Adventure",
   },
   {
     id: 16,
@@ -155,11 +168,9 @@ export const TITLE_TV_GENRES = [
   },
   {
     id: 10765,
-    name: "Sci-Fi",
-  },
-  {
-    id: 10765,
-    name: "Fantasy",
+    name: "Sci-Fi & Fantasy",
+    firstAltName: "Sci-Fi",
+    SecAltName: "Fantasy",
   },
   {
     id: 10766,
@@ -171,7 +182,9 @@ export const TITLE_TV_GENRES = [
   },
   {
     id: 10768,
-    name: "War",
+    name: "War & Politics",
+    firstAltName: "War",
+    SecAltName: "Politics",
   },
   {
     id: 37,
