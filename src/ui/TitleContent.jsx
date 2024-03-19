@@ -4,13 +4,12 @@ import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
   checkMetascore,
-  sortGenres,
   splitGenre,
 } from "../utils/helper";
 import ButtonWatchList from "./ButtonWatchList";
-import { Link } from "react-router-dom";
 import Rating from "../features/Rating/Rating";
 import "array.prototype.move";
+import TitleGenreLinks from "./TitleGenreLinks";
 
 const StyledTitle = styled.div`
   display: grid;
@@ -77,18 +76,7 @@ const TitleBody = styled.div`
   grid-template-columns: auto 1fr auto;
   column-gap: 1.8rem;
 `;
-const TitleLinks = styled(Link)`
-  &:link,
-  &:visited {
-    border-radius: 100px;
-    border: 1px solid var(--color-grey-500);
-    padding: 0.4rem 0.6rem;
-  }
-  &:hover,
-  &:active {
-    background-color: rgba(75, 85, 99, 0.679);
-  }
-`;
+
 const TitleDetails = styled.div`
   display: flex;
   z-index: 5;
@@ -135,18 +123,30 @@ function TitleContent({ title }) {
       <TitleHeader>
         <div>
           <TitleName>{title.Title}</TitleName>
-          <span>{`${title.Year} | Rated ${title.Rated} | ${title.Runtime}`}</span>
+          <span>
+            {`${title.Year} ${
+              title.Rated && title.Rated !== "N/A"
+                ? `| Rated ${title.Rated}`
+                : ""
+            } ${
+              title.Runtime && title.Runtime !== "N/A"
+                ? `| ${title.Runtime}`
+                : ""
+            }`}
+          </span>
         </div>
         <TitleRatings>
-          <TitleRating>
-            <span>IMDb Rating</span>
-            <CenterRatingText>
-              <HiStar />
-              <span>
-                <strong>{title.imdbRating}</strong> / 10
-              </span>
-            </CenterRatingText>
-          </TitleRating>
+          {title.imdbRating && title.imdbRating !== "N/A" && (
+            <TitleRating>
+              <span>IMDb Rating</span>
+              <CenterRatingText>
+                <HiStar />
+                <span>
+                  <strong>{title.imdbRating}</strong> / 10
+                </span>
+              </CenterRatingText>
+            </TitleRating>
+          )}
           {title.Ratings[1] && (
             <TitleRating>
               <span>{title.Ratings[1] && title.Ratings[1].Source}</span>
@@ -165,78 +165,55 @@ function TitleContent({ title }) {
         <img src={title.Poster} alt={`${title.Title} Poster`} />
         <TitleDetails>
           <div>
-            {splitGenre(title.Genre).map((genre, index) => (
-              <TitleLinks
-                key={index}
-                onClick={() => {
-                  if (title.Type === "movie") {
-                    sortGenres(TITLE_MOVIE_GENRES);
-                    TITLE_MOVIE_GENRES.move(
-                      TITLE_MOVIE_GENRES.findIndex(
-                        (apiGenre) => apiGenre.name === genre.trim()
-                      ),
-                      0
-                    );
-                  } else if (title.Type === "series") {
-                    sortGenres(TITLE_TV_GENRES);
-                    TITLE_TV_GENRES.move(
-                      TITLE_TV_GENRES.findIndex(
-                        (apiGenre) => apiGenre.name === genre.trim()
-                      ),
-                      0
-                    );
-                  }
-                }}
-                to={
-                  title.Type === "movie"
-                    ? `/movie?genre=${
-                        TITLE_MOVIE_GENRES.find(
-                          ({ name }) => name === genre.trim()
-                        ).id
-                      }`
-                    : title.Type === "series"
-                    ? `/tv?genre=${
-                        TITLE_TV_GENRES.find((apiGenre) => {
-                          let validGenreName;
-                          if (apiGenre.name === genre.trim()) {
-                            validGenreName = true;
-                          } else if (apiGenre.firstAltName) {
-                            validGenreName =
-                              apiGenre.firstAltName === genre.trim();
-                          } else if (apiGenre.secAltName) {
-                            validGenreName =
-                              apiGenre.secAltName === genre.trim();
-                          } else {
-                            validGenreName = false;
-                          }
-                          return validGenreName;
-                        })?.id
-                      }`
-                    : "/"
-                }
-              >
-                {genre}
-              </TitleLinks>
-            ))}
+            {splitGenre(title.Genre).map((genre, index) => {
+              if (
+                TITLE_MOVIE_GENRES.some(({ name }) => name === genre.trim()) &&
+                title.Type === "movie"
+              ) {
+                return (
+                  <TitleGenreLinks key={index} title={title} genre={genre} />
+                );
+              }
+              if (
+                TITLE_TV_GENRES.some(
+                  ({ name, firstAltName, secAltName }) =>
+                    name === genre.trim() ||
+                    firstAltName === genre.trim() ||
+                    secAltName === genre.trim()
+                ) &&
+                title.Type === "series"
+              ) {
+                return (
+                  <TitleGenreLinks key={index} title={title} genre={genre} />
+                );
+              }
+              return null;
+            })}
           </div>
           <p>{title.Plot}</p>
-          <p>
-            <strong>Director</strong>&nbsp;&nbsp;
-            {title.Director ? title.Director : "N/A"}
-          </p>
+          {title.Director && title.Director !== "N/A" && (
+            <p>
+              <strong>Director</strong>&nbsp;&nbsp;
+              {title.Director}
+            </p>
+          )}
           <p>
             <strong>Writers</strong>&nbsp;&nbsp;{title.Writer}
           </p>
           <p>
             <strong>Stars</strong>&nbsp;&nbsp;{title.Actors}
           </p>
-          <p>
-            <strong>Box Office</strong>&nbsp;&nbsp;
-            {title.BoxOffice ? title.BoxOffice : "N/A"}
-          </p>
-          <p>
-            <strong>Awards</strong>&nbsp;&nbsp;{title.Awards}
-          </p>
+          {title.BoxOffice && title.BoxOffice !== "N/A" && (
+            <p>
+              <strong>Box Office</strong>&nbsp;&nbsp;
+              {title.BoxOffice}
+            </p>
+          )}
+          {title.Awards && title.Awards !== "N/A" && (
+            <p>
+              <strong>Awards</strong>&nbsp;&nbsp;{title.Awards}
+            </p>
+          )}
         </TitleDetails>
         <TitleExtra>
           <ButtonWatchList variation="titleStyle">

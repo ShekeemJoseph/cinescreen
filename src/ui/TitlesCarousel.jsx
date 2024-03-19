@@ -150,43 +150,45 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
         slidesPerView={5}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
-        {titles.map((title, index) => (
-          <SwiperSlide key={title.id}>
-            <TitleCard>
-              <TitleBox>
-                <Link
-                  to={
-                    mediaType === "movie" || title.media_type === "movie"
-                      ? `/movie/${title.id}`
-                      : mediaType === "series" || title.media_type === "tv"
-                      ? `/tv/${title.id}`
-                      : "/"
-                  }
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                    alt={`${title.title ? title.title : title.name} Poster`}
-                  />
-                  {title.vote_average && (
+        {titles
+          .filter((title) =>
+            title.vote_average && title.vote_average !== 0 ? true : false
+          )
+          .map((title) => (
+            <SwiperSlide key={title.id}>
+              <TitleCard>
+                <TitleBox>
+                  <Link
+                    to={
+                      mediaType === "movie" || title.media_type === "movie"
+                        ? `/movie/${title.id}`
+                        : mediaType === "series" || title.media_type === "tv"
+                        ? `/tv/${title.id}`
+                        : "/"
+                    }
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                      alt={`${title.title ? title.title : title.name} Poster`}
+                    />
                     <RatingsText>
                       <span>{Math.floor(title.vote_average)}</span>
                       <HiStar />
                       <span>Rating</span>
                     </RatingsText>
-                  )}
-                  <p>
-                    {reduceLongTitle(title.title ? title.title : title.name)}
-                  </p>
-                </Link>
-              </TitleBox>
-              <TitleBtn>
-                <ButtonWatchList variation="standard">
-                  <HiPlus /> Watchlist
-                </ButtonWatchList>
-              </TitleBtn>
-            </TitleCard>
-          </SwiperSlide>
-        ))}
+                    <p>
+                      {reduceLongTitle(title.title ? title.title : title.name)}
+                    </p>
+                  </Link>
+                </TitleBox>
+                <TitleBtn>
+                  <ButtonWatchList variation="standard">
+                    <HiPlus /> Watchlist
+                  </ButtonWatchList>
+                </TitleBtn>
+              </TitleCard>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </TitlesContainer>
   );

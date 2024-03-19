@@ -5,6 +5,7 @@ import { getRelatedGenre } from "../services/apiGetTitleData";
 import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
+  getTitleGenreId,
   splitGenre,
 } from "../utils/helper";
 import TitlesCarousel from "../ui/TitlesCarousel";
@@ -68,20 +69,19 @@ export async function loader(titleId, mediaType) {
   const title = await getTitle(titleId, mediaType);
 
   if (title.Type === "movie") {
-    genreMovieId = TITLE_MOVIE_GENRES.find(
-      (genre) => genre.name === splitGenre(title.Genre)[0]
-    ).id;
+    genreMovieId = getTitleGenreId(
+      splitGenre(title.Genre)[0],
+      TITLE_MOVIE_GENRES
+    );
   } else if (title.Type === "series") {
-    genreTvId = TITLE_TV_GENRES.find(
-      (genre) => genre.name === splitGenre(title.Genre)[0]
-    ).id;
+    genreTvId = getTitleGenreId(splitGenre(title.Genre)[0], TITLE_TV_GENRES);
   }
-
   const relatedGenre = await getRelatedGenre(
     genreMovieId ? genreMovieId : genreTvId,
     +title.Year.slice(0, 4),
     title.Type
   );
+
   const titleObj = { title, relatedGenre };
   return titleObj;
 }

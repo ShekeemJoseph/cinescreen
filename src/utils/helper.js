@@ -12,8 +12,8 @@ export function getCurrentYear() {
   return year;
 }
 export function splitGenre(titleGenre) {
-  const genreArr = titleGenre.split(",");
-  return genreArr;
+  const genres = titleGenre.split(",").map((genre) => genre.trim());
+  return genres;
 }
 export const defaultYear = getCurrentYear();
 export function checkMetascore(score) {
@@ -40,6 +40,23 @@ export function sortGenres(genres) {
   });
   return genres;
 }
+export function getTitleGenreId(genre, genreList) {
+  const genreId = genreList.find((genreObj) => {
+    let genreNameValid;
+    if (genreObj.name === genre) {
+      genreNameValid = true;
+    } else if (genreObj.firstAltName && genreObj.firstAltName === genre) {
+      genreNameValid = true;
+    } else if (genreObj.secAltName && genreObj.secAltName === genre) {
+      genreNameValid = true;
+    } else {
+      genreNameValid = false;
+    }
+    return genreNameValid;
+  })?.id;
+  return genreId;
+}
+
 export const TITLE_MOVIE_GENRES = [
   {
     id: 28,
