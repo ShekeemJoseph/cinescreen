@@ -148,45 +148,51 @@ function TitleListings({ initialTitles, mediaType }) {
       </TitleContentLinks>
       {titles.length >= 1 ? (
         <Listings>
-          {titles.map((title) => (
-            <Listing
-              key={title.id}
-              to={
-                mediaType === "movie"
-                  ? `/movie/${title.id}`
-                  : mediaType === "series"
-                  ? `/tv/${title.id}`
-                  : "/"
-              }
-            >
-              {isLoading ? (
-                <SpinnerMini />
-              ) : (
-                <ListingContent>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                    alt={`${title.title ? title.title : title.name} Poster`}
-                  />
-                  <ListingDetails>
-                    <h4>
-                      {reduceLongTitle(title.title ? title.title : title.name)}
-                    </h4>
-                    <ListingYear>
-                      {title.release_date || title.first_air_date || "N/A"}
-                    </ListingYear>
-                    <p>{reduceLongTitle(title.overview)}</p>
-                    {title.vote_average && (
-                      <RatingsText>
-                        <span>{Math.floor(title.vote_average)}</span>
-                        <HiStar />
-                        <span>Rating</span>
-                      </RatingsText>
-                    )}
-                  </ListingDetails>
-                </ListingContent>
-              )}
-            </Listing>
-          ))}
+          {titles
+            .filter((title) =>
+              title.vote_average && title.vote_average !== 0 ? true : false
+            )
+            .map((title) => (
+              <Listing
+                key={title.id}
+                to={
+                  mediaType === "movie"
+                    ? `/movie/${title.id}`
+                    : mediaType === "series"
+                    ? `/tv/${title.id}`
+                    : "/"
+                }
+              >
+                {isLoading ? (
+                  <SpinnerMini />
+                ) : (
+                  <ListingContent>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                      alt={`${title.title ? title.title : title.name} Poster`}
+                    />
+                    <ListingDetails>
+                      <h4>
+                        {reduceLongTitle(
+                          title.title ? title.title : title.name
+                        )}
+                      </h4>
+                      <ListingYear>
+                        {title.release_date || title.first_air_date || "N/A"}
+                      </ListingYear>
+                      <p>{reduceLongTitle(title.overview)}</p>
+                      {title.vote_average && (
+                        <RatingsText>
+                          <span>{Math.floor(title.vote_average)}</span>
+                          <HiStar />
+                          <span>Rating</span>
+                        </RatingsText>
+                      )}
+                    </ListingDetails>
+                  </ListingContent>
+                )}
+              </Listing>
+            ))}
         </Listings>
       ) : (
         <EmptyListings>
