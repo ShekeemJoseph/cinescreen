@@ -139,7 +139,6 @@ function TitleListings({ initialTitles, mediaType }) {
     getByReleaseYear();
   }, [mediaType, searchParams]);
   const titles = titlesByYear || initialTitles;
-
   return (
     <StyledTitleListings>
       <TitleContentLinks>

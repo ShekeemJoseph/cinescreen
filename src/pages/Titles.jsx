@@ -59,6 +59,7 @@ const TitleDetails = styled.div`
 function Titles() {
   const { titleStr } = useParams();
   const titles = useLoaderData();
+
   return (
     <TitlesSection>
       <StyledTitles>
@@ -69,21 +70,28 @@ function Titles() {
           {titles.map((title) => (
             <Link
               to={
-                title.Type === "movie"
-                  ? `/movie/${title.imdbID}`
-                  : title.Type === "series"
-                  ? `/tv/${title.imdbID}`
+                title.media_type === "movie"
+                  ? `/movie/${title.id}`
+                  : title.media_type === "series" || title.media_type === "tv"
+                  ? `/tv/${title.id}`
                   : "/"
               }
-              key={title.imdbID}
+              key={title.id}
             >
               <Title>
-                <img src={title.Poster} alt={`${title.Title} poster`} />
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                  alt={`${title.title ? title.title : title.name} Poster`}
+                />
                 <TitleDetails>
-                  <TitleHeading>{title.Title}</TitleHeading>
+                  <TitleHeading>
+                    {title.title ? title.title : title.name}
+                  </TitleHeading>
                   <div>
-                    <TitleType>{title.Type}</TitleType>
-                    <TitleYear>{title.Year}</TitleYear>
+                    <TitleType>{title.media_type}</TitleType>
+                    <TitleYear>
+                      {title.release_date || title.first_air_date || "N/A"}
+                    </TitleYear>
                   </div>
                 </TitleDetails>
               </Title>

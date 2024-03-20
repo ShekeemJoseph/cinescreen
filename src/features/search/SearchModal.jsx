@@ -58,20 +58,25 @@ function SearchModal({ error, handler, open, titles, setQuery }) {
         titles.map((title) => (
           <Link
             to={
-              title.Type === "movie"
-                ? `/movie/${title.imdbID}`
-                : title.Type === "series"
-                ? `/tv/${title.imdbID}`
+              title.media_type === "movie"
+                ? `/movie/${title.id}`
+                : title.media_type === "series" || title.media_type === "tv"
+                ? `/tv/${title.id}`
                 : "/"
             }
-            key={title.imdbID}
+            key={title.id}
             onClick={handleClick}
           >
             <TitleBox>
-              <img src={title.Poster} alt={`${title.Title} poster`} />
+              <img
+                src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                alt={`${title.title ? title.title : title.name} Poster`}
+              />
               <div>
-                <span>{title.Title}</span>
-                <span>{title.Year}</span>
+                <span>{title.title ? title.title : title.name}</span>
+                <span>
+                  {title.release_date || title.first_air_date || "N/A"}
+                </span>
               </div>
             </TitleBox>
           </Link>

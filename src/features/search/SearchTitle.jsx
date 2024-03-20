@@ -43,7 +43,7 @@ function SearchTitle() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!query) return;
+    if (!query || query.length <= 3 || error) return;
     navigate(`/search/${query}`);
     setQuery("");
   }

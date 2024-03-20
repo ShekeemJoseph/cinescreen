@@ -21,7 +21,6 @@ const StyledHome = styled.div`
 `;
 function Home() {
   const { homePageMovies, homePageSeries, trending } = useLoaderData();
-
   return (
     <HomeSection>
       <StyledHome>

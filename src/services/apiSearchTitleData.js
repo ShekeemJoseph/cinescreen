@@ -3,21 +3,15 @@ import { options } from "./apiGetTitleData";
 export const API_KEY = "1af44454";
 
 export async function getTitles(query) {
-  let titlesData;
   try {
     const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+      `https://api.themoviedb.org/3/search/multi?query=${query}&include_adult=false&language=en-US&page=${1}`,
+      options
     );
     const resData = await res.json();
     if (resData.Response === "False") throw new Error("Titles not found");
-    titlesData = resData.Search.filter((data) => {
-      if (data.Poster !== "N/A") {
-        return data;
-      } else {
-        return null;
-      }
-    });
-    return titlesData;
+
+    return resData.results;
   } catch (err) {
     console.error(err.message);
   }
