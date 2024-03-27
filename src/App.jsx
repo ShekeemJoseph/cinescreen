@@ -83,6 +83,7 @@ const router = createBrowserRouter([
             <WatchList />
           </ProtectedRoute>
         ),
+        loader: accountLoader,
         errorElement: <ErrorMessage />,
       },
     ],

@@ -60,7 +60,7 @@ function UserMenu() {
         <Menus.Button>
           <NavMenuBtn onClick={() => navigate(`/user/${user?.id}/watchlist`)}>
             <HiBookmark />
-            <span>WatchList</span>
+            <span>Watchlist</span>
           </NavMenuBtn>
         </Menus.Button>
       </Menus.List>

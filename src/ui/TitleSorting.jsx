@@ -3,7 +3,7 @@ import { useNavigation, useSearchParams } from "react-router-dom";
 import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
-  defaultYear,
+  getCurrentYear,
   sortGenres,
 } from "../utils/helper";
 import styled, { css } from "styled-components";
@@ -93,7 +93,7 @@ function TitleSorting({ mediaType }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState("");
   const [releaseYear, setReleaseYear] = useState(
-    +searchParams.get("year") || defaultYear
+    +searchParams.get("year") || getCurrentYear()
   );
 
   useEffect(() => {
@@ -128,9 +128,9 @@ function TitleSorting({ mediaType }) {
             id="titleReleaseYear"
             name="titleReleaseYear"
             min={1980}
-            max={defaultYear}
+            max={getCurrentYear()}
             step={1}
-            value={+searchParams.get("year") || defaultYear}
+            value={+searchParams.get("year") || getCurrentYear()}
             onChange={setReleaseYear}
             onAfterChange={(value) => {
               searchParams.set("year", value);

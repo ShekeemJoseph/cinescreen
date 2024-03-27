@@ -25,6 +25,8 @@ function LoginForm({ closeModal }) {
         onSuccess: () => {
           closeModal();
           queryClient.invalidateQueries({ queryKey: ["user"] });
+          queryClient.invalidateQueries({ queryKey: ["ratings"] });
+          queryClient.invalidateQueries({ queryKey: ["watchlist"] });
         },
       }
     );

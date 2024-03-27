@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { HiChevronLeft, HiChevronRight, HiPlus, HiStar } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight, HiStar } from "react-icons/hi2";
+import CarouselBookmarkBtn from "./CarouselBookmarkBtn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, NavLink } from "react-router-dom";
 import CarouselButton from "./CarouselButton";
 import { useRef, useState } from "react";
 import "swiper/css";
-import ButtonWatchList from "./ButtonWatchList";
 import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
@@ -82,17 +82,11 @@ const RatingsText = styled.div`
     color: var(--color-brand-900);
   }
 `;
-const TitleBtn = styled.div`
-  height: 100%;
-  padding-bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-`;
 function TitlesCarousel({ label, browseContent, titles, mediaType }) {
   const swiperRef = useRef();
   const [isBegin, setIsBegin] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+
   function handlePrevClick() {
     setIsEnd(false);
     setIsBegin(swiperRef.current.isBeginning);
@@ -181,11 +175,11 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
                     </p>
                   </Link>
                 </TitleBox>
-                <TitleBtn>
-                  <ButtonWatchList variation="standard">
-                    <HiPlus /> Watchlist
-                  </ButtonWatchList>
-                </TitleBtn>
+                <CarouselBookmarkBtn
+                  titleId={title.id}
+                  mediaType={mediaType}
+                  apiMediaType={title.media_type}
+                />
               </TitleCard>
             </SwiperSlide>
           ))}

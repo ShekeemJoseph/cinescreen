@@ -1,8 +1,6 @@
 import styled, { css } from "styled-components";
 import RatingModal from "./RatingModal";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { useUser } from "../authentication/useUser";
-import { useRatings } from "./useRatings";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -50,18 +48,21 @@ const RateButton = styled.button`
   }
 `;
 
-function Rating({ titleName }) {
+function Rating({
+  titleName,
+  isRatingLoading,
+  isAuthenticating,
+  ratings,
+  userId,
+}) {
   const storedRatings = useRef();
-  const { titleId: urlTitleId } = useParams();
   const [rating, setRating] = useState(0);
-  const { isLoading: isAuthLoading, isAuthenticated, user } = useUser();
-  const { isLoading, ratings } = useRatings(
-    !isAuthLoading && user ? user.id : null
-  );
+  const { titleId: urlTitleId } = useParams();
+
   useEffect(() => {
-    if (!isLoading && ratings) {
+    if (!isRatingLoading && ratings) {
       const result = ratings.find((ratedTitle) => {
-        if (ratedTitle.titleId === urlTitleId) {
+        if (ratedTitle.titleId === urlTitleId && userId === ratedTitle.userId) {
           storedRatings.current = ratedTitle;
           return ratedTitle;
         }
@@ -69,12 +70,12 @@ function Rating({ titleName }) {
       });
       setRating(result?.rating);
     }
-  }, [isLoading, ratings, urlTitleId, user?.id]);
+  }, [isRatingLoading, ratings, urlTitleId, userId]);
 
   return (
     <RatingModal>
       <RatingModal.Open opens="ratings-form">
-        {!rating || !isAuthenticated ? (
+        {!rating || isAuthenticating ? (
           <RateButton>
             <IoIosStarOutline />
             <span>Rate</span>
@@ -88,7 +89,7 @@ function Rating({ titleName }) {
       </RatingModal.Open>
       <RatingModal.Window
         name="ratings-form"
-        userId={!isAuthLoading && user ? user.id : null}
+        userId={userId}
         titleName={titleName}
         rating={rating}
         storedRatings={storedRatings ? storedRatings : null}

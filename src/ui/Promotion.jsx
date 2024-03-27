@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import PromotionCard from "./PromotionCard";
 import { Link } from "react-router-dom";
 import Register from "../features/authentication/Register";
+import { useUser } from "../features/authentication/useUser";
 
 const StyledPromotion = styled.div`
   background-image: linear-gradient(
@@ -83,6 +84,7 @@ const PromotionDecoration = styled.div`
 `;
 
 function Promotion() {
+  const { isAuthenticated } = useUser();
   return (
     <StyledPromotion>
       <PromotionContent>
@@ -111,8 +113,17 @@ function Promotion() {
             </ul>
           </PromotionCard>
           <PromotionCard variation="back">
-            <h3>Sign up to bookmark shows that interest you today!</h3>
-            <Register btnLabel="Register Now" />
+            {!isAuthenticated ? (
+              <>
+                <h3>Sign up to bookmark shows that interest you today!</h3>
+                <Register btnLabel="Register Now" />
+              </>
+            ) : (
+              <h3>
+                Thanks for signing up, feel free to rate and bookmark the shows
+                that interest you ;)
+              </h3>
+            )}
           </PromotionCard>
         </PromotionCardContainer>
       </PromotionContent>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { defaultYear, reduceLongTitle } from "../utils/helper";
+import { getCurrentYear, reduceLongTitle } from "../utils/helper";
 import SpinnerMini from "./SpinnerMini";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
@@ -18,7 +18,8 @@ const StyledTitleListings = styled.div`
 const Listings = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(8, minmax(0, 1fr));
+  grid-template-rows: ${(props) =>
+    `repeat(${Math.ceil(props.titleLength / 3)}, minmax(0, 1fr))`};
   margin: 2.4rem;
   row-gap: 2.4rem;
   column-gap: 2.4rem;
@@ -112,7 +113,7 @@ const EmptyListingsMessage = styled.div`
   }
 `;
 function TitleListings({ initialTitles, mediaType }) {
-  const [searchParams] = useSearchParams(defaultYear);
+  const [searchParams] = useSearchParams(getCurrentYear());
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
 
@@ -139,59 +140,56 @@ function TitleListings({ initialTitles, mediaType }) {
     getByReleaseYear();
   }, [mediaType, searchParams]);
   const titles = titlesByYear || initialTitles;
+  const filteredTitles = titles.filter((title) =>
+    title.vote_average && title.vote_average !== 0 ? true : false
+  );
   return (
     <StyledTitleListings>
       <TitleContentLinks>
         <StyledNavLink to="/movie">Movies</StyledNavLink>
         <StyledNavLink to="/tv">TV Shows</StyledNavLink>
       </TitleContentLinks>
-      {titles.length >= 1 ? (
-        <Listings>
-          {titles
-            .filter((title) =>
-              title.vote_average && title.vote_average !== 0 ? true : false
-            )
-            .map((title) => (
-              <Listing
-                key={title.id}
-                to={
-                  mediaType === "movie"
-                    ? `/movie/${title.id}`
-                    : mediaType === "series"
-                    ? `/tv/${title.id}`
-                    : "/"
-                }
-              >
-                {isLoading ? (
-                  <SpinnerMini />
-                ) : (
-                  <ListingContent>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                      alt={`${title.title ? title.title : title.name} Poster`}
-                    />
-                    <ListingDetails>
-                      <h4>
-                        {reduceLongTitle(
-                          title.title ? title.title : title.name
-                        )}
-                      </h4>
-                      <ListingYear>
-                        {title.release_date || title.first_air_date || "N/A"}
-                      </ListingYear>
-                      <p>{reduceLongTitle(title.overview)}</p>
-                      {title.vote_average && (
-                        <RatingsText>
-                          <span>{Math.floor(title.vote_average)}</span>
-                          <HiStar />
-                          <span>Rating</span>
-                        </RatingsText>
-                      )}
-                    </ListingDetails>
-                  </ListingContent>
-                )}
-              </Listing>
-            ))}
+      {filteredTitles.length >= 1 ? (
+        <Listings titleLength={filteredTitles.length}>
+          {filteredTitles.map((title) => (
+            <Listing
+              key={title.id}
+              to={
+                mediaType === "movie"
+                  ? `/movie/${title.id}`
+                  : mediaType === "series"
+                  ? `/tv/${title.id}`
+                  : "/"
+              }
+            >
+              {isLoading ? (
+                <SpinnerMini />
+              ) : (
+                <ListingContent>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                    alt={`${title.title ? title.title : title.name} Poster`}
+                  />
+                  <ListingDetails>
+                    <h4>
+                      {reduceLongTitle(title.title ? title.title : title.name)}
+                    </h4>
+                    <ListingYear>
+                      {title.release_date || title.first_air_date || "N/A"}
+                    </ListingYear>
+                    <p>{reduceLongTitle(title.overview)}</p>
+                    {title.vote_average && (
+                      <RatingsText>
+                        <span>{Math.floor(title.vote_average)}</span>
+                        <HiStar />
+                        <span>Rating</span>
+                      </RatingsText>
+                    )}
+                  </ListingDetails>
+                </ListingContent>
+              )}
+            </Listing>
+          ))}
         </Listings>
       ) : (
         <EmptyListings>

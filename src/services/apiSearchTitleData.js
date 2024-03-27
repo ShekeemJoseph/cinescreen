@@ -16,6 +16,23 @@ export async function getTitles(query) {
     console.error(err.message);
   }
 }
+
+export async function getImdbId(titleId, mediaType) {
+  try {
+    const imdbIdres = await fetch(
+      `https://api.themoviedb.org/3/${
+        mediaType === "movie" ? "movie" : "tv"
+      }/${titleId}/external_ids`,
+      options
+    );
+    if (!imdbIdres.ok) throw new Error("Title Id not found");
+    const imdbIdData = await imdbIdres.json();
+    return imdbIdData;
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
 export async function getTitle(titleId, mediaType) {
   try {
     const imdbIdres = await fetch(

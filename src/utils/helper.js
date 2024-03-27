@@ -7,6 +7,14 @@ export function reduceLongTitle(str) {
     return str;
   }
 }
+export function getDuration(seconds) {
+  const hours = seconds / 3600;
+  const minutes = (seconds % 3600) / 60;
+  const duration = `${Math.floor(hours)}hrs ${
+    minutes !== 0 ? `${minutes}m` : ""
+  }`;
+  return duration;
+}
 export function getCurrentYear() {
   const year = new Date().getFullYear();
   return year;
@@ -15,7 +23,6 @@ export function splitGenre(titleGenre) {
   const genres = titleGenre.split(",").map((genre) => genre.trim());
   return genres;
 }
-export const defaultYear = getCurrentYear();
 export function checkMetascore(score) {
   if (score >= 65 && score <= 100) {
     return "green";

@@ -1,4 +1,4 @@
-import { HiPlus, HiStar } from "react-icons/hi2";
+import { HiBookmarkSlash, HiStar } from "react-icons/hi2";
 import styled, { css } from "styled-components";
 import {
   TITLE_MOVIE_GENRES,
@@ -10,6 +10,14 @@ import ButtonWatchList from "./ButtonWatchList";
 import Rating from "../features/Rating/Rating";
 import "array.prototype.move";
 import TitleGenreLinks from "./TitleGenreLinks";
+import { useUser } from "../features/authentication/useUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createBookmark, deleteTmdbBookmark } from "../services/apiWatchlist";
+import { useParams } from "react-router-dom";
+import { BsBookmarkPlus } from "react-icons/bs";
+import Register from "../features/authentication/Register";
+import { useWatchlist } from "../features/Watchlist/useWatchlist";
+import { useRatings } from "../features/Rating/useRatings";
 
 const StyledTitle = styled.div`
   display: grid;
@@ -118,6 +126,45 @@ const Metascore = styled.span`
   padding: 0.4rem 0.6rem;
 `;
 function TitleContent({ title }) {
+  const { titleId } = useParams();
+  const queryClient = useQueryClient();
+  const { isLoading: isAuthenticating, isAuthenticated, user } = useUser();
+  const userId = !isAuthenticating && user ? user.id : null;
+  const { isLoading: isWatchlistLoading, watchlist } = useWatchlist(userId);
+  const { isRatingLoading, ratings } = useRatings(userId);
+
+  const { mutate: addBookmark } = useMutation({
+    mutationFn: createBookmark,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["watchlist"],
+      });
+    },
+  });
+  function handleAddBookmark(userAuthId, tmdbId, imdbId) {
+    const bookmarkedTitle = {
+      userId: userAuthId,
+      titleImdbId: imdbId,
+      titleTmdbId: tmdbId,
+    };
+    addBookmark(bookmarkedTitle);
+  }
+  const { mutate: removeBookmark } = useMutation({
+    mutationFn: deleteTmdbBookmark,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["watchlist"],
+      });
+    },
+  });
+  function handleRemoveBookmark(titleTmdbId) {
+    removeBookmark(titleTmdbId);
+  }
+  const isTitleBookmarked =
+    !isWatchlistLoading &&
+    watchlist
+      .map((curBookmarks) => curBookmarks.titleTmdbId)
+      .includes(titleId.toString());
   return (
     <StyledTitle>
       <TitleHeader>
@@ -157,7 +204,13 @@ function TitleContent({ title }) {
           )}
           <TitleRating>
             <span>Your Rating</span>
-            <Rating titleName={title.Title} />
+            <Rating
+              userId={userId}
+              ratings={ratings}
+              titleName={title.Title}
+              isRatingLoading={isRatingLoading}
+              isAuthenticating={isAuthenticating}
+            />
           </TitleRating>
         </TitleRatings>
       </TitleHeader>
@@ -216,9 +269,27 @@ function TitleContent({ title }) {
           )}
         </TitleDetails>
         <TitleExtra>
-          <ButtonWatchList variation="titleStyle">
-            <HiPlus /> Watchlist
-          </ButtonWatchList>
+          {!isAuthenticated ? (
+            <Register>
+              <ButtonWatchList variation="titleStyle">
+                <BsBookmarkPlus /> Watchlist
+              </ButtonWatchList>
+            </Register>
+          ) : !isTitleBookmarked ? (
+            <ButtonWatchList
+              onClick={() => handleAddBookmark(user.id, titleId, title.imdbID)}
+              variation="titleStyle"
+            >
+              <BsBookmarkPlus /> Watchlist
+            </ButtonWatchList>
+          ) : isTitleBookmarked ? (
+            <ButtonWatchList
+              onClick={() => handleRemoveBookmark(titleId)}
+              variation="titleStyle"
+            >
+              <HiBookmarkSlash /> Watchlist
+            </ButtonWatchList>
+          ) : null}
           {title.Metascore !== "N/A" && (
             <div>
               <Metascore variation={checkMetascore(title.Metascore)}>
