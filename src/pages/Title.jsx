@@ -38,24 +38,27 @@ const TitleBackdrop = styled.div`
 `;
 
 function Title() {
-  const { title, relatedGenre } = useLoaderData();
+  const { selectedTitle, relatedGenre } = useLoaderData();
+  const filteredRelatedGenre = relatedGenre.filter(
+    (title) => title.original_title !== selectedTitle.Title
+  );
   return (
     <>
       <Container>
         <TitleSection>
-          <TitleBackdrop imgurl={`${title.Poster}`}>
+          <TitleBackdrop imgurl={`${selectedTitle.Poster}`}>
             <TitleOverlay />
-            <TitleContent title={title} />
+            <TitleContent title={selectedTitle} />
           </TitleBackdrop>
         </TitleSection>
       </Container>
-      {relatedGenre.length >= 5 && (
+      {filteredRelatedGenre.length >= 5 && (
         <TitlesCarouselContainer>
           <TitlesCarousel
             label="Of Related Genres"
-            mediaType={title.Type}
+            mediaType={selectedTitle.Type}
             browseContent={false}
-            titles={relatedGenre}
+            titles={filteredRelatedGenre}
           />
         </TitlesCarouselContainer>
       )}
@@ -66,23 +69,26 @@ export async function loader(titleId, mediaType) {
   let genreMovieId;
   let genreTvId;
 
-  const title = await getTitle(titleId, mediaType);
+  const selectedTitle = await getTitle(titleId, mediaType);
 
-  if (title.Type === "movie") {
+  if (selectedTitle.Type === "movie") {
     genreMovieId = getTitleGenreId(
-      splitGenre(title.Genre)[0],
+      splitGenre(selectedTitle.Genre)[0],
       TITLE_MOVIE_GENRES
     );
-  } else if (title.Type === "series") {
-    genreTvId = getTitleGenreId(splitGenre(title.Genre)[0], TITLE_TV_GENRES);
+  } else if (selectedTitle.Type === "series") {
+    genreTvId = getTitleGenreId(
+      splitGenre(selectedTitle.Genre)[0],
+      TITLE_TV_GENRES
+    );
   }
   const relatedGenre = await getRelatedGenre(
     genreMovieId ? genreMovieId : genreTvId,
-    +title.Year.slice(0, 4),
-    title.Type
+    +selectedTitle.Year.slice(0, 4),
+    selectedTitle.Type
   );
 
-  const titleObj = { title, relatedGenre };
+  const titleObj = { selectedTitle, relatedGenre };
   return titleObj;
 }
 export default Title;

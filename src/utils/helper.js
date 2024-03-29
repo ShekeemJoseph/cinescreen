@@ -7,6 +7,15 @@ export function reduceLongTitle(str) {
     return str;
   }
 }
+export function reduceLongPlot(str) {
+  let longStr;
+  if (str.length > 320) {
+    longStr = str.slice(0, 320) + "...";
+    return longStr;
+  } else {
+    return str;
+  }
+}
 export function getDuration(seconds) {
   const hours = seconds / 3600;
   const minutes = (seconds % 3600) / 60;

@@ -27,7 +27,7 @@ const TitlesPageLayout = styled.div`
   grid-template-columns: 0.25fr 1fr;
 `;
 function Movies() {
-  const pageMovies = useLoaderData();
+  const { total_results, results } = useLoaderData();
   return (
     <MoviesSection>
       <StyledHeading>
@@ -36,7 +36,11 @@ function Movies() {
       </StyledHeading>
       <TitlesPageLayout>
         <TitleSorting mediaType="movie" />
-        <TitleListings initialTitles={pageMovies} mediaType="movie" />
+        <TitleListings
+          initialTitles={results}
+          initialTotalResults={total_results}
+          mediaType="movie"
+        />
       </TitlesPageLayout>
     </MoviesSection>
   );

@@ -6,6 +6,5 @@ export function useRatings(userId) {
     queryKey: ["ratings"],
     queryFn: () => getRatings(userId),
   });
-  console.log(ratings);
   return { isLoading, ratings };
 }

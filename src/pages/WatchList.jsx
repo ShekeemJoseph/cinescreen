@@ -4,10 +4,11 @@ import { useWatchlist } from "../features/Watchlist/useWatchlist";
 import { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { getCurrentUser } from "../services/apiAuth";
-import { getCurrentYear, getDuration } from "../utils/helper";
-import { deleteImdbBookmark } from "../services/apiWatchlist";
+import { deleteTmdbBookmark } from "../services/apiWatchlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
+import { options } from "../services/apiGetTitleData";
+import { reduceLongPlot } from "../utils/helper";
 
 const WatchlistHeader = styled.section`
   max-width: 128rem;
@@ -16,6 +17,7 @@ const WatchlistHeader = styled.section`
 const WatchListContent = styled.section`
   max-width: 128rem;
   margin: 0 auto;
+  height: ${(props) => props.heigthAdjust};
 `;
 const Container = styled.div`
   background-color: #1f1f1f;
@@ -71,7 +73,7 @@ const StyledLink = styled(Link)`
 const WatchListItemDetails = styled.div`
   display: flex;
   flex-direction: column;
-
+  justify-content: space-around;
   & div {
     display: flex;
     align-items: center;
@@ -81,7 +83,7 @@ const WatchListItemDetails = styled.div`
     }
   }
   & span {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
   & p {
     font-size: 1.4rem;
@@ -113,13 +115,6 @@ const WatchListItemDetails = styled.div`
   }
 `;
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "06be5c5da4msh57da3ae22a9b43bp127c9fjsnd45a69425767",
-    "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
-  },
-};
 function WatchList() {
   const user = useLoaderData();
   const queryClient = useQueryClient();
@@ -130,40 +125,42 @@ function WatchList() {
   useEffect(() => {
     async function getWatchlistData() {
       setIsLoading(true);
+      let fetchBookmarkedList = [];
       if (!isWatchlistLoading && watchlist && user.id) {
         try {
-          const res = await fetch(
-            `https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids?idsList=${watchlist
-              .map((items) => items.titleImdbId)
-              .join(",")}&info=base_info`,
-            options
-          );
-          const resData = await res.json();
-          setBookmarkedTitles(resData.results);
+          for (const watchtitle of watchlist) {
+            const res = await fetch(
+              `https://api.themoviedb.org/3/find/${watchtitle.titleImdbId}?external_source=imdb_id`,
+              options
+            );
+            const { movie_results: movieResult, tv_results: tvResult } =
+              await res.json();
+            fetchBookmarkedList.push(movieResult, tvResult);
+          }
         } catch (error) {
           console.error(error);
         }
       }
+      setBookmarkedTitles(fetchBookmarkedList);
       setIsLoading(false);
     }
     getWatchlistData();
   }, [isWatchlistLoading, watchlist, user.id]);
 
   const { mutate: removeBookmark } = useMutation({
-    mutationFn: deleteImdbBookmark,
+    mutationFn: deleteTmdbBookmark,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["watchlist"],
       });
     },
   });
-  function handleRemoveBookmark(titleImdbId) {
-    removeBookmark(titleImdbId);
+  function handleRemoveBookmark(titleTmdbId) {
+    removeBookmark(titleTmdbId);
     setBookmarkedTitles((data) =>
-      data.filter((item) => item.id !== titleImdbId)
+      data.flat().filter((item) => item.id !== titleTmdbId)
     );
   }
-  console.log(bookmarkedTitles);
   return (
     <>
       <Container>
@@ -177,75 +174,56 @@ function WatchList() {
           </Heading>
         </WatchlistHeader>
       </Container>
-      <WatchListContent>
+      <WatchListContent
+        heigthAdjust={
+          bookmarkedTitles.flat().length <= 2 &&
+          bookmarkedTitles.flat().length !== 0
+            ? "46.5rem"
+            : ""
+        }
+      >
         {isLoading && (
           <NoContentContainer>
             <Spinner />
           </NoContentContainer>
         )}
-        {!isLoading && bookmarkedTitles ? (
+        {!isLoading &&
+        bookmarkedTitles.flat() !== undefined &&
+        bookmarkedTitles.flat().length >= 1 ? (
           <WatchlistContainer>
-            {bookmarkedTitles.map((item, index) => (
-              <WatchListItem key={item.id}>
-                <img src={item.primaryImage?.url} alt={item.titleText.text} />
+            {bookmarkedTitles.flat().map((title, index) => (
+              <WatchListItem key={title.id}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                  alt={`${title.title || title.name} Poster`}
+                />
                 <WatchListItemDetails>
                   <div>
                     <StyledLink
                       to={
-                        item.titleType.id === "movie"
-                          ? `/movie/${
-                              watchlist.find(
-                                (watchlistItem) =>
-                                  watchlistItem.titleImdbId === item.id
-                              ).titleTmdbId
-                            }`
-                          : item.titleType.id === "tvSeries" ||
-                            item.titleType.id === "tvMiniSeries"
-                          ? `/tv/${
-                              watchlist.find(
-                                (watchlistItem) =>
-                                  watchlistItem.titleImdbId === item.id
-                              ).titleTmdbId
-                            }`
+                        title.media_type === "movie"
+                          ? `/movie/${title.id}`
+                          : title.media_type === "tv"
+                          ? `/tv/${title.id}`
                           : "/"
                       }
                     >
                       <h4>
                         {`${++index}. `}
-                        {item.originalTitleText
-                          ? item.originalTitleText.text
-                          : item.titleText.text}
+                        {title.title || title.name}
                       </h4>
                     </StyledLink>
                   </div>
                   <div>
-                    <span>
-                      {`${item.releaseYear ? item.releaseYear?.year : "N/A"}
-                  ${
-                    !item.endYear &&
-                    item.releaseYear.year !== getCurrentYear() &&
-                    item.titleType.isSeries
-                      ? `- ${getCurrentYear()}`
-                      : item.endYear
-                      ? item.endYear
-                      : ""
-                  }`}
-                    </span>
-                    {item.episodes && item.titleType.isSeries && (
-                      <span>{item.episodes.episodes.total} eps</span>
-                    )}
-                    {item.runtime !== null &&
-                      item.titleType.text === "Movie" && (
-                        <span>{getDuration(item.runtime.seconds)}</span>
-                      )}
+                    <span>{title.release_date || title.first_air_date}</span>
                   </div>
                   <div>
                     <HiStar />
-                    <span>{item.ratingsSummary.aggregateRating}</span>
-                    <span>{item.titleType.text}</span>
+                    <span>{Math.ceil(title.vote_average)}</span>
+                    <span>{title.media_type.toUpperCase()}</span>
                   </div>
-                  <p>{item.plot.plotText.plainText}</p>
-                  <button onClick={() => handleRemoveBookmark(item.id)}>
+                  <p>{reduceLongPlot(title.overview)}</p>
+                  <button onClick={() => handleRemoveBookmark(title.id)}>
                     <HiBookmarkSlash /> watchlist
                   </button>
                 </WatchListItemDetails>

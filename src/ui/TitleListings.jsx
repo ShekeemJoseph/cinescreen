@@ -5,6 +5,7 @@ import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import { getPageMovies, getPageSeries } from "../services/apiGetTitleData";
+import Pagination from "./Pagination";
 
 const TitleContentLinks = styled.div`
   display: flex;
@@ -112,21 +113,30 @@ const EmptyListingsMessage = styled.div`
     margin-bottom: 0.8rem;
   }
 `;
-function TitleListings({ initialTitles, mediaType }) {
+function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
   const [searchParams] = useSearchParams(getCurrentYear());
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
+  const [sortedPages, setSortedPages] = useState();
 
   useEffect(() => {
     async function getByReleaseYear() {
       setIsLoading(true);
-      const getMovieTitlesByYear = await getPageMovies(
+      const {
+        results: getMovieTitlesByYear,
+        total_results: getMoviesTitleResults,
+      } = await getPageMovies(
         +searchParams.get("year"),
-        +searchParams.get("genre")
+        +searchParams.get("genre"),
+        +searchParams.get("page")
       );
-      const getSeriesTitlesByYear = await getPageSeries(
+      const {
+        results: getSeriesTitlesByYear,
+        total_results: getSeriesTitleResults,
+      } = await getPageSeries(
         +searchParams.get("year"),
-        +searchParams.get("genre")
+        +searchParams.get("genre"),
+        +searchParams.get("page")
       );
       setTitlesByYear(
         mediaType === "movie"
@@ -135,11 +145,20 @@ function TitleListings({ initialTitles, mediaType }) {
           ? getSeriesTitlesByYear
           : null
       );
+      setSortedPages(
+        mediaType === "movie"
+          ? getMoviesTitleResults
+          : mediaType === "series"
+          ? getSeriesTitleResults
+          : null
+      );
       setIsLoading(false);
     }
     getByReleaseYear();
   }, [mediaType, searchParams]);
+
   const titles = titlesByYear || initialTitles;
+  const totalResults = sortedPages || initialTotalResults;
   const filteredTitles = titles.filter((title) =>
     title.vote_average && title.vote_average !== 0 ? true : false
   );
@@ -200,6 +219,7 @@ function TitleListings({ initialTitles, mediaType }) {
           </EmptyListingsMessage>
         </EmptyListings>
       )}
+      <Pagination totalResults={totalResults} />
     </StyledTitleListings>
   );
 }

@@ -20,7 +20,11 @@ const StyledHome = styled.div`
   padding: 4.8rem 2.4rem;
 `;
 function Home() {
-  const { homePageMovies, homePageSeries, trending } = useLoaderData();
+  const {
+    homePageMovies: { results: MovieResults },
+    homePageSeries: { results: TvResults },
+    trending,
+  } = useLoaderData();
   return (
     <HomeSection>
       <StyledHome>
@@ -35,13 +39,13 @@ function Home() {
           label="Movies"
           mediaType="movie"
           browseContent={true}
-          titles={homePageMovies}
+          titles={MovieResults}
         />
         <TitlesCarousel
           label="TV Shows"
           mediaType="series"
           browseContent={true}
-          titles={homePageSeries}
+          titles={TvResults}
         />
       </StyledHome>
     </HomeSection>

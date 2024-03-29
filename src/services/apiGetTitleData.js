@@ -9,32 +9,36 @@ export const options = {
   },
 };
 
-export async function getPageMovies(year, genre) {
+export async function getPageMovies(year, genre, page) {
   try {
     const res = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&primary_release_year=${
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${
+        !page || page < 1 ? 1 : page
+      }&sort_by=vote_count.desc&primary_release_year=${
         year ? year : getCurrentYear()
       }${genre ? `&with_genres=${genre}` : ""}`,
       options
     );
     if (!res.ok) throw Error("Could not get movies");
     const data = await res.json();
-    return data.results;
+    return data;
   } catch (error) {
     console.error(error.message);
   }
 }
-export async function getPageSeries(year, genre) {
+export async function getPageSeries(year, genre, page) {
   try {
     const res = await fetch(
-      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&first_air_date_year=${
+      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${
+        !page || page < 1 ? 1 : page
+      }&sort_by=vote_count.desc&first_air_date_year=${
         year ? year : getCurrentYear()
       }${genre ? `&with_genres=${genre}` : ""}`,
       options
     );
     if (!res.ok) throw Error("Could not get series");
     const data = await res.json();
-    return data.results;
+    return data;
   } catch (error) {
     console.error(error.message);
   }
@@ -64,7 +68,7 @@ export async function getRelatedGenre(genre, year, mediaType) {
     const res = await fetch(
       `https://api.themoviedb.org/3/discover/${
         mediaType === "movie" ? "movie" : "tv"
-      }?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&${
+      }?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=vote_count.desc&${
         mediaType === "movie" ? "primary_release_year" : "first_air_date_year"
       }=${year ? year : getCurrentYear()}${
         genre ? `&with_genres=${genre}` : ""

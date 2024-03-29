@@ -27,7 +27,7 @@ const TitlesPageLayout = styled.div`
   grid-template-columns: 0.25fr 1fr;
 `;
 function Series() {
-  const pageSeries = useLoaderData();
+  const { total_results, results } = useLoaderData();
 
   return (
     <SeriesSection>
@@ -37,7 +37,11 @@ function Series() {
       </StyledHeading>
       <TitlesPageLayout>
         <TitleSorting mediaType="series" />
-        <TitleListings initialTitles={pageSeries} mediaType="series" />
+        <TitleListings
+          initialTitles={results}
+          initialTotalResults={total_results}
+          mediaType="series"
+        />
       </TitlesPageLayout>
     </SeriesSection>
   );
