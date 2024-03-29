@@ -7,6 +7,8 @@ export function useLogout() {
     mutationFn: logoutApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["ratings"] });
+      queryClient.invalidateQueries({ queryKey: ["watchlist"] });
     },
   });
   return { logout, isLoading };
