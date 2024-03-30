@@ -18,6 +18,7 @@ const TitleSection = styled.section`
 const TitlesCarouselContainer = styled.section`
   max-width: 128rem;
   margin: 3.6rem auto;
+  padding: 0 2.4rem;
 `;
 const Container = styled.div`
   background-color: #1f1f1f;

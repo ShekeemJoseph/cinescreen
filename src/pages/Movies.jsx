@@ -7,13 +7,13 @@ import TitleListings from "../ui/TitleListings";
 const MoviesSection = styled.section`
   max-width: 128rem;
   margin: 0 auto;
+  padding: 2.4rem;
 `;
 const StyledHeading = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 0.8rem;
   width: 128rem;
-  margin: 2.4rem 0;
 
   & p:first-child {
     font-weight: 600;
@@ -23,7 +23,6 @@ const StyledHeading = styled.div`
 const TitlesPageLayout = styled.div`
   display: grid;
   width: 128rem;
-  margin-bottom: 3.6rem;
   grid-template-columns: 0.25fr 1fr;
 `;
 function Movies() {

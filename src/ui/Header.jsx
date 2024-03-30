@@ -8,9 +8,10 @@ import SearchTitle from "../features/search/SearchTitle";
 import Register from "../features/authentication/Register";
 import { useUser } from "../features/authentication/useUser";
 import UserMenu from "./UserMenu";
+import { TITLE_MOVIE_GENRES, TITLE_TV_GENRES } from "../utils/helper";
 
 const StyledHeader = styled.header`
-  padding: 1.5rem 6rem;
+  padding: 1.5rem 2rem;
   background-color: var(--color-brand-900);
 `;
 const HeaderContainer = styled.div`
@@ -19,7 +20,6 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   &:link svg,
   &:visited svg {
     height: 3.4rem;
@@ -46,8 +46,24 @@ function Header() {
         <StyledLinkLogo to="/">
           <Logo />
         </StyledLinkLogo>
-        <NavButton to="/movie">Movies</NavButton>
-        <NavButton to="/tv">TV Shows</NavButton>
+        <NavButton
+          onClick={() => {
+            TITLE_MOVIE_GENRES.sort();
+            TITLE_TV_GENRES.sort();
+          }}
+          to="/movie"
+        >
+          Movies
+        </NavButton>
+        <NavButton
+          onClick={() => {
+            TITLE_TV_GENRES.sort();
+            TITLE_MOVIE_GENRES.sort();
+          }}
+          to="/tv"
+        >
+          TV Shows
+        </NavButton>
         <SearchTitle />
         <UserRegisteredBtnMenu>
           {!isAuthenticated ? <Register /> : <UserMenu />}

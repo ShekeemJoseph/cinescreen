@@ -3,17 +3,17 @@ import { getTitles } from "../services/apiSearchTitleData";
 import styled from "styled-components";
 const TitlesSection = styled.section`
   max-width: 128rem;
-  margin: 2.4rem auto;
+  margin: 0 auto;
+  padding: 2.4rem;
 `;
-const StyledTitles = styled.div`
+const StyledTitles = styled.ul`
   width: 100rem;
   display: grid;
-  margin-top: 3.6rem;
-  row-gap: 4.8rem;
   grid-template-rows: auto 1fr;
 `;
 const UserSearchTitle = styled.p`
   font-size: 3.6rem;
+  margin-bottom: 3.6rem;
 `;
 const TitleHeading = styled.h3`
   font-size: 2rem;
@@ -28,6 +28,11 @@ const TitleType = styled.span`
   border: 1px solid var(--color-grey-400);
   border-radius: var(--border-radius-sm);
 `;
+const StyledLink = styled(Link)`
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-400);
+  }
+`;
 const Title = styled.li`
   width: 100%;
   height: 15rem;
@@ -35,7 +40,6 @@ const Title = styled.li`
   display: flex;
   gap: 2.4rem;
   align-items: flex-start;
-  border-bottom: 1px solid var(--color-grey-400);
   transition: all 0.3s;
   & img {
     height: 100%;
@@ -62,13 +66,16 @@ function Titles() {
 
   return (
     <TitlesSection>
+      <UserSearchTitle>
+        Searched "<strong>{titleStr}</strong>"
+      </UserSearchTitle>
       <StyledTitles>
-        <UserSearchTitle>
-          Searched "<strong>{titleStr}</strong>"
-        </UserSearchTitle>
-        <ul>
-          {titles.map((title) => (
-            <Link
+        {titles
+          .filter((title) =>
+            title.vote_average && title.vote_average !== 0 ? true : false
+          )
+          .map((title) => (
+            <StyledLink
               to={
                 title.media_type === "movie"
                   ? `/movie/${title.id}`
@@ -95,9 +102,8 @@ function Titles() {
                   </div>
                 </TitleDetails>
               </Title>
-            </Link>
+            </StyledLink>
           ))}
-        </ul>
       </StyledTitles>
     </TitlesSection>
   );

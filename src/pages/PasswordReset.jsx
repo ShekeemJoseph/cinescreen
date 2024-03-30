@@ -5,7 +5,7 @@ import UpdatePasswordForm from "../features/authentication/UpdatePasswordForm";
 
 const PasswordResetSection = styled.section`
   max-width: 128rem;
-  height: 88vh;
+  height: 95rem;
   margin: 0 auto;
 `;
 const Container = styled.div`

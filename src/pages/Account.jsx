@@ -8,26 +8,23 @@ import { useLoaderData } from "react-router-dom";
 
 const AccountSection = styled.section`
   max-width: 128rem;
-  margin: 0 auto;
+  margin: 3.6rem auto;
+  padding: 0 2.4rem;
 `;
-const AccountContainer = styled.div`
-  margin-top: 3.6rem;
-`;
+
 function Account() {
   const user = useLoaderData();
   return (
     <AccountSection>
-      <AccountContainer>
-        <Headers as="h1">Update your account</Headers>
-        <Row>
-          <Headers as="h3">Update user data</Headers>
-          <UpdateUserDataForm user={user} />
-        </Row>
-        <Row>
-          <Headers as="h3">Update user password</Headers>
-          <UpdatePasswordForm />
-        </Row>
-      </AccountContainer>
+      <Headers as="h1">Update your account</Headers>
+      <Row>
+        <Headers as="h3">Update user data</Headers>
+        <UpdateUserDataForm user={user} />
+      </Row>
+      <Row>
+        <Headers as="h3">Update user password</Headers>
+        <UpdatePasswordForm />
+      </Row>
     </AccountSection>
   );
 }

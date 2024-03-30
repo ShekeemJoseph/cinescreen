@@ -13,10 +13,13 @@ import { reduceLongPlot } from "../utils/helper";
 const WatchlistHeader = styled.section`
   max-width: 128rem;
   margin: 0 auto;
+  padding: 0 2.4rem;
 `;
 const WatchListContent = styled.section`
   max-width: 128rem;
   margin: 0 auto;
+  padding: 0 2.4rem;
+
   height: ${(props) => props.heigthAdjust};
 `;
 const Container = styled.div`
@@ -121,7 +124,6 @@ function WatchList() {
   const [isLoading, setIsLoading] = useState(false);
   const [bookmarkedTitles, setBookmarkedTitles] = useState([]);
   const { isLoading: isWatchlistLoading, watchlist } = useWatchlist(user.id);
-  console.log(watchlist);
   useEffect(() => {
     async function getWatchlistData() {
       setIsLoading(true);

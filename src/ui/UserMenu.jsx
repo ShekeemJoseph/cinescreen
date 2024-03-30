@@ -46,12 +46,6 @@ function UserMenu() {
       <Menus.Toggle />
       <Menus.List>
         <Menus.Button>
-          <MenuButton disabled={isLoading} onClick={handleLogout}>
-            <HiArrowRightOnRectangle />
-            <span>Logout</span>
-          </MenuButton>
-        </Menus.Button>
-        <Menus.Button>
           <NavMenuBtn onClick={() => navigate(`/user/${user?.id}`)}>
             <HiUser />
             <span>Account</span>
@@ -62,6 +56,12 @@ function UserMenu() {
             <HiBookmark />
             <span>Watchlist</span>
           </NavMenuBtn>
+        </Menus.Button>
+        <Menus.Button>
+          <MenuButton disabled={isLoading} onClick={handleLogout}>
+            <HiArrowRightOnRectangle />
+            <span>Logout</span>
+          </MenuButton>
         </Menus.Button>
       </Menus.List>
     </Menus>
