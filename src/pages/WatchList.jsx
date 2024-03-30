@@ -121,7 +121,7 @@ function WatchList() {
   const [isLoading, setIsLoading] = useState(false);
   const [bookmarkedTitles, setBookmarkedTitles] = useState([]);
   const { isLoading: isWatchlistLoading, watchlist } = useWatchlist(user.id);
-
+  console.log(watchlist);
   useEffect(() => {
     async function getWatchlistData() {
       setIsLoading(true);
@@ -129,13 +129,15 @@ function WatchList() {
       if (!isWatchlistLoading && watchlist && user.id) {
         try {
           for (const watchtitle of watchlist) {
-            const res = await fetch(
-              `https://api.themoviedb.org/3/find/${watchtitle.titleImdbId}?external_source=imdb_id`,
-              options
-            );
-            const { movie_results: movieResult, tv_results: tvResult } =
-              await res.json();
-            fetchBookmarkedList.push(movieResult, tvResult);
+            if (watchtitle.userId === user.id) {
+              const res = await fetch(
+                `https://api.themoviedb.org/3/find/${watchtitle.titleImdbId}?external_source=imdb_id`,
+                options
+              );
+              const { movie_results: movieResult, tv_results: tvResult } =
+                await res.json();
+              fetchBookmarkedList.push(movieResult, tvResult);
+            }
           }
         } catch (error) {
           console.error(error);
