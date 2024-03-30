@@ -37,7 +37,7 @@ export async function logout() {
 }
 export async function passwordReset(email) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: "http://localhost:5173/user/passwordreset",
+    redirectTo: "https://cinescreen.vercel.app/user/passwordreset",
   });
   if (error) throw new Error(error.message);
 }
