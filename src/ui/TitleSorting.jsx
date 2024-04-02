@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   TITLE_MOVIE_GENRES,
   TITLE_TV_GENRES,
@@ -87,9 +87,7 @@ const Genre = styled.li`
 function TitleSorting({ mediaType }) {
   const titleGenres =
     mediaType === "movie" ? TITLE_MOVIE_GENRES : TITLE_TV_GENRES;
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
-  const [genreList, setGenreList] = useState(titleGenres);
+  const [genreList, setGenreList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [checkedGenre, setCheckedGenre] = useState("");
   const [releaseYear, setReleaseYear] = useState(
@@ -98,7 +96,7 @@ function TitleSorting({ mediaType }) {
 
   useEffect(() => {
     function handleLoad() {
-      if (!isLoading && searchParams.get("genre") !== null) {
+      if (searchParams.get("genre") !== null) {
         setCheckedGenre(+searchParams.get("genre"));
         setGenreList(sortGenres(titleGenres));
         setGenreList(
@@ -109,13 +107,13 @@ function TitleSorting({ mediaType }) {
             0
           )
         );
-      } else if (!isLoading && searchParams.get("genre") === null) {
+      } else if (searchParams.get("genre") === null) {
         setCheckedGenre("");
         setGenreList(sortGenres(titleGenres));
       }
     }
     handleLoad();
-  }, [isLoading, searchParams, titleGenres]);
+  }, [searchParams, titleGenres]);
   return (
     <StyledTitleSorting>
       <h4>Filters</h4>
