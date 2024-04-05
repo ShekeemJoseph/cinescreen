@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledHeading = styled.div`
   & h1 {
@@ -9,6 +10,13 @@ const StyledHeading = styled.div`
     background-image: linear-gradient(to right, #be4bdb, #ffd43b);
     background-clip: text;
     color: transparent;
+
+    ${media.md`
+      font-size: 5.2rem;
+    `}
+    ${media.sm`
+      font-size: 4.6rem;
+    `}
   }
   & span {
     font-size: 1.8rem;

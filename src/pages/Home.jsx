@@ -8,6 +8,7 @@ import TitlesCarousel from "../ui/TitlesCarousel";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
 import Promotion from "../ui/Promotion";
+import { media } from "../styles/breakpoints";
 
 const HomeSection = styled.section`
   max-width: 128rem;
@@ -18,6 +19,10 @@ const StyledHome = styled.div`
   display: grid;
   grid-template-rows: auto 1fr 1fr 1fr 1fr;
   row-gap: 6.4rem;
+
+  ${media.md`
+  grid-template-rows: auto 1fr 0.25fr 1fr 1fr;
+  `}
 `;
 function Home() {
   const {

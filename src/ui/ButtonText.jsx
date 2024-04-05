@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const variations = {
   standard: css`
@@ -14,6 +15,9 @@ const variations = {
   `,
 };
 const ButtonText = styled.button`
+  ${media.md`
+    font-size: 2.2rem;
+  `}
   color: var(--color-grey-50);
   font-weight: 500;
   text-align: center;

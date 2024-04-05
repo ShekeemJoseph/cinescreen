@@ -6,9 +6,18 @@ import Button from "../../ui/Button";
 import styled from "styled-components";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { usePasswordReset } from "./useResetPassword";
+import { media } from "../../styles/breakpoints";
 
 const Container = styled.div`
   width: 70rem;
+  ${media.md`
+    width: 60rem;
+  `}
+  ${media.sm`
+    width: 50rem;
+    padding: 1.8rem 1.8rem;
+    row-gap: 1.8rem;
+  `}
   height: auto;
   display: grid;
   padding: 2.4rem;
@@ -17,12 +26,15 @@ const Container = styled.div`
 
   & h2,
   & span {
-    justify-self: center;
+    text-align: center;
   }
 
   & form {
     width: 50rem;
-    margin: 0 auto 3.6rem;
+    margin: 0 auto;
+    ${media.md`
+    width: 40rem;
+    `}
   }
 `;
 

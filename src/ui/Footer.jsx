@@ -3,6 +3,7 @@ import { FaFacebookSquare, FaInstagramSquare, FaTwitter } from "react-icons/fa";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { getCurrentYear } from "../utils/helper";
+import { media } from "../styles/breakpoints";
 
 const StyledFooter = styled.footer`
   border-width: 16px 0 0;
@@ -32,6 +33,13 @@ const StyledLinkLogo = styled(Link)`
 const FooterContent = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  ${media.sm`
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 3.2rem;
+    & div:nth-child(3){
+    grid-column: span 2;
+    }
+  `}
   max-width: 96rem;
   margin: 0 auto 6.4rem;
   & div {

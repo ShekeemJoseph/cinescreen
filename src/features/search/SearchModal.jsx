@@ -2,19 +2,38 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { useState } from "react";
+import { media } from "../../styles/breakpoints";
 
 const Modal = styled.ul`
   position: absolute;
   padding: 1.2rem 0;
   width: 50rem;
-  height: auto;
+  ${media.md`
+  width: 40rem;
+  `};
+  ${media.sm`
+  width: 35rem;
+  `};
+  max-height: 80rem;
+  overflow: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
   color: var(--color-grey-50);
   background-color: var(--color-grey-750);
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-lg);
   transition: all 0.3s;
+  transform: translateX(-50%);
   top: 120%;
-  left: -10%;
+  left: 50%;
+  ${media.sm`
+  left: 15%;
+  top: 150%;
+  `};
   z-index: 100;
   & li:hover,
   & li:active {

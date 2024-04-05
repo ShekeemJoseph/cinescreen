@@ -1,14 +1,30 @@
 import { css } from "styled-components";
 
 const breakpoints = {
-  xs: "400px", // for small screen mobile
+  xs: "450px", // for small screen mobile
   sm: "600px", // for mobile screen
-  md: "900px", // for tablets
-  lg: "1100px", // for laptops
+  md: "950px", // for tablets
+  lg: "1150px", // for laptops
   xl: "1440px", // for desktop / monitors
   xxl: "1920px", // for big screens
 };
-
+export const mobileMedia = {
+  lg: (...args) => css`
+    @media (min-width: ${breakpoints.lg}) {
+      ${css(...args)};
+    }
+  `,
+  md: (...args) => css`
+    @media (min-width: ${breakpoints.md}) {
+      ${css(...args)};
+    }
+  `,
+  xs: (...args) => css`
+    @media (min-width: ${breakpoints.xs}) {
+      ${css(...args)};
+    }
+  `,
+};
 export const media = {
   xs: (...args) => css`
     @media (max-width: ${breakpoints.xs}) {

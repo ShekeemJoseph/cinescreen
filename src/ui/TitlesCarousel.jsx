@@ -11,12 +11,15 @@ import {
   TITLE_TV_GENRES,
   reduceLongTitle,
 } from "../utils/helper";
+import { media } from "../styles/breakpoints";
 
 const TitlesBoxHeading = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
   padding-bottom: 2.4rem;
-
+  ${media.md`
+    grid-template-columns: 1fr;
+  `}
   & .carousel-heading {
     display: flex;
     align-items: center;
@@ -38,6 +41,9 @@ const TitlesBoxHeading = styled.div`
     gap: 0.4rem;
     margin-left: 1.8rem;
     align-self: center;
+    ${media.md`
+      display: none;
+    `}
   }
 `;
 const TitlesContainer = styled.div`
@@ -50,6 +56,7 @@ const TitleCard = styled.div`
   display: flex;
   flex-direction: column;
   height: 42rem;
+  max-width: 22.5rem;
 `;
 const TitleBox = styled.div`
   display: flex;
@@ -140,8 +147,42 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
       </TitlesBoxHeading>
 
       <Swiper
-        spaceBetween={30}
-        slidesPerView={5}
+        breakpoints={{
+          1500: {
+            slidesPerView: 5,
+          },
+          1300: {
+            slidesPerView: 5,
+          },
+          1250: {
+            slidesPerView: 5,
+          },
+          1000: {
+            slidesPerView: 4.5,
+          },
+          900: {
+            slidesPerView: 4.2,
+          },
+          700: {
+            slidesPerView: 3.5,
+          },
+          620: {
+            slidesPerView: 3.2,
+          },
+          560: {
+            slidesPerView: 3,
+          },
+          460: {
+            slidesPerView: 2.8,
+          },
+          400: {
+            slidesPerView: 2.4,
+          },
+          300: {
+            slidesPerView: 2.1,
+          },
+        }}
+        spaceBetween={15}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {titles

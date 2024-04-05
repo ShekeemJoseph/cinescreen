@@ -3,36 +3,55 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SearchModal from "./SearchModal";
 import { useGetSearchResults } from "../../hooks/useGetSearchResults";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { media } from "../../styles/breakpoints";
+import SearchIconBtn from "./SearchIconBtn";
 const FormContainer = styled.div`
+  max-width: 40rem;
   position: relative;
+  width: 100%;
+  ${media.md`
+  width: auto;
+  justify-content: flex-end;
+  `}
 `;
 const StyledForm = styled.form`
+  width: 40rem;
   & input {
     border: none;
-    padding: 1.1rem 1.6rem;
-    border-radius: var(--border-radius-md);
-    width: 40rem;
-    transition: all 0.3s;
-
     &::placeholder {
       color: var(--color-grey-400);
     }
     &:focus {
       outline: none;
-      box-shadow: 0 2.4rem 2.4rem rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
     }
   }
+  ${media.md`
+    width: 100%;
+  `}
+  ${media.xs`
+    display: none;
+  `}
+`;
+const SearchBar = styled.div`
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-grey-0);
+  border-radius: var(--border-radius-md);
+  padding: 1rem 1.4rem;
 `;
 
-function SearchTitle() {
-  const [query, setQuery] = useState("");
+function SearchTitle({ query, setQuery, setIsMagnifyClicked }) {
   const [error, setError] = useState("");
   const [titles, setTitles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   useGetSearchResults(setError, setTitles, query);
-
+  function handleOpenSrchBar() {
+    setIsMagnifyClicked(true);
+  }
   function handleClose() {
     setIsModalOpen(false);
   }
@@ -49,14 +68,19 @@ function SearchTitle() {
   }
   return (
     <FormContainer onClick={handleOpen}>
-      <StyledForm onSubmit={handleSubmit}>
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          type="text"
-          placeholder="Search movies / tvshows"
-        />
-      </StyledForm>
+      <SearchBar>
+        <StyledForm onSubmit={handleSubmit}>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            type="text"
+            placeholder="Search movies / tvshows"
+          />
+        </StyledForm>
+        <SearchIconBtn handler={handleOpenSrchBar}>
+          <HiMagnifyingGlass />
+        </SearchIconBtn>
+      </SearchBar>
       {isModalOpen && titles.length !== 0 && query.length > 3 && (
         <SearchModal
           error={error}

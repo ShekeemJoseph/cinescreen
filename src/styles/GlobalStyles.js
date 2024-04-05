@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { media } from "./breakpoints";
 
 const GlobalStyles = createGlobalStyle`
 :root {
@@ -62,6 +63,14 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   font-size: 62.5%;
+
+  ${media.lg`
+  font-size: 56.25%;
+  `}
+  
+  ${media.sm`
+  font-size: 43.75%;
+  `}
 }
 
 body {
@@ -101,6 +110,35 @@ input:disabled {
 .activeTab::after{
   transform: scaleX(1);
 }
+/* .swiper-container{
+  width: 123rem;
+}
+@media (max-width: 1100px) {
+  .swiper-container {
+    width: 1100px;
+  }
+}
+
+@media (max-width: 900px) {
+  .swiper-container {
+    width: 900px;
+  }
+}
+@media (max-width: 700) {
+  .swiper-container {
+    width: 700;
+  }
+}
+@media (max-width: 500) {
+  .swiper-container {
+    width: 500;
+  }
+}
+@media (max-width: 300) {
+  .swiper-container {
+    width: 300;
+  }
+} */
 input:focus,
 button:focus,
 textarea:focus,

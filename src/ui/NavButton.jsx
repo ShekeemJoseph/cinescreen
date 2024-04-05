@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledNavLink = styled(NavLink)`
   &:link,
@@ -7,13 +8,15 @@ const StyledNavLink = styled(NavLink)`
     display: flex;
     align-items: center;
     gap: 1.2rem;
-
     color: var(--color-grey-50);
     font-size: 1.6rem;
     font-weight: 500;
     padding: 0.5rem 1rem;
     transition: all 0.3s;
     border-radius: var(--border-radius-sm);
+    ${media.lg`
+      display: none;
+  `}
   }
   /* This works because react-router places the active class on the active NavLink */
   &:hover,

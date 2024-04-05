@@ -1,23 +1,28 @@
 import styled, { css } from "styled-components";
+import { mobileMedia } from "../styles/breakpoints";
 
 const variations = {
   standard: css`
     background: none;
     border-radius: var(--border-radius-sm);
 
+    ${mobileMedia.lg`
     &:hover,
     &:active {
+      
       border-radius: var(--border-radius-sm);
       color: var(--color-grey-800);
       background-color: var(--color-grey-50);
-
+      
       & svg {
         color: var(--color-brand-600);
       }
       & svg:hover {
         color: var(--color-brand-600);
       }
+
     }
+      `}
   `,
   titleStyle: css`
     background: var(--color-brand-700);

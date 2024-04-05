@@ -8,6 +8,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import Overlay from "../../ui/Overlay";
 import ForgetPasswordModal from "./ForgetPasswordModal";
+import { media } from "../../styles/breakpoints";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -19,6 +20,9 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   /* padding: 3.2rem 4rem; */
   transition: all 0.5s;
+  ${media.md`
+    overflow: scroll;
+  `}
 `;
 
 const Button = styled.button`
@@ -37,8 +41,12 @@ const Button = styled.button`
   }
 
   & svg {
+    width: 2.8rem;
+    height: 2.8rem;
+    /* ${media.sm`
     width: 2.4rem;
-    height: 2.4rem;
+    height: 2.6rem;
+    `} */
     /* Sometimes we need both */
     /* fill: var(--color-grey-500);
     stroke: var(--color-grey-500); */

@@ -2,8 +2,10 @@ import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 import { useUser } from "../features/authentication/useUser";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { mobileMedia } from "../styles/breakpoints";
 
 const StyledToggle = styled.button`
+  width: max-content;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -13,9 +15,12 @@ const StyledToggle = styled.button`
   border-radius: var(--border-radius-sm);
   transition: all 0.3s;
 
-  &:hover {
+  ${mobileMedia.lg`
+   &:active,
+    &:hover {
     background-color: var(--color-grey-100);
-  }
+    }
+  `}
   &:focus {
     outline: none;
   }
@@ -34,7 +39,7 @@ const StyledList = styled.ul`
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
-  width: 15rem;
+  width: 18rem;
   z-index: 100;
   top: 114%;
   right: 48.5%;

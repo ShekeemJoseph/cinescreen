@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const PromotionCard = styled.div`
   ${(props) => variations[props.variation]}
@@ -10,6 +11,9 @@ const PromotionCard = styled.div`
   transition: all 1.2s ease;
   backface-visibility: hidden;
   border-radius: var(--border-radius-lg);
+  ${media.md`
+    display: none;
+  `}
 `;
 const variations = {
   front: css`

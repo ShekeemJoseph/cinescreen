@@ -5,11 +5,15 @@ import { useUser } from "../features/authentication/useUser";
 import styled from "styled-components";
 import { useLogout } from "../features/authentication/useLogout";
 import { useNavigate } from "react-router-dom";
+import { media } from "../styles/breakpoints";
 
 const NavMenuBtn = styled.button`
   width: 100%;
   background: none;
   border: none;
+  ${media.sm`
+    height: 35px;
+  `}
   padding: 1.2rem 2.4rem;
   transition: all 0.2s;
   border-radius: var(--border-radius-md);
@@ -30,6 +34,10 @@ const NavMenuBtn = styled.button`
   & svg {
     width: 1.8rem;
     height: 1.8rem;
+    ${media.sm`
+    width: 2.5rem;
+    height: 2.5rem;
+  `}
     color: var(--color-brand-800);
     transition: all 0.3s;
   }

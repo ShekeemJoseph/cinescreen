@@ -4,6 +4,7 @@ import PromotionCard from "./PromotionCard";
 import { Link } from "react-router-dom";
 import Register from "../features/authentication/Register";
 import { useUser } from "../features/authentication/useUser";
+import { media } from "../styles/breakpoints";
 
 const StyledPromotion = styled.div`
   background-image: linear-gradient(
@@ -18,9 +19,15 @@ const StyledPromotion = styled.div`
 const PromotionContent = styled.div`
   display: grid;
   justify-items: center;
+  width: 100%;
   height: 100%;
   position: relative;
   grid-template-columns: 1fr 1fr;
+  ${media.md`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `}
 `;
 const PromotionHeading = styled.div`
   display: flex;
@@ -33,6 +40,27 @@ const PromotionHeading = styled.div`
     color: var(--color-grey-0);
     font-size: 3.6rem;
   }
+  ${media.md`
+    gap: 2.4rem;
+    margin: 0 1.8rem;
+    flex-direction: unset;
+    justify-content: space-between;
+    align-items: center;
+    h2{
+      font-size: 3.2rem;
+      text-align: center;
+    }
+  `}
+  ${media.sm`
+    h2{
+      font-size: 2.4rem;
+    }
+  `}
+  ${media.xs`
+    h2{
+      font-size: 1.8rem;
+    }
+  `}
 `;
 const PromotionCardContainer = styled.div`
   display: flex;
@@ -58,6 +86,12 @@ const StyledLinkLogo = styled(Link)`
   &:visited svg {
     height: 4.8rem;
     width: auto;
+    ${media.md`
+    height: 4.2rem;
+    `}
+    ${media.xs`
+    height: 3.2rem;
+    `}
   }
 `;
 

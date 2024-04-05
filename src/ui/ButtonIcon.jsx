@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const ButtonIcon = styled.button`
   background: none;
@@ -7,7 +8,9 @@ const ButtonIcon = styled.button`
   transition: all 0.2s;
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius-sm);
-
+  ${media.lg`
+   display: none;
+  `}
   &:focus {
     outline: none;
   }
