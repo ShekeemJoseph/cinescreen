@@ -13,11 +13,13 @@ const NavMenuBtn = styled.button`
   border: none;
   ${media.sm`
     height: 35px;
+    font-size: 1.6rem;
   `}
   padding: 1.2rem 2.4rem;
   transition: all 0.2s;
   border-radius: var(--border-radius-md);
   font-size: 1.4rem;
+
   display: flex;
   align-items: center;
   justify-content: space-around;

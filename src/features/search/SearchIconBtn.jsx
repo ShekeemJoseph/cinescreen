@@ -5,11 +5,11 @@ const StyledSearchIconBtn = styled.button`
   outline: none;
   border: none;
   background: none;
-  ${mobileMedia.xs`
+  ${mobileMedia.sm`
     pointer-events: none;
   `}
   & svg {
-    height: 2.4rem;
+    height: 3.2rem;
     width: auto;
     &:focus {
       outline: none;

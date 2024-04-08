@@ -7,7 +7,7 @@ function Register({ children }) {
         {children ? (
           children
         ) : (
-          <ButtonText variation="standard">Register</ButtonText>
+          <ButtonText variation="standard">Sign up</ButtonText>
         )}
       </RegisterModal.Open>
       <RegisterModal.Window name="register-forms" />

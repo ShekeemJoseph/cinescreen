@@ -66,7 +66,9 @@ const TitleBox = styled.div`
   font-size: 1.6rem;
   gap: 0.6rem;
   padding: 2.4rem 2.4rem 0;
-
+  ${media.sm`
+  font-size: 1.8rem;
+  `}
   & p:hover,
   & p:active {
     text-decoration: underline;

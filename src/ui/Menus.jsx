@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 import { useUser } from "../features/authentication/useUser";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { mobileMedia } from "../styles/breakpoints";
+import { media, mobileMedia } from "../styles/breakpoints";
 
 const StyledToggle = styled.button`
   width: max-content;
@@ -26,6 +26,9 @@ const StyledToggle = styled.button`
   }
   & span {
     font-weight: 600;
+    ${media.sm`
+      font-size: 1.8rem;
+    `}
   }
   & svg {
     width: 2.4rem;

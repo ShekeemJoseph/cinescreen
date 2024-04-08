@@ -18,6 +18,7 @@ const ButtonText = styled.button`
   ${media.md`
     font-size: 2.2rem;
   `}
+  width: max-content;
   color: var(--color-grey-50);
   font-weight: 500;
   text-align: center;

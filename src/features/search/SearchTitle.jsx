@@ -26,10 +26,10 @@ const StyledForm = styled.form`
       outline: none;
     }
   }
-  ${media.md`
+  ${media.lg`
     width: 100%;
   `}
-  ${media.xs`
+  ${media.sm`
     display: none;
   `}
 `;
@@ -43,16 +43,23 @@ const SearchBar = styled.div`
   padding: 1rem 1.4rem;
 `;
 
-function SearchTitle({ query, setQuery, setIsMagnifyClicked }) {
-  const [error, setError] = useState("");
+function SearchTitle({
+  query,
+  setQuery,
+  error,
+  setError,
+  isModalOpen,
+  setIsModalOpen,
+  setIsMagnifyClicked,
+}) {
   const [titles, setTitles] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   useGetSearchResults(setError, setTitles, query);
   function handleOpenSrchBar() {
     setIsMagnifyClicked(true);
   }
   function handleClose() {
+    setIsMagnifyClicked(false);
     setIsModalOpen(false);
   }
 
@@ -67,12 +74,19 @@ function SearchTitle({ query, setQuery, setIsMagnifyClicked }) {
     setQuery("");
   }
   return (
-    <FormContainer onClick={handleOpen}>
-      <SearchBar>
+    <FormContainer>
+      <SearchBar onClick={handleOpen}>
         <StyledForm onSubmit={handleSubmit}>
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (e.target.value.length > 0) {
+                setIsMagnifyClicked(true);
+              } else {
+                setIsMagnifyClicked(false);
+              }
+            }}
             type="text"
             placeholder="Search movies / tvshows"
           />

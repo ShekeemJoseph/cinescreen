@@ -47,7 +47,7 @@ const PromotionHeading = styled.div`
     justify-content: space-between;
     align-items: center;
     h2{
-      font-size: 3.2rem;
+      font-size: 2.8rem;
       text-align: center;
     }
   `}
@@ -58,7 +58,7 @@ const PromotionHeading = styled.div`
   `}
   ${media.xs`
     h2{
-      font-size: 1.8rem;
+      font-size: 2rem;
     }
   `}
 `;
@@ -124,7 +124,7 @@ function Promotion() {
       <PromotionContent>
         <PromotionHeading>
           <div>
-            <StyledLinkLogo>
+            <StyledLinkLogo to="/">
               <Logo />
             </StyledLinkLogo>
           </div>

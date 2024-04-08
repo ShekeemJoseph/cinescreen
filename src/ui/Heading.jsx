@@ -15,7 +15,10 @@ const StyledHeading = styled.div`
       font-size: 5.2rem;
     `}
     ${media.sm`
-      font-size: 4.6rem;
+      font-size: 4.8rem;
+    `}
+    ${media.xs`
+      font-size: 4.4rem;
     `}
   }
   & span {

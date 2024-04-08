@@ -14,7 +14,7 @@ const StyledNavLink = styled(NavLink)`
     padding: 0.5rem 1rem;
     transition: all 0.3s;
     border-radius: var(--border-radius-sm);
-    ${media.lg`
+    ${media.md`
       display: none;
   `}
   }

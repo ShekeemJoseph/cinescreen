@@ -62,6 +62,15 @@ const FooterColumn = styled.div`
     &:hover {
       text-decoration: underline;
     }
+    ${media.md`
+    &:hover {
+      text-decoration: none;
+    }
+    &:active {
+      text-decoration: underline;
+    }
+    `}
+
     &:focus {
       outline: none;
     }

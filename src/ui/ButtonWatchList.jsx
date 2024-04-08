@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { mobileMedia } from "../styles/breakpoints";
+import { media, mobileMedia } from "../styles/breakpoints";
 
 const variations = {
   standard: css`
@@ -45,7 +45,9 @@ const ButtonWatchList = styled.button`
   transition: all 0.3s;
   padding: 0.5rem 1rem;
   border: none;
-
+  ${media.sm`
+    font-size: 1.8rem;
+  `}
   & svg {
     width: 2.4rem;
     height: 2.4rem;

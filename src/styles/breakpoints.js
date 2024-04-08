@@ -19,6 +19,11 @@ export const mobileMedia = {
       ${css(...args)};
     }
   `,
+  sm: (...args) => css`
+    @media (min-width: ${breakpoints.sm}) {
+      ${css(...args)};
+    }
+  `,
   xs: (...args) => css`
     @media (min-width: ${breakpoints.xs}) {
       ${css(...args)};

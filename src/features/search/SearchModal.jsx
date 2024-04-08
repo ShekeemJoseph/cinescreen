@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { useState } from "react";
-import { media } from "../../styles/breakpoints";
+import { media, mobileMedia } from "../../styles/breakpoints";
 
 const Modal = styled.ul`
   position: absolute;
@@ -27,12 +27,20 @@ const Modal = styled.ul`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-lg);
   transition: all 0.3s;
-  transform: translateX(-50%);
   top: 120%;
   left: 50%;
+  transform: translateX(-50%);
+  /* ${mobileMedia.sm`
+    top: 120%;
+    left: 50%;
+  `} */
   ${media.sm`
-  left: 15%;
+    top: 150%;
+    left: -120%;
+  `}
+  ${media.xs`
   top: 150%;
+  left: -120%;
   `};
   z-index: 100;
   & li:hover,
