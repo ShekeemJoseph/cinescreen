@@ -3,6 +3,7 @@ import { css } from "styled-components";
 const breakpoints = {
   xs: "450px", // for small screen mobile
   sm: "600px", // for mobile screen
+  smd: "750px", // for small tablets
   md: "950px", // for tablets
   lg: "1150px", // for laptops
   xl: "1440px", // for desktop / monitors
@@ -38,6 +39,11 @@ export const media = {
   `,
   sm: (...args) => css`
     @media (max-width: ${breakpoints.sm}) {
+      ${css(...args)};
+    }
+  `,
+  smd: (...args) => css`
+    @media (max-width: ${breakpoints.smd}) {
       ${css(...args)};
     }
   `,

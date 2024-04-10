@@ -40,7 +40,7 @@ const Modal = styled.ul`
   `}
   ${media.xs`
   top: 150%;
-  left: -120%;
+  left: 50%;
   `};
   z-index: 100;
   & li:hover,

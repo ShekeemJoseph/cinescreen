@@ -3,28 +3,31 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import GlobalStyles from "../styles/GlobalStyles";
 import ErrorMessage from "./ErrorMessage";
+import { media } from "../styles/breakpoints";
 
-const StyledError = styled.div`
+const ErrorSection = styled.section`
   max-width: 128rem;
+  height: 50rem;
   margin: 0 auto;
-  height: 100vh;
 `;
 const ErrorHeader = styled.header`
   display: flex;
-  margin: 0 3.6rem;
   align-items: center;
+  margin: 0 2.4rem;
   gap: 4.8rem;
+  ${media.xs`
+    gap: 1.8rem;
+  `}
   padding: 2.4rem 0;
-  & button {
-    font-size: 1.8rem;
-    color: var(--color-grey-700);
-  }
 `;
 
 const StyledLinkLogo = styled(Link)`
   &:link svg,
   &:visited svg {
     height: 4.8rem;
+    ${media.xs`
+      height: 3.8rem;
+    `}
     width: auto;
   }
 `;
@@ -33,6 +36,9 @@ const ErrorNavButton = styled(NavLink)`
   &:visited {
     color: var(--color-grey-700);
     font-size: 1.8rem;
+    ${media.xs`
+    font-size: 1.8rem;
+    `}
     font-weight: 600;
     padding: 0.5rem 1rem;
     transition: all 0.3s;
@@ -46,7 +52,7 @@ function Error() {
   return (
     <>
       <GlobalStyles />
-      <StyledError>
+      <ErrorSection>
         <ErrorHeader>
           <StyledLinkLogo to="/">
             <Logo primaryColor="#fff" secondaryColor="#fbc117" />
@@ -55,7 +61,7 @@ function Error() {
           <ErrorNavButton to="/tv">TV Shows</ErrorNavButton>
         </ErrorHeader>
         <ErrorMessage />
-      </StyledError>
+      </ErrorSection>
     </>
   );
 }

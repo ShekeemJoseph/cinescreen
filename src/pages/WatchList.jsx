@@ -8,7 +8,8 @@ import { deleteTmdbBookmark } from "../services/apiWatchlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
 import { options } from "../services/apiGetTitleData";
-import { reduceLongPlot } from "../utils/helper";
+import { reduceLongPlot, reduceLongTitle } from "../utils/helper";
+import { media } from "../styles/breakpoints";
 
 const WatchlistHeader = styled.section`
   max-width: 128rem;
@@ -47,6 +48,9 @@ const WatchlistContainer = styled.ul`
   border-radius: var(--border-radius-md);
 `;
 const WatchListItem = styled.li`
+  ${media.smd`
+position: relative;
+`}
   height: 15rem;
   display: flex;
   gap: 1.2rem;
@@ -92,6 +96,11 @@ const WatchListItemDetails = styled.div`
     font-size: 1.4rem;
   }
   & button {
+    ${media.smd`
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    `}
     color: var(--color-grey-0);
     display: flex;
     padding: 1.2rem;
@@ -214,7 +223,8 @@ function WatchList() {
                     >
                       <h4>
                         {`${++index}. `}
-                        {title.title || title.name}
+                        {reduceLongTitle(title.title) ||
+                          reduceLongTitle(title.name)}
                       </h4>
                     </StyledLink>
                   </div>

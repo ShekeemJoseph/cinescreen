@@ -1,6 +1,7 @@
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import { getTitles } from "../services/apiSearchTitleData";
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 const TitlesSection = styled.section`
   max-width: 128rem;
   margin: 0 auto;
@@ -8,6 +9,15 @@ const TitlesSection = styled.section`
 `;
 const StyledTitles = styled.ul`
   width: 100rem;
+  ${media.md`
+  width: 75rem;
+  `}
+  ${media.smd`
+  width: 60rem;
+  `}
+  ${media.xs`
+  width: 45rem;
+  `}
   display: grid;
   grid-template-rows: auto 1fr;
 `;

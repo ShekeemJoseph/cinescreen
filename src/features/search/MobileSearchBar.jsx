@@ -48,7 +48,6 @@ function MobileSearchBar({
   setIsModalOpen,
 }) {
   const navigate = useNavigate();
-  const ref = useOutsideClick(handleCloseSrchBar);
 
   function handleCloseSrchBar() {
     setIsMagnifyClicked(false);
@@ -59,8 +58,11 @@ function MobileSearchBar({
     e.preventDefault();
     if (!query || query.length <= 3 || error) return;
     navigate(`/search/${query}`);
+    setIsMagnifyClicked(false);
+    setIsModalOpen(false);
     setQuery("");
   }
+  const ref = useOutsideClick(handleCloseSrchBar);
   return (
     <SearchBar>
       <MobileStyledForm

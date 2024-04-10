@@ -6,15 +6,7 @@ import { useGetSearchResults } from "../../hooks/useGetSearchResults";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { media } from "../../styles/breakpoints";
 import SearchIconBtn from "./SearchIconBtn";
-const FormContainer = styled.div`
-  max-width: 40rem;
-  position: relative;
-  width: 100%;
-  ${media.md`
-  width: auto;
-  justify-content: flex-end;
-  `}
-`;
+
 const StyledForm = styled.form`
   width: 40rem;
   & input {
@@ -34,6 +26,8 @@ const StyledForm = styled.form`
   `}
 `;
 const SearchBar = styled.div`
+  max-width: 40rem;
+  position: relative;
   display: flex;
   gap: 1.2rem;
   align-items: center;
@@ -50,17 +44,20 @@ function SearchTitle({
   setError,
   isModalOpen,
   setIsModalOpen,
+  isMagnifyClick,
   setIsMagnifyClicked,
 }) {
-  const [titles, setTitles] = useState([]);
   const navigate = useNavigate();
+  const [titles, setTitles] = useState([]);
   useGetSearchResults(setError, setTitles, query);
+
   function handleOpenSrchBar() {
     setIsMagnifyClicked(true);
   }
   function handleClose() {
-    setIsMagnifyClicked(false);
-    setIsModalOpen(false);
+    if (!isMagnifyClick) {
+      setIsModalOpen(false);
+    }
   }
 
   function handleOpen() {
@@ -74,27 +71,20 @@ function SearchTitle({
     setQuery("");
   }
   return (
-    <FormContainer>
-      <SearchBar onClick={handleOpen}>
-        <StyledForm onSubmit={handleSubmit}>
-          <input
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              if (e.target.value.length > 0) {
-                setIsMagnifyClicked(true);
-              } else {
-                setIsMagnifyClicked(false);
-              }
-            }}
-            type="text"
-            placeholder="Search movies / tvshows"
-          />
-        </StyledForm>
-        <SearchIconBtn handler={handleOpenSrchBar}>
-          <HiMagnifyingGlass />
-        </SearchIconBtn>
-      </SearchBar>
+    <SearchBar onClick={handleOpen}>
+      <StyledForm onSubmit={handleSubmit}>
+        <input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+          type="text"
+          placeholder="Search movies / tvshows"
+        />
+      </StyledForm>
+      <SearchIconBtn handler={handleOpenSrchBar}>
+        <HiMagnifyingGlass />
+      </SearchIconBtn>
       {isModalOpen && titles.length !== 0 && query.length > 3 && (
         <SearchModal
           error={error}
@@ -104,7 +94,7 @@ function SearchTitle({
           setQuery={setQuery}
         />
       )}
-    </FormContainer>
+    </SearchBar>
   );
 }
 

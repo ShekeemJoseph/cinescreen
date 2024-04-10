@@ -42,7 +42,7 @@ const FakeHeaderEl = styled.div`
   opacity: 0;
   display: none;
   ${media.md`
-    display: block
+    display: block;
   `}
 `;
 const FakeNavContainer = styled.div`
@@ -89,6 +89,7 @@ function Header() {
             setError={setError}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
+            isMagnifyClick={isMagnifyClick}
             setIsMagnifyClicked={setIsMagnifyClicked}
           />
           <UserRegisteredBtnMenu>
@@ -99,7 +100,7 @@ function Header() {
           <HiMoon />
         </ButtonIcon>
       </HeaderContainer>
-      {isMagnifyClick && (
+      {isMagnifyClick || isModalOpen ? (
         <MobileSearchBar
           error={error}
           query={query}
@@ -107,7 +108,7 @@ function Header() {
           setIsModalOpen={setIsModalOpen}
           setIsMagnifyClicked={setIsMagnifyClicked}
         />
-      )}
+      ) : null}
     </StyledHeader>
   );
 }

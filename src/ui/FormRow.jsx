@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledFormRow = styled.div`
   display: grid;
@@ -6,6 +7,22 @@ const StyledFormRow = styled.div`
 
   grid-template-columns: ${(props) =>
     props.orientation === "vertical" ? "1fr" : "24rem 1fr 1.2fr"};
+  ${media.lg`
+  grid-template-columns: ${(props) =>
+    props.orientation === "vertical" ? "1fr" : "18rem 1fr 1fr"};
+  `}
+  ${media.md`
+  grid-template-columns: ${(props) =>
+    props.orientation === "vertical" ? "1fr" : "15rem 1fr 0.4fr"};
+  `}
+  ${media.smd`
+  grid-template-columns: ${(props) =>
+    props.orientation === "vertical" ? "1fr" : "15rem 1fr"};
+  `}
+  ${media.xs`
+  grid-template-columns: ${(props) =>
+    props.orientation === "vertical" ? "1fr" : "40rem"};
+  `}
   gap: ${(props) => (props.orientation === "vertical" ? "0.8rem" : "2.4rem")};
 
   padding: 1.2rem 0;
