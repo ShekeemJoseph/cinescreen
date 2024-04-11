@@ -23,6 +23,9 @@ const StyledTitles = styled.ul`
 `;
 const UserSearchTitle = styled.p`
   font-size: 3.6rem;
+  ${media.xs`
+    font-size: 2.8rem;
+  `}
   margin-bottom: 3.6rem;
 `;
 const TitleHeading = styled.h3`
@@ -41,6 +44,22 @@ const TitleType = styled.span`
 const StyledLink = styled(Link)`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-400);
+  }
+`;
+const NoResultsMessage = styled.div`
+  height: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  ${media.lg`
+    height: 55rem;
+  `}
+  ${media.sm`
+    height: 75rem;
+  `}
+  & span {
+    font-size: 2.4rem;
   }
 `;
 const Title = styled.li`
@@ -79,42 +98,50 @@ function Titles() {
       <UserSearchTitle>
         Searched "<strong>{titleStr}</strong>"
       </UserSearchTitle>
-      <StyledTitles>
-        {titles
-          .filter((title) =>
-            title.vote_average && title.vote_average !== 0 ? true : false
-          )
-          .map((title) => (
-            <StyledLink
-              to={
-                title.media_type === "movie"
-                  ? `/movie/${title.id}`
-                  : title.media_type === "series" || title.media_type === "tv"
-                  ? `/tv/${title.id}`
-                  : "/"
-              }
-              key={title.id}
-            >
-              <Title>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                  alt={`${title.title ? title.title : title.name} Poster`}
-                />
-                <TitleDetails>
-                  <TitleHeading>
-                    {title.title ? title.title : title.name}
-                  </TitleHeading>
-                  <div>
-                    <TitleType>{title.media_type}</TitleType>
-                    <TitleYear>
-                      {title.release_date || title.first_air_date || "N/A"}
-                    </TitleYear>
-                  </div>
-                </TitleDetails>
-              </Title>
-            </StyledLink>
-          ))}
-      </StyledTitles>
+      {titles.length !== 0 ? (
+        <StyledTitles>
+          {titles
+            .filter((title) =>
+              title.vote_average && title.vote_average !== 0 ? true : false
+            )
+            .map((title) => (
+              <StyledLink
+                to={
+                  title.media_type === "movie"
+                    ? `/movie/${title.id}`
+                    : title.media_type === "series" || title.media_type === "tv"
+                    ? `/tv/${title.id}`
+                    : "/"
+                }
+                key={title.id}
+              >
+                <Title>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
+                    alt={`${title.title ? title.title : title.name} Poster`}
+                  />
+                  <TitleDetails>
+                    <TitleHeading>
+                      {title.title ? title.title : title.name}
+                    </TitleHeading>
+                    <div>
+                      <TitleType>{title.media_type}</TitleType>
+                      <TitleYear>
+                        {title.release_date || title.first_air_date || "N/A"}
+                      </TitleYear>
+                    </div>
+                  </TitleDetails>
+                </Title>
+              </StyledLink>
+            ))}
+        </StyledTitles>
+      ) : (
+        <NoResultsMessage>
+          <span>
+            There are currently no results for <strong>"{titleStr}"</strong>
+          </span>
+        </NoResultsMessage>
+      )}
     </TitlesSection>
   );
 }

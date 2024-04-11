@@ -6,6 +6,7 @@ import {
   getTitleGenreId,
   sortGenres,
 } from "../utils/helper";
+import { media } from "../styles/breakpoints";
 
 const TitleLinks = styled(Link)`
   &:link,
@@ -13,6 +14,9 @@ const TitleLinks = styled(Link)`
     border-radius: 100px;
     border: 1px solid var(--color-grey-500);
     padding: 0.4rem 0.6rem;
+    ${media.sm`
+      font-size: 2.2rem;
+    `}
   }
   &:hover,
   &:active {

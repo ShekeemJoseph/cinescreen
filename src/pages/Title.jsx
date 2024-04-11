@@ -15,16 +15,19 @@ const TitleSection = styled.section`
   max-width: 128rem;
   margin: 0 auto;
 `;
-const TitlesCarouselContainer = styled.section`
+const TitlesCarouselSection = styled.section`
   max-width: 128rem;
   margin: 3.6rem auto;
   padding: 0 2.4rem;
 `;
 const Container = styled.div`
   background-color: #1f1f1f;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const TitleOverlay = styled.div`
+  margin: 0 auto;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -41,7 +44,7 @@ const TitleBackdrop = styled.div`
 function Title() {
   const { selectedTitle, relatedGenre } = useLoaderData();
   const filteredRelatedGenre = relatedGenre.filter(
-    (title) => title.original_title !== selectedTitle.Title
+    (similarTitle) => similarTitle.original_title !== selectedTitle.Title
   );
   return (
     <>
@@ -54,14 +57,14 @@ function Title() {
         </TitleSection>
       </Container>
       {filteredRelatedGenre.length >= 5 && (
-        <TitlesCarouselContainer>
+        <TitlesCarouselSection>
           <TitlesCarousel
             label="Of Related Genres"
             mediaType={selectedTitle.Type}
             browseContent={false}
             titles={filteredRelatedGenre}
           />
-        </TitlesCarouselContainer>
+        </TitlesCarouselSection>
       )}
     </>
   );

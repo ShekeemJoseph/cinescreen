@@ -108,7 +108,7 @@ function TitlesCarousel({ label, browseContent, titles, mediaType }) {
   }
 
   return (
-    <TitlesContainer>
+    <TitlesContainer className="my-swiper-container">
       <TitlesBoxHeading>
         <div className="carousel-heading">
           <h2>{label}</h2>

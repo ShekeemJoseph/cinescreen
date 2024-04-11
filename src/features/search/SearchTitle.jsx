@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SearchModal from "./SearchModal";
 import { useGetSearchResults } from "../../hooks/useGetSearchResults";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { media } from "../../styles/breakpoints";
+import { media, mobileMedia } from "../../styles/breakpoints";
 import SearchIconBtn from "./SearchIconBtn";
 
 const StyledForm = styled.form`
@@ -27,7 +27,9 @@ const StyledForm = styled.form`
 `;
 const SearchBar = styled.div`
   max-width: 40rem;
-  position: relative;
+  ${mobileMedia.sm`
+    position: relative;
+  `}
   display: flex;
   gap: 1.2rem;
   align-items: center;

@@ -24,6 +24,9 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${media.sm`
+  position: relative;
+  `}
 `;
 
 const StyledLinkLogo = styled(Link)`

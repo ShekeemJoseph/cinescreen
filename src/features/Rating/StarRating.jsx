@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import styled from "styled-components";
+import { media } from "../../styles/breakpoints";
 
 const StarContainerStyled = styled.div`
   display: flex;
@@ -13,6 +14,10 @@ const StarStyle = styled.span`
     cursor: pointer;
     color: var(--color-brand-800);
     margin-left: 0.4rem;
+    ${media.sm`
+    width: 3rem;
+    height: 3rem;
+    `}
   }
 `;
 function StarRating({ maxRating = 5, rating, onSetRating }) {

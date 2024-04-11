@@ -81,8 +81,16 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   font-size: 1.6rem;
+  position: relative;
 }
 
+.my-swiper-container {
+  display: grid;
+}
+
+.my-swiper-container .swiper {
+  max-width: 100%;
+}
 input,
 button,
 textarea,

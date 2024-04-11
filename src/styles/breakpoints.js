@@ -9,6 +9,7 @@ const breakpoints = {
   xl: "1440px", // for desktop / monitors
   xxl: "1920px", // for big screens
 };
+
 export const mobileMedia = {
   lg: (...args) => css`
     @media (min-width: ${breakpoints.lg}) {

@@ -15,6 +15,7 @@ import {
   updateRating,
 } from "../../services/apiRatings";
 import { useParams } from "react-router-dom";
+import { media } from "../../styles/breakpoints";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -73,6 +74,15 @@ const RatingsContent = styled.div`
   & span:first-child {
     color: var(--color-brand-800);
     font-size: 1.6rem;
+    ${media.sm`
+    font-size: 2.2rem;
+    `}
+  }
+  & span:nth-child(2) {
+    font-size: 1.6rem;
+    ${media.sm`
+    font-size: 2rem;
+    `}
   }
 `;
 const variations = {
@@ -108,6 +118,9 @@ const RatingButton = styled.button`
   padding: 0.8rem 0.6rem;
   border-radius: var(--border-radius-sm);
   color: var(--color-grey-0);
+  ${media.sm`
+    font-size: 2rem;
+  `}
 `;
 const StarSvgContainer = styled.div`
   position: absolute;

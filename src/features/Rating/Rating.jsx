@@ -18,7 +18,6 @@ const RateButton = styled.button`
   align-items: center;
   gap: 0.4rem;
   color: #1c7ed6;
-  font-size: 2rem;
   background: none;
   outline: none;
   border: none;
@@ -45,6 +44,9 @@ const RateButton = styled.button`
     padding: 2rem 0.5rem;
     border-radius: var(--border-radius-sm);
     position: absolute;
+  }
+  & span {
+    font-size: 2rem;
   }
 `;
 
