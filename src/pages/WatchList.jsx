@@ -133,6 +133,7 @@ function WatchList() {
   const [isLoading, setIsLoading] = useState(false);
   const [bookmarkedTitles, setBookmarkedTitles] = useState([]);
   const { isLoading: isWatchlistLoading, watchlist } = useWatchlist(user.id);
+
   useEffect(() => {
     async function getWatchlistData() {
       setIsLoading(true);
@@ -208,7 +209,12 @@ function WatchList() {
               <WatchListItem key={title.id}>
                 <img
                   src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                  alt={`${title.title || title.name} Poster`}
+                  alt={`${
+                    title.title ||
+                    title.original_title ||
+                    title.name ||
+                    title.original_name
+                  } Poster`}
                 />
                 <WatchListItemDetails>
                   <div>
@@ -224,7 +230,9 @@ function WatchList() {
                       <h4>
                         {`${++index}. `}
                         {reduceLongTitle(title.title) ||
-                          reduceLongTitle(title.name)}
+                          reduceLongTitle(title.original_title) ||
+                          reduceLongTitle(title.name) ||
+                          reduceLongTitle(title.original_name)}
                       </h4>
                     </StyledLink>
                   </div>

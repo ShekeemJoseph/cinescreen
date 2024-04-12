@@ -1,6 +1,6 @@
 export function reduceLongTitle(str) {
   let longStr;
-  if (str.length > 20) {
+  if (str !== undefined && str.length > 20) {
     longStr = str.slice(0, 20) + "...";
     return longStr;
   } else {
@@ -9,8 +9,7 @@ export function reduceLongTitle(str) {
 }
 export function reduceLongPlot(str) {
   let longStr;
-  console.log(str.length);
-  if (str.length > 150) {
+  if (str !== undefined && str.length > 20) {
     longStr = str.slice(0, 150) + "...";
     return longStr;
   } else {
