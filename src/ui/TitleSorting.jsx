@@ -9,6 +9,7 @@ import {
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
 import "array.prototype.move";
+import { media } from "../styles/breakpoints";
 
 const StyledTitleSorting = styled.aside`
   display: grid;
@@ -25,6 +26,9 @@ const StyledTitleSorting = styled.aside`
     font-size: 1.2rem;
     margin: 1.8rem 0;
   }
+  ${media.md`
+    display: none;
+  `}
 `;
 
 const RangeSlider = styled.div`

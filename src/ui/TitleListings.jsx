@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaFilter } from "react-icons/fa";
 import { getCurrentYear, reduceLongTitle } from "../utils/helper";
 import SpinnerMini from "./SpinnerMini";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
@@ -6,6 +7,8 @@ import { HiStar } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import { getPageMovies, getPageSeries } from "../services/apiGetTitleData";
 import Pagination from "./Pagination";
+import { media } from "../styles/breakpoints";
+import ListingsFilterModal from "./ListingsFilterModal";
 
 const TitleContentLinks = styled.div`
   display: flex;
@@ -19,6 +22,12 @@ const StyledTitleListings = styled.div`
 const Listings = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  ${media.md`
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  `}
+  ${media.smd`
+  grid-template-columns: 1fr;
+  `}
   grid-template-rows: ${(props) =>
     `repeat(${Math.ceil(props.titleLength / 3)}, minmax(0, 1fr))`};
   margin: 2.4rem;
@@ -96,7 +105,7 @@ const ListingDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-items: start;
+  justify-content: space-evenly;
 `;
 const ListingYear = styled.div`
   font-size: 1.4rem;
@@ -113,12 +122,48 @@ const EmptyListingsMessage = styled.div`
     margin-bottom: 0.8rem;
   }
 `;
+const FilterModalBtn = styled.button`
+  display: flex;
+  background: none;
+  position: relative;
+  margin-left: 2.4rem;
+  border: 1px solid var(--color-grey-700);
+  border-radius: var(--border-radius-md);
+  color: var(--color-grey-700);
+  align-items: center;
+  margin-top: 0.8rem;
+  gap: 1.2rem;
+  padding: 1rem 2rem;
+  /* ${media.md`
+  display: flex;
+  `} */
+  & svg {
+    color: var(--color-grey-700);
+    height: 1.6rem;
+    width: auto;
+  }
+  & span {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
   const [searchParams] = useSearchParams(getCurrentYear());
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
   const [sortedPages, setSortedPages] = useState();
-
+  const [modalFilterOpen, setModalFilterOpen] = useState(false);
+  function closeFilterModal() {
+    setModalFilterOpen(false);
+    document.body.style.overflow = "auto";
+  }
+  function openFilterModal() {
+    setModalFilterOpen(true);
+    document.body.style.overflow = "hidden";
+  }
   useEffect(() => {
     async function getByReleaseYear() {
       setIsLoading(true);
@@ -168,6 +213,11 @@ function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
         <StyledNavLink to="/movie">Movies</StyledNavLink>
         <StyledNavLink to="/tv">TV Shows</StyledNavLink>
       </TitleContentLinks>
+      <FilterModalBtn onClick={openFilterModal}>
+        <FaFilter />
+        <span>Filter</span>
+      </FilterModalBtn>
+      {modalFilterOpen && <ListingsFilterModal handler={closeFilterModal} />}
       {filteredTitles.length >= 1 ? (
         <Listings titleLength={filteredTitles.length}>
           {filteredTitles.map((title) => (
