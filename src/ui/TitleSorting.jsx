@@ -132,7 +132,7 @@ function TitleSorting({ mediaType }) {
             min={1980}
             max={getCurrentYear()}
             step={1}
-            value={+searchParams.get("year") || getCurrentYear()}
+            value={releaseYear || +searchParams.get("year") || getCurrentYear()}
             onChange={setReleaseYear}
             onAfterChange={(value) => {
               searchParams.set("year", value);

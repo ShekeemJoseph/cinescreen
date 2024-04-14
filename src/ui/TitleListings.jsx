@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { getPageMovies, getPageSeries } from "../services/apiGetTitleData";
 import Pagination from "./Pagination";
 import { media } from "../styles/breakpoints";
-import ListingsFilterModal from "./ListingsFilterModal";
 
 const TitleContentLinks = styled.div`
   display: flex;
@@ -25,7 +24,7 @@ const Listings = styled.ul`
   ${media.md`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
-  ${media.smd`
+  ${media.sm`
   grid-template-columns: 1fr;
   `}
   grid-template-rows: ${(props) =>
@@ -77,12 +76,17 @@ const StyledNavLink = styled(NavLink)`
   &:visited {
     font-weight: 600;
     position: relative;
-
+    ${media.md`
+      font-size: 2.2rem;
+    `}
     &::after {
       position: absolute;
       left: 0;
       right: 0;
       bottom: 3.4rem;
+      ${media.md`
+      bottom: 4.3rem;
+      `}
       height: 2px;
       z-index: 100;
       background-color: var(--color-grey-700);
@@ -123,47 +127,43 @@ const EmptyListingsMessage = styled.div`
   }
 `;
 const FilterModalBtn = styled.button`
-  display: flex;
+  display: none;
   background: none;
   position: relative;
-  margin-left: 2.4rem;
+  margin-right: 2.4rem;
   border: 1px solid var(--color-grey-700);
   border-radius: var(--border-radius-md);
   color: var(--color-grey-700);
   align-items: center;
-  margin-top: 0.8rem;
   gap: 1.2rem;
   padding: 1rem 2rem;
-  /* ${media.md`
+  ${media.md`
   display: flex;
-  `} */
+  `}
   & svg {
     color: var(--color-grey-700);
-    height: 1.6rem;
+    height: 2rem;
     width: auto;
   }
   & span {
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: 500;
   }
   &:focus {
     outline: none;
   }
 `;
-function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
+function TitleListings({
+  initialTitles,
+  initialTotalResults,
+  mediaType,
+  modalHandler,
+}) {
   const [searchParams] = useSearchParams(getCurrentYear());
   const [isLoading, setIsLoading] = useState(false);
   const [titlesByYear, setTitlesByYear] = useState();
   const [sortedPages, setSortedPages] = useState();
-  const [modalFilterOpen, setModalFilterOpen] = useState(false);
-  function closeFilterModal() {
-    setModalFilterOpen(false);
-    document.body.style.overflow = "auto";
-  }
-  function openFilterModal() {
-    setModalFilterOpen(true);
-    document.body.style.overflow = "hidden";
-  }
+
   useEffect(() => {
     async function getByReleaseYear() {
       setIsLoading(true);
@@ -213,11 +213,12 @@ function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
         <StyledNavLink to="/movie">Movies</StyledNavLink>
         <StyledNavLink to="/tv">TV Shows</StyledNavLink>
       </TitleContentLinks>
-      <FilterModalBtn onClick={openFilterModal}>
-        <FaFilter />
-        <span>Filter</span>
-      </FilterModalBtn>
-      {modalFilterOpen && <ListingsFilterModal handler={closeFilterModal} />}
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <FilterModalBtn onClick={modalHandler}>
+          <FaFilter />
+          <span>Filter</span>
+        </FilterModalBtn>
+      </div>
       {filteredTitles.length >= 1 ? (
         <Listings titleLength={filteredTitles.length}>
           {filteredTitles.map((title) => (
@@ -232,7 +233,9 @@ function TitleListings({ initialTitles, initialTotalResults, mediaType }) {
               }
             >
               {isLoading ? (
-                <SpinnerMini />
+                <div style={{ width: "29.7rem", textAlign: "center" }}>
+                  <SpinnerMini />
+                </div>
               ) : (
                 <ListingContent>
                   <img

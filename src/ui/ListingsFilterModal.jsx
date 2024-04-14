@@ -11,6 +11,7 @@ import ReactSlider from "react-slider";
 import "array.prototype.move";
 import { media } from "../styles/breakpoints";
 import { HiXMark } from "react-icons/hi2";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const Overlay = styled.div`
   position: fixed;
@@ -58,11 +59,6 @@ const Button = styled.button`
   position: absolute;
   top: 1.2rem;
   right: 1.9rem;
-
-  &:hover {
-    background-color: #1c7ed6;
-  }
-
   & svg {
     width: 3.6rem;
     height: 3.6rem;
@@ -75,7 +71,7 @@ const Button = styled.button`
     outline: none;
   }
 `;
-const TitleSortingForm = styled.form`
+const TitleSortingForm = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
 
@@ -120,7 +116,26 @@ const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
     }
   }
 `;
-
+// const ViewResultsBtn = styled.button`
+//   position: absolute;
+//   background: none;
+//   border: none;
+//   padding: 0.4rem;
+//   border-radius: var(--border-radius-sm);
+//   background-color: var(--color-grey-700);
+//   color: var(--color-grey-0);
+//   ${media.sm`
+//   top: 55rem;
+//   `}
+//   top: 45rem;
+//   right: 50%;
+//   transform: translate(50%, 50%);
+//   width: 90%;
+//   height: 5rem;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 const GenreListings = styled.ul`
   ${(props) => variations[props.variation]}
   display: flex;
@@ -159,6 +174,10 @@ const FilterContainer = styled.div`
   ${media.md`
   max-width: 80rem;
   max-height: 50rem;
+  `}
+  ${media.sm`
+  max-width: 80rem;
+  max-height: 60rem;
   `}
   width: 100%;
 
@@ -200,9 +219,10 @@ function ListingsFilterModal({ mediaType, handler }) {
     }
     handleLoad();
   }, [searchParams, titleGenres]);
+  const ref = useOutsideClick(handler);
   return (
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={handler}>
           <HiXMark />
         </Button>
@@ -220,7 +240,9 @@ function ListingsFilterModal({ mediaType, handler }) {
                   min={1980}
                   max={getCurrentYear()}
                   step={1}
-                  value={+searchParams.get("year") || getCurrentYear()}
+                  value={
+                    releaseYear || +searchParams.get("year") || getCurrentYear()
+                  }
                   onChange={setReleaseYear}
                   onAfterChange={(value) => {
                     searchParams.set("year", value);
