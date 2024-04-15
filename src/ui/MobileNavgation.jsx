@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { media } from "../styles/breakpoints";
 import { createPortal } from "react-dom";
 import Logo from "./Logo";
+import { useRef } from "react";
 const Navigation = styled.div`
   #navi-toggle:checked ~ div {
     transform: scale(80);
@@ -152,9 +153,13 @@ const NavIcon = styled.span`
   }
 `;
 function MobileNavgation() {
+  const ref = useRef();
+  function removeChecked() {
+    ref.current.checked = false;
+  }
   return createPortal(
     <Navigation>
-      <NavCheckbox type="checkbox" id="navi-toggle" />
+      <NavCheckbox ref={ref} type="checkbox" id="navi-toggle" />
       <NavButton for="navi-toggle">
         <NavIcon>&nbsp;</NavIcon>
       </NavButton>
@@ -162,17 +167,17 @@ function MobileNavgation() {
       <NavigationNav>
         <NavigationList>
           <NavigationItem>
-            <StyledLinkLogo to="/">
+            <StyledLinkLogo onClick={removeChecked} to="/">
               <Logo />
             </StyledLinkLogo>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink to="/movie">
+            <NavigationLink onClick={removeChecked} to="/movie">
               <span>Movies</span>
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink to="/tv">
+            <NavigationLink onClick={removeChecked} to="/tv">
               <span>TV Shows</span>
             </NavigationLink>
           </NavigationItem>

@@ -50,8 +50,10 @@ const StyledList = styled.ul`
 `;
 const Avatar = styled.img`
   display: block;
-  width: 4rem;
   width: 3.6rem;
+  ${media.sm`
+  width: 4.2rem;
+  `}
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center;

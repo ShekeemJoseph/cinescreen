@@ -36,7 +36,7 @@ const SearchBar = styled.div`
   justify-content: center;
   background-color: var(--color-grey-0);
   border-radius: var(--border-radius-md);
-  padding: 1rem 1.4rem;
+  padding: 0.8rem 1.2rem;
 `;
 
 function SearchTitle({

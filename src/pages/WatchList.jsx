@@ -66,7 +66,8 @@ position: relative;
 `;
 const NoContentContainer = styled.div`
   height: 46.5rem;
-  width: 128rem;
+  max-width: 128rem;
+  font-size: 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -57,6 +57,14 @@ const TitleRatings = styled.div`
   `}
   display: flex;
   gap: 2.4rem;
+  justify-content: flex-end;
+  ${media.lg`
+  gap: 0;
+  justify-content: space-between;
+  `}
+  ${media.sm`
+  gap: 2.4rem;
+  `}
   z-index: 5;
 `;
 const TitleRating = styled.div`
@@ -65,13 +73,15 @@ const TitleRating = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 0.6rem;
-
   & svg {
     width: auto;
     height: 2.2rem;
   }
   & span:first-child {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    ${media.sm`
+      font-size: 1.4rem;
+    `}
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
@@ -79,16 +89,16 @@ const TitleRating = styled.div`
     color: var(--color-grey-300);
   }
   & span:nth-child(2) {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
+    ${media.sm`
+      font-size: 2.2rem;
+    `}
   }
 `;
 const CenterRatingText = styled.div`
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  & span {
-    font-size: 1.8rem;
-  }
   & svg {
     color: var(--color-brand-800);
   }
@@ -105,6 +115,7 @@ const TitleDetails = styled.div`
   `}
   & div {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.8rem;
   }
   & p {
@@ -126,6 +137,17 @@ const TitleExtra = styled.div`
     align-items: center;
     gap: 0.8rem;
   }
+  & button {
+    ${media.sm`
+      font-size: 2.2rem;
+      padding: 2.4rem;
+    `}
+    & svg {
+      ${media.sm`
+      height: 4rem;
+    `}
+    }
+  }
 `;
 const variations = {
   green: css`
@@ -140,7 +162,7 @@ const variations = {
 };
 const TitleHeading = styled.div`
   z-index: 5;
-  grid-column: span 2;
+  grid-column: span 3;
   ${media.lg`
   grid-column: span 3;
   `}
@@ -224,7 +246,7 @@ function TitleContent({ title }) {
         {title.Ratings[1] && (
           <TitleRating>
             <span>{title.Ratings[1] && title.Ratings[1].Source}</span>
-            <span style={{ fontSize: "2rem" }}>
+            <span>
               <strong>{title.Ratings[1] && title.Ratings[1].Value}</strong>
             </span>
           </TitleRating>

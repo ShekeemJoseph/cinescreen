@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../ui/Header";
+import Navigation from "../ui/Navigation";
 import Footer from "../ui/Footer";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
@@ -26,7 +26,7 @@ function AppLayout() {
       <GlobalStyles />
       <ScrollRestoration />
       <StyledAppLayout>
-        <Header />
+        <Navigation />
         <Outlet />
         <Footer />
       </StyledAppLayout>

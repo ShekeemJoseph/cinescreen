@@ -13,7 +13,7 @@ import MobileNavgation from "./MobileNavgation";
 import MobileSearchBar from "../features/search/MobileSearchBar";
 import { useState } from "react";
 
-const StyledHeader = styled.header`
+const StyledNavigation = styled.nav`
   position: relative;
   padding: 1.5rem 2rem;
   background-color: var(--color-brand-900);
@@ -72,7 +72,7 @@ function Header() {
   const [isMagnifyClick, setIsMagnifyClicked] = useState(false);
 
   return (
-    <StyledHeader>
+    <StyledNavigation>
       <HeaderContainer>
         <MobileNavgation />
         <FakeNavContainer>
@@ -112,7 +112,7 @@ function Header() {
           setIsMagnifyClicked={setIsMagnifyClicked}
         />
       ) : null}
-    </StyledHeader>
+    </StyledNavigation>
   );
 }
 

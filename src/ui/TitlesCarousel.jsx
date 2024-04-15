@@ -29,7 +29,9 @@ const TitlesBoxHeading = styled.div`
     span:active {
       text-decoration: underline;
     }
-
+    ${media.sm`
+      font-size: 2rem;
+    `}
     & h2 {
       font-weight: 700;
       font-size: 3.6rem;
