@@ -64,6 +64,9 @@ const PromotionHeading = styled.div`
 `;
 const PromotionCardContainer = styled.div`
   display: flex;
+  ${media.md`
+    display: none;
+  `}
   justify-content: center;
   align-items: center;
   position: absolute;

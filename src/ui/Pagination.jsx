@@ -1,6 +1,7 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledPagination = styled.div`
   width: 100%;
@@ -12,7 +13,9 @@ const StyledPagination = styled.div`
 const P = styled.p`
   font-size: 1.4rem;
   margin-left: 0.8rem;
-
+  ${media.md`
+  font-size: 1.5rem;
+  `}
   & span {
     font-weight: 600;
   }
@@ -31,6 +34,9 @@ const PaginationButton = styled.button`
   border-radius: var(--border-radius-sm);
   font-weight: 500;
   font-size: 1.4rem;
+  ${media.md`
+  font-size: 1.5rem;
+  `}
   &:focus {
     outline: none;
   }
@@ -52,6 +58,10 @@ const PaginationButton = styled.button`
   & svg {
     height: 1.8rem;
     width: 1.8rem;
+    ${media.md`
+    height: 1.9rem;
+    width: 1.9rem;
+    `}
   }
 
   &:hover:not(:disabled) {

@@ -1,10 +1,11 @@
-import { HiMoon } from "react-icons/hi2";
+import { HiMoon, HiSun } from "react-icons/hi2";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../styles/breakpoints";
 import { createPortal } from "react-dom";
 import Logo from "./Logo";
 import { useRef } from "react";
+import { useDarkMode } from "../features/context/DarkModeContext";
 const Navigation = styled.div`
   #navi-toggle:checked ~ div {
     transform: scale(80);
@@ -88,7 +89,25 @@ const StyledLinkLogo = styled(Link)`
     width: auto;
   }
 `;
-const NavDarkModeBtn = styled.button``;
+const NavDarkModeBtn = styled.button`
+  background: none;
+  border: none;
+  ${media.xs`
+    font-size: 4.2rem;
+    `}
+  font-size: 3.4rem;
+  font-weight: 300;
+  padding: 1rem 2rem;
+  color: var(--color-grey-0);
+  & div {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 
 const NavigationItem = styled.li``;
 
@@ -157,6 +176,7 @@ function MobileNavgation() {
   function removeChecked() {
     ref.current.checked = false;
   }
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   return createPortal(
     <Navigation>
       <NavCheckbox ref={ref} type="checkbox" id="navi-toggle" />
@@ -182,8 +202,21 @@ function MobileNavgation() {
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavDarkModeBtn>
-              <HiMoon /> <span>Night Mode</span>
+            <NavDarkModeBtn
+              onClick={() => {
+                toggleDarkMode();
+                removeChecked();
+              }}
+            >
+              {isDarkMode ? (
+                <div>
+                  <HiMoon /> <span>Dark Mode</span>
+                </div>
+              ) : (
+                <div>
+                  <HiSun /> <span>Light Mode</span>
+                </div>
+              )}
             </NavDarkModeBtn>
           </NavigationItem>
         </NavigationList>

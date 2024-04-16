@@ -1,15 +1,24 @@
-export function reduceLongTitle(str) {
+export function reduceLongTitle(str, strLength = 20) {
   let longStr;
-  if (str !== undefined && str.length > 20) {
-    longStr = str.slice(0, 20) + "...";
+  if (str !== undefined && str.length > strLength) {
+    longStr = str.slice(0, strLength) + "...";
     return longStr;
   } else {
     return str;
   }
 }
-export function reduceLongPlot(str) {
+export function reduceTitlePlot(str) {
   let longStr;
-  if (str !== undefined && str.length > 20) {
+  if (str !== undefined) {
+    longStr = str.slice(0, 40) + "...";
+    return longStr;
+  } else {
+    return str;
+  }
+}
+export function reduceBookmarkedPlot(str) {
+  let longStr;
+  if (str !== undefined && str.length > 150) {
     longStr = str.slice(0, 150) + "...";
     return longStr;
   } else {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { useState } from "react";
 import { media } from "../../styles/breakpoints";
+import { reduceLongTitle } from "../../utils/helper";
 
 const Modal = styled.ul`
   position: absolute;
@@ -44,11 +45,17 @@ const Modal = styled.ul`
   & li:hover,
   & li:active {
     background-color: var(--color-grey-725);
+    ${media.md`
+      background: none;
+    `}
   }
 `;
 const TitleBox = styled.li`
   width: 100%;
   height: 10rem;
+  ${media.sm`
+    font-size: 1.8rem;
+  `}
   padding: 1.2rem;
   display: flex;
   gap: 2.4rem;
@@ -95,10 +102,14 @@ function SearchModal({ error, handler, open, titles, setQuery }) {
             <TitleBox>
               <img
                 src={`https://image.tmdb.org/t/p/w500${title.poster_path}`}
-                alt={`${title.title ? title.title : title.name} Poster`}
+                alt={`${reduceLongTitle(
+                  title.title ? title.title : title.name
+                )} Poster`}
               />
               <div>
-                <span>{title.title ? title.title : title.name}</span>
+                <span>
+                  {reduceLongTitle(title.title ? title.title : title.name, 30)}
+                </span>
                 <span>
                   {title.release_date || title.first_air_date || "N/A"}
                 </span>

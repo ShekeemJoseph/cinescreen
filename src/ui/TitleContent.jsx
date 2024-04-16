@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createBookmark, deleteTmdbBookmark } from "../services/apiWatchlist";
 import { useParams } from "react-router-dom";
 import { BsBookmarkPlus } from "react-icons/bs";
+import { SiRottentomatoes } from "react-icons/si";
 import Register from "../features/authentication/Register";
 import { useWatchlist } from "../features/Watchlist/useWatchlist";
 import { useRatings } from "../features/Rating/useRatings";
@@ -246,9 +247,14 @@ function TitleContent({ title }) {
         {title.Ratings[1] && (
           <TitleRating>
             <span>{title.Ratings[1] && title.Ratings[1].Source}</span>
-            <span>
-              <strong>{title.Ratings[1] && title.Ratings[1].Value}</strong>
-            </span>
+            <CenterRatingText>
+              <SiRottentomatoes style={{ color: "red" }} />
+              <span>
+                <strong>
+                  {title.Ratings[1] && title.Ratings[1].Value} FRESH
+                </strong>
+              </span>
+            </CenterRatingText>
           </TitleRating>
         )}
         <TitleRating>

@@ -11,10 +11,15 @@ import Error from "./ui/Error";
 import ErrorMessage from "./ui/ErrorMessage";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import PasswordReset from "./pages/PasswordReset";
+import { DarkModeProvider } from "./features/context/DarkModeContext";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: (
+      <DarkModeProvider>
+        <AppLayout />
+      </DarkModeProvider>
+    ),
     errorElement: <Error />,
     children: [
       {

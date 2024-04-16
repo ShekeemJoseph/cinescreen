@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { FaFilter } from "react-icons/fa";
-import { getCurrentYear, reduceLongTitle } from "../utils/helper";
+import {
+  getCurrentYear,
+  reduceLongTitle,
+  reduceTitlePlot,
+} from "../utils/helper";
 import SpinnerMini from "./SpinnerMini";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi2";
@@ -35,7 +39,7 @@ const Listings = styled.ul`
 `;
 const Listing = styled(Link)`
   width: 100%;
-  height: 100%;
+  height: 95%;
   padding: 1.8rem;
   display: flex;
   justify-content: center;
@@ -47,17 +51,44 @@ const Listing = styled(Link)`
   &:active {
     box-shadow: var(--shadow-lg);
     transform: translateY(-5px);
+    ${media.md`
+    box-shadow: var(--shadow-ml);
+    transform: translateY(0);
+    `}
   }
 `;
 const ListingContent = styled.li`
   display: flex;
-  align-items: center;
   gap: 1.2rem;
   & img {
-    width: 30%;
+    width: 35%;
+    ${media.md`
+    width: 25%;
+    `}
+    ${media.sm`
+    width: 15%;
+    `}
+    ${media.xs`
+    width: 25%;
+    `}
     height: auto;
     border-radius: var(--border-radius-sm);
   }
+`;
+const ListingDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  font-size: 1.4rem;
+  ${media.md`
+  font-size: 1.6rem;
+  `}
+  ${media.sm`
+  font-size: 1.8rem;
+  `} /* ${media.xs`
+  font-size: 2rem;
+  `} */
 `;
 const RatingsText = styled.div`
   display: flex;
@@ -105,14 +136,17 @@ const StyledNavLink = styled(NavLink)`
     }
   }
 `;
-const ListingDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-evenly;
-`;
+
 const ListingYear = styled.div`
   font-size: 1.4rem;
+  ${media.md`
+  font-size: 1.6rem;
+  `}
+  ${media.sm`
+  font-size: 1.8rem;
+  `} /* ${media.xs`
+  font-size: 2rem;
+  `} */
 `;
 const EmptyListings = styled.div`
   height: 35%;
@@ -243,13 +277,12 @@ function TitleListings({
                     alt={`${title.title ? title.title : title.name} Poster`}
                   />
                   <ListingDetails>
-                    <h4>
+                    <h3>
                       {reduceLongTitle(title.title ? title.title : title.name)}
-                    </h4>
+                    </h3>
                     <ListingYear>
                       {title.release_date || title.first_air_date || "N/A"}
                     </ListingYear>
-                    <p>{reduceLongTitle(title.overview)}</p>
                     {title.vote_average && (
                       <RatingsText>
                         <span>{Math.floor(title.vote_average)}</span>
@@ -257,6 +290,7 @@ function TitleListings({
                         <span>Rating</span>
                       </RatingsText>
                     )}
+                    <p>{reduceTitlePlot(title.overview)}</p>
                   </ListingDetails>
                 </ListingContent>
               )}

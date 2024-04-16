@@ -8,7 +8,7 @@ import { deleteTmdbBookmark } from "../services/apiWatchlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
 import { options } from "../services/apiGetTitleData";
-import { reduceLongPlot, reduceLongTitle } from "../utils/helper";
+import { reduceBookmarkedPlot, reduceLongTitle } from "../utils/helper";
 import { media } from "../styles/breakpoints";
 
 const WatchlistHeader = styled.section`
@@ -245,7 +245,7 @@ function WatchList() {
                     <span>{Math.ceil(title.vote_average)}</span>
                     <span>{title.media_type.toUpperCase()}</span>
                   </div>
-                  <p>{reduceLongPlot(title.overview)}</p>
+                  <p>{reduceBookmarkedPlot(title.overview)}</p>
                   <button onClick={() => handleRemoveBookmark(title.id)}>
                     <HiBookmarkSlash /> watchlist
                   </button>

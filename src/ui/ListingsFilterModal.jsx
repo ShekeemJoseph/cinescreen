@@ -116,26 +116,6 @@ const RangeInput = styled(ReactSlider).attrs({ type: "range" })`
     }
   }
 `;
-// const ViewResultsBtn = styled.button`
-//   position: absolute;
-//   background: none;
-//   border: none;
-//   padding: 0.4rem;
-//   border-radius: var(--border-radius-sm);
-//   background-color: var(--color-grey-700);
-//   color: var(--color-grey-0);
-//   ${media.sm`
-//   top: 55rem;
-//   `}
-//   top: 45rem;
-//   right: 50%;
-//   transform: translate(50%, 50%);
-//   width: 90%;
-//   height: 5rem;
-//   &:focus {
-//     outline: none;
-//   }
-// `;
 const GenreListings = styled.ul`
   ${(props) => variations[props.variation]}
   display: flex;
@@ -155,10 +135,16 @@ const Genre = styled.li`
   border-radius: var(--border-radius-sm);
   gap: 1.2rem;
 
-  &:hover,
   &:active {
     background-color: var(--color-grey-300);
     border-radius: var(--border-radius-sm);
+  }
+  &:hover {
+    background-color: var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    ${media.md`
+    background: none;
+    `}
   }
   input[type="checkbox"] {
     accent-color: black;

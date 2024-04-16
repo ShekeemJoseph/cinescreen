@@ -12,6 +12,7 @@ import HeaderLogo from "./HeaderLogo";
 import MobileNavgation from "./MobileNavgation";
 import MobileSearchBar from "../features/search/MobileSearchBar";
 import { useState } from "react";
+import DarkModeToggle from "./DarkModeToggle";
 
 const StyledNavigation = styled.nav`
   position: relative;
@@ -99,9 +100,7 @@ function Header() {
             {!isAuthenticated ? <Register /> : <UserMenu />}
           </UserRegisteredBtnMenu>
         </Container>
-        <ButtonIcon>
-          <HiMoon />
-        </ButtonIcon>
+        <DarkModeToggle />
       </HeaderContainer>
       {isMagnifyClick || isModalOpen ? (
         <MobileSearchBar
