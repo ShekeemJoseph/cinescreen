@@ -44,7 +44,7 @@ const variations = {
     align-items: center;
     justify-content: center;
     gap: 1.8rem;
-    color: var(--color-grey-0);
+    color: #fff;
     transform: rotateY(180deg);
     background: linear-gradient(
       39deg,

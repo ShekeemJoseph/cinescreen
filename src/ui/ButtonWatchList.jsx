@@ -11,8 +11,8 @@ const variations = {
     &:active {
       
       border-radius: var(--border-radius-sm);
-      color: var(--color-grey-800);
-      background-color: var(--color-grey-50);
+      color: #4b3a07;
+      background-color: #f9fafb;
       
       & svg {
         color: var(--color-brand-600);
@@ -35,7 +35,7 @@ const variations = {
 };
 const ButtonWatchList = styled.button`
   ${(props) => variations[props.variation]}
-  color: var(--color-grey-50);
+  color:  #f9fafb;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -51,7 +51,7 @@ const ButtonWatchList = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    color: var(--color-grey-0);
+    color: #fff;
   }
 
   &:focus {

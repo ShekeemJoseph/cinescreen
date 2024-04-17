@@ -31,7 +31,7 @@ const StyledTitle = styled.div`
   padding: 3.6rem;
   row-gap: 2.4rem;
   column-gap: 1.8rem;
-  color: var(--color-grey-0);
+  color: #fff;
   height: 100%;
   background: linear-gradient(
     90deg,
@@ -87,7 +87,7 @@ const TitleRating = styled.div`
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
-    color: var(--color-grey-300);
+    color: #d1d5db;
   }
   & span:nth-child(2) {
     font-size: 1.8rem;

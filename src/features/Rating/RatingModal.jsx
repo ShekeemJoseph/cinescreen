@@ -22,7 +22,7 @@ const StyledModal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--color-grey-700);
+  background-color: #374151;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   /* padding: 3.2rem 4rem; */
@@ -46,10 +46,14 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
+    ${media.md`
+    width: 2.8rem;
+    height: 2.8rem;
+    `}
     /* Sometimes we need both */
     /* fill: var(--color-grey-500);
     stroke: var(--color-grey-500); */
-    color: var(--color-grey-0);
+    color: #fff;
   }
   &:focus {
     outline: none;
@@ -59,7 +63,7 @@ const Button = styled.button`
 const RatingContainer = styled.div`
   padding: 3.2rem;
   width: 52rem;
-  height: 30rem;
+  height: 35rem;
 `;
 const RatingsContent = styled.div`
   display: flex;
@@ -69,7 +73,7 @@ const RatingsContent = styled.div`
   align-items: center;
   gap: 1.9rem;
   & span {
-    color: var(--color-grey-0);
+    color: #fff;
   }
   & span:first-child {
     color: var(--color-brand-800);
@@ -117,14 +121,14 @@ const RatingButton = styled.button`
   width: 60%;
   padding: 0.8rem 0.6rem;
   border-radius: var(--border-radius-sm);
-  color: var(--color-grey-0);
+  color: #fff;
   ${media.sm`
     font-size: 2rem;
   `}
 `;
 const StarSvgContainer = styled.div`
   position: absolute;
-  bottom: 70%;
+  bottom: 75%;
   left: 40%;
   transition: all 0.3s;
   & svg {
@@ -133,7 +137,7 @@ const StarSvgContainer = styled.div`
     color: #1c7ed6;
   }
   & div {
-    color: var(--color-grey-0);
+    color: #fff;
     text-align: center;
     font-size: 2.6rem;
     transform: translateY(-186%);

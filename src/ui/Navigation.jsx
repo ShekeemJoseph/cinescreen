@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import ButtonIcon from "./ButtonIcon";
-import { HiMoon } from "react-icons/hi2";
 import NavButton from "./NavButton";
 import { Link } from "react-router-dom";
 import SearchTitle from "../features/search/SearchTitle";
@@ -79,7 +77,7 @@ function Header() {
         <FakeNavContainer>
           <FakeHeaderEl />
           <StyledLinkLogo to="/">
-            <HeaderLogo />
+            <HeaderLogo secondaryColor="var(--color-grey-0)" />
           </StyledLinkLogo>
         </FakeNavContainer>
 

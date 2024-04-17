@@ -10,10 +10,10 @@ const Modal = styled.ul`
   padding: 1.2rem 0;
   width: 50rem;
   ${media.md`
-  width: 40rem;
+  width: 45rem;
   `};
   ${media.sm`
-  width: 35rem;
+  width: 40rem;
   `};
   max-height: 80rem;
   overflow: scroll;
@@ -23,7 +23,7 @@ const Modal = styled.ul`
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
-  color: var(--color-grey-50);
+  color: #f9fafb;
   background-color: var(--color-grey-750);
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-lg);

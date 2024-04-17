@@ -188,7 +188,7 @@ function MobileNavgation() {
         <NavigationList>
           <NavigationItem>
             <StyledLinkLogo onClick={removeChecked} to="/">
-              <Logo />
+              <Logo secondaryColor="var(--color-grey-0)" />
             </StyledLinkLogo>
           </NavigationItem>
           <NavigationItem>

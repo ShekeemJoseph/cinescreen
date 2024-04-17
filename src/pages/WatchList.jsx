@@ -33,11 +33,11 @@ const Heading = styled.div`
   gap: 1.2rem;
   justify-content: center;
   & h1 {
-    color: var(--color-grey-0);
+    color: #fff;
     font-size: 4.5rem;
   }
   & p {
-    color: var(--color-grey-350);
+    color: #d1d5db;
   }
 `;
 const WatchlistContainer = styled.ul`

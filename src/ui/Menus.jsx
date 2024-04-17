@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 import { useUser } from "../features/authentication/useUser";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { media, mobileMedia } from "../styles/breakpoints";
+import { media } from "../styles/breakpoints";
 
 const StyledToggle = styled.button`
   width: max-content;
@@ -11,24 +11,24 @@ const StyledToggle = styled.button`
   gap: 0.8rem;
   background: none;
   border: none;
+  color: var(--color-grey-50);
   padding: 0.6rem 0.4rem;
   border-radius: var(--border-radius-sm);
   transition: all 0.3s;
-
-  ${mobileMedia.lg`
-   &:active,
-    &:hover {
-    background-color: var(--color-grey-100);
-    }
-  `}
+  &:active,
+  &:hover {
+    color: var(--color-grey-800);
+    background-color: var(--color-grey-50);
+  }
   &:focus {
     outline: none;
   }
   & span {
     font-weight: 600;
+    font-size: 1.8rem;
     ${media.sm`
-      font-size: 1.8rem;
-    `}
+      font-size: 2rem;
+    `};
   }
   & svg {
     width: 2.4rem;

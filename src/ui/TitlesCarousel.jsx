@@ -54,7 +54,7 @@ const TitlesContainer = styled.div`
 const TitleCard = styled.div`
   background: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
   border-radius: var(--border-radius-md);
-  color: var(--color-grey-0);
+  color: #fff;
   display: flex;
   flex-direction: column;
   height: 42rem;

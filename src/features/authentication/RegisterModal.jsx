@@ -41,10 +41,10 @@ const Button = styled.button`
   & svg {
     width: 2.8rem;
     height: 2.8rem;
-    /* ${media.sm`
-    width: 2.4rem;
-    height: 2.6rem;
-    `} */
+    ${media.sm`
+    width: 3rem;
+    height: 3rem;
+    `}
     /* Sometimes we need both */
     /* fill: var(--color-grey-500);
     stroke: var(--color-grey-500); */
@@ -115,6 +115,9 @@ const RecoverPassBtn = styled.button`
   border: none;
   background: none;
   font-size: 1.4rem;
+  ${media.sm`
+    font-size: 1.6rem;
+  `}
   font-weight: 500;
   text-decoration: underline;
   margin: 0 auto;

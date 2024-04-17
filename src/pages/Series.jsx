@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 import { getPageSeries } from "../services/apiGetTitleData";
-import TitleSorting from "../ui/TitleSorting";
-import TitleListings from "../ui/TitleListings";
-import { media } from "../styles/breakpoints";
-import { useState } from "react";
-import ListingsFilterModal from "../ui/ListingsFilterModal";
+import TitlePageLayout from "../ui/TitlePageLayout";
 
 const SeriesSection = styled.section`
   max-width: 128rem;
@@ -23,44 +19,21 @@ const StyledHeading = styled.div`
     font-size: 3.6rem;
   }
 `;
-const TitlesPageLayout = styled.div`
-  display: grid;
-  grid-template-columns: 0.25fr 1fr;
-  ${media.md`
-  grid-template-columns: 1fr;
-  `}
-`;
+
 function Series() {
   const { total_results, results } = useLoaderData();
-  const [modalFilterOpen, setModalFilterOpen] = useState(false);
 
-  function closeFilterModal() {
-    setModalFilterOpen(false);
-    document.body.style.overflow = "auto";
-  }
-  function openFilterModal() {
-    setModalFilterOpen(true);
-    document.body.style.overflow = "hidden";
-  }
   return (
     <SeriesSection>
       <StyledHeading>
         <p>Top TV Shows to Watch Right Now</p>
         <p>Find your next TV show to watch. Filter by genre or release year.</p>
       </StyledHeading>
-      <TitlesPageLayout>
-        {!modalFilterOpen ? (
-          <TitleSorting mediaType="series" />
-        ) : (
-          <ListingsFilterModal mediaType="series" handler={closeFilterModal} />
-        )}
-        <TitleListings
-          initialTitles={results}
-          initialTotalResults={total_results}
-          mediaType="series"
-          modalHandler={openFilterModal}
-        />
-      </TitlesPageLayout>
+      <TitlePageLayout
+        total_results={total_results}
+        results={results}
+        mediaType="series"
+      />
     </SeriesSection>
   );
 }

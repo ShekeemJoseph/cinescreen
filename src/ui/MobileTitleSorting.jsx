@@ -9,7 +9,7 @@ import {
 import styled, { css } from "styled-components";
 import ReactSlider from "react-slider";
 import "array.prototype.move";
-import { media } from "../styles/breakpoints";
+import { media, mobileMedia } from "../styles/breakpoints";
 import { HiXMark } from "react-icons/hi2";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
@@ -135,15 +135,9 @@ const Genre = styled.li`
   border-radius: var(--border-radius-sm);
   gap: 1.2rem;
 
-  &:active {
-    background-color: var(--color-grey-300);
-    border-radius: var(--border-radius-sm);
-  }
   &:hover {
+    ${mobileMedia.lg`
     background-color: var(--color-grey-300);
-    border-radius: var(--border-radius-sm);
-    ${media.md`
-    background: none;
     `}
   }
   input[type="checkbox"] {
@@ -175,7 +169,7 @@ const FilterContainer = styled.div`
     display: none; /* Safari and Chrome */
   }
 `;
-function ListingsFilterModal({ mediaType, handler }) {
+function MobileTitleSorting({ mediaType, handler }) {
   const titleGenres =
     mediaType === "movie" ? TITLE_MOVIE_GENRES : TITLE_TV_GENRES;
   const [genreList, setGenreList] = useState([]);
@@ -278,4 +272,4 @@ function ListingsFilterModal({ mediaType, handler }) {
   );
 }
 
-export default ListingsFilterModal;
+export default MobileTitleSorting;

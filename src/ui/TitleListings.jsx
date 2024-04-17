@@ -46,7 +46,7 @@ const Listing = styled(Link)`
   box-shadow: var(--shadow-ml);
   border-radius: var(--border-radius-sm);
   transition: all 0.3s;
-
+  background-color: var(--color-grey-50);
   &:hover,
   &:active {
     box-shadow: var(--shadow-lg);
@@ -86,9 +86,7 @@ const ListingDetails = styled.div`
   `}
   ${media.sm`
   font-size: 1.8rem;
-  `} /* ${media.xs`
-  font-size: 2rem;
-  `} */
+  `}
 `;
 const RatingsText = styled.div`
   display: flex;
@@ -144,9 +142,7 @@ const ListingYear = styled.div`
   `}
   ${media.sm`
   font-size: 1.8rem;
-  `} /* ${media.xs`
-  font-size: 2rem;
-  `} */
+  `}
 `;
 const EmptyListings = styled.div`
   height: 35%;

@@ -11,6 +11,7 @@ const StyledForm = styled.form`
   width: 40rem;
   & input {
     border: none;
+    background-color: var(--color-grey-0);
     &::placeholder {
       color: var(--color-grey-400);
     }

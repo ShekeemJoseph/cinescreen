@@ -37,7 +37,7 @@ const PromotionHeading = styled.div`
   gap: 1.2rem;
   & h2 {
     font-weight: 700;
-    color: var(--color-grey-0);
+    color: #fff;
     font-size: 3.6rem;
   }
   ${media.md`

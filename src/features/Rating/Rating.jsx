@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 const variations = {
   rated: css`
     span {
-      color: var(--color-grey-0);
+      color: #fff;
     }
   `,
 };
