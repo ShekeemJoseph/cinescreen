@@ -25,7 +25,7 @@ const StyledToggle = styled.button`
   }
   & span {
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     ${media.sm`
       font-size: 2rem;
     `};
