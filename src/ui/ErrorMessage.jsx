@@ -4,8 +4,10 @@ import ButtonText from "./ButtonText";
 import { media } from "../styles/breakpoints";
 
 export const StyledErrorMessage = styled.div`
-  height: 100%;
-  margin: 2.4rem;
+  height: 80vh;
+  max-width: 128rem;
+  width: 100%;
+  margin: 2.4rem auto;
   background-image: linear-gradient(
       39deg,
       rgba(96, 34, 195, 0.9) 0%,
@@ -20,7 +22,7 @@ export const StyledErrorMessage = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  color: var(--color-grey-50);
+  color: #f9fafb;
   & h1,
   & p,
   & button {
@@ -38,7 +40,11 @@ function ErrorMessage() {
     <StyledErrorMessage>
       <h1>Something went wrong 😥</h1>
       <p>This is probably not the page you're look for. Sorry about that.</p>
-      <ButtonText variation="standard" onClick={() => navigate(-1)}>
+      <ButtonText
+        style={{ color: "#f9fafb" }}
+        variation="standard"
+        onClick={() => navigate(-1)}
+      >
         &larr; Go back
       </ButtonText>
     </StyledErrorMessage>
