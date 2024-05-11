@@ -13,6 +13,18 @@ const variations = {
       outline: none;
     }
   `,
+  errorCard: css`
+    color: #f9fafb;
+    &:hover,
+    &:active {
+      color: #18212f;
+      border-radius: var(--border-radius-sm);
+      background-color: #f9fafb;
+    }
+    &:focus {
+      outline: none;
+    }
+  `,
   promoCard: css`
     color: #f9fafb;
     &:hover,

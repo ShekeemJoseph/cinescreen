@@ -40,11 +40,7 @@ function ErrorMessage() {
     <StyledErrorMessage>
       <h1>Something went wrong 😥</h1>
       <p>This is probably not the page you're look for. Sorry about that.</p>
-      <ButtonText
-        style={{ color: "#f9fafb" }}
-        variation="standard"
-        onClick={() => navigate(-1)}
-      >
+      <ButtonText variation="errorCard" onClick={() => navigate(-1)}>
         &larr; Go back
       </ButtonText>
     </StyledErrorMessage>
