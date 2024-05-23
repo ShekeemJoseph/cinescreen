@@ -41,7 +41,7 @@ const Modal = styled.ul`
   left: 50%;
   transform: translateX(-50%);
   `};
-  z-index: 100;
+  z-index: 1000;
   & li:hover,
   & li:active {
     background-color: var(--color-grey-725);
